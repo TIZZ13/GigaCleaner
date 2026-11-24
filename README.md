@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="Assets/banner.png" alt="GigaCleaner" width="100%">
-
 # GigaCleaner
 
 **A Windows cleaner that never touches your data.**
