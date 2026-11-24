@@ -172,13 +172,22 @@
   .chip.bottom { bottom: -16px; left: -14px; animation-delay: 2.4s; }
   @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 
-  /* ---------- Полоса категорий ---------- */
-  .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 0 0 64px; }
-  .tag {
-    font-size: 12.5px; color: var(--text-2); padding: 6px 13px; border-radius: 999px;
-    border: 1px solid var(--line); background: rgba(255,255,255,.02);
+  /* ---------- Сравнение ---------- */
+  .compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 0 0 70px; counter-reset: cmp; }
+  .cmp {
+    border: 1px solid var(--line); border-radius: 14px; padding: 22px 22px 20px;
+    background: rgba(255,255,255,.02);
   }
-  .tag b { color: var(--text); font-weight: 500; }
+  .cmp h3 { font-size: 13px; font-weight: 600; margin-bottom: 10px; color: var(--text); }
+  .cmp ul { display: grid; gap: 7px; }
+  .cmp li { list-style: none; font-size: 12.5px; color: var(--text-2); display: flex; gap: 8px; align-items: baseline; }
+  .cmp.ok li::before { content: "✓"; color: #34d399; font-weight: 700; }
+  .cmp.bad li::before { content: "✕"; color: #f87171; font-weight: 700; }
+  .cmp.mid li::before { content: "·"; color: var(--text-3); font-weight: 700; }
+  .cmp .cmp-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .cmp .cmp-name { font-size: 14.5px; font-weight: 700; color: var(--text); }
+  .cmp .cmp-tag { font-size: 10.5px; color: var(--text-3); text-transform: uppercase; letter-spacing: .05em; }
+  @media (max-width: 900px) { .compare { grid-template-columns: 1fr; } }
 
   /* ---------- Секции ---------- */
   section.block { padding: 70px 0; border-top: 1px solid var(--line); }
@@ -233,6 +242,32 @@
   .step h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
   .step p { color: var(--text-2); font-size: 13px; }
 
+  /* Отчёт об уборке — пример реального результата */
+  .report {
+    border: 1px solid var(--line); border-radius: 16px;
+    background: rgba(255,255,255,.02); overflow: hidden;
+  }
+  .report-line {
+    display: grid; grid-template-columns: 24px 1fr auto auto; gap: 12px; align-items: center;
+    padding: 13px 20px; font-size: 13px; border-bottom: 1px solid var(--line);
+    font-family: "Cascadia Mono", Consolas, monospace;
+  }
+  .report-line:last-of-type { border-bottom: none; }
+  .rep-ok { color: #34d399; font-weight: 700; }
+  .rep-warn { color: #f87171; font-weight: 700; }
+  .rep-path { color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .rep-files { color: var(--text-3); font-size: 12px; }
+  .rep-size { color: var(--text); font-weight: 600; }
+  .report-line.rep-skip .rep-path { color: var(--text-3); }
+  .report-total {
+    display: flex; align-items: baseline; gap: 14px;
+    padding: 16px 20px; font-size: 13px; color: var(--text-2);
+    border-top: 1px solid var(--line); background: rgba(255,255,255,.03);
+  }
+  .report-total b { font-size: 17px; color: var(--text); }
+  .rep-note { margin-left: auto; color: var(--text-3); font-size: 12px; }
+  @media (max-width: 640px) { .report-line { grid-template-columns: 20px 1fr auto; } .rep-files { display: none; } }
+
   /* FAQ */
   .faq { display: grid; gap: 10px; max-width: 720px; }
   details {
@@ -285,7 +320,7 @@
     background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%), rgba(255,255,255,.10), transparent 62%);
     opacity: 0; transition: opacity .22s ease-out;
   }
-  .feature:hover::after, .step:hover::after, .download:hover::after, .mock-wrap .mock:hover::after { opacity: 1; }
+  .feature:hover::after, .step:hover::after, .download:hover::after { opacity: 1; }
   .feature > *, .step > *, .download > * { position: relative; z-index: 2; }
 
   /* Футер */
@@ -376,7 +411,7 @@
             <div class="mock-cards">
               <div class="mock-card"><div class="t">Windows</div><div class="v">35,3 МБ</div><div class="s">и приложения</div></div>
               <div class="mock-card"><div class="t">Браузеры</div><div class="v">64,0 МБ</div><div class="s">кэши</div></div>
-              <div class="mock-card"><div class="t">Корзина</div><div class="v">28,3 МБ</div><div class="s">пусто</div></div>
+              <div class="mock-card"><div class="t">Корзина</div><div class="v">0 Б</div><div class="s">пусто</div></div>
             </div>
           </div>
         </div>
@@ -392,16 +427,35 @@
     </div>
   </section>
 
-  <!-- Категории -->
-  <div class="tags">
-    <span class="tag">Временные файлы <b>· %TEMP%</b></span>
-    <span class="tag">Кэши браузеров</span>
-    <span class="tag">Корзина</span>
-    <span class="tag">Автозагрузка</span>
-    <span class="tag">Службы Windows</span>
-    <span class="tag">Реестр</span>
-    <span class="tag">Обновления программ</span>
-    <span class="tag">Уведомления</span>
+  <!-- Сравнение -->
+  <div class="compare">
+    <div class="cmp ok">
+      <div class="cmp-head"><span class="cmp-name">GigaCleaner</span><span class="cmp-tag">это мы</span></div>
+      <ul>
+        <li>Белый список путей, документы не трогаются</li>
+        <li>Отчёт: сколько освободили и что пропустили</li>
+        <li>Работает локально, без телеметрии</li>
+        <li>Расписание и тихий режим встроены</li>
+      </ul>
+    </div>
+    <div class="cmp mid">
+      <div class="cmp-head"><span class="cmp-name">Обычные чистильщики</span><span class="cmp-tag">как часто бывает</span></div>
+      <ul>
+        <li>«Удалить всё» одной кнопкой, без разбора</li>
+        <li>Ломают кэши и входы в сервисах</li>
+        <li>Что удалено — неизвестно</li>
+        <li>Постоянные предложения «установить их VPN»</li>
+      </ul>
+    </div>
+    <div class="cmp bad">
+      <div class="cmp-head"><span class="cmp-name">Ручная чистка</span><span class="cmp-tag">для терпеливых</span></div>
+      <ul>
+        <li>Страшно что-то удалить в реестре</li>
+        <li>Занимает время каждый месяц</li>
+        <li>Легко забыть про автозагрузку</li>
+        <li>Нет отчёта о результате</li>
+      </ul>
+    </div>
   </div>
 
   <!-- Возможности -->
@@ -480,6 +534,48 @@
     </div>
   </section>
 
+  <!-- Из отчёта -->
+  <section class="block" id="report">
+    <div class="sec-head">
+      <div>
+        <div class="sec-kicker">Из отчёта об уборке</div>
+        <div class="sec-title">Как выглядит результат</div>
+      </div>
+      <div class="sec-note">Настоящие строки из отчёта приложения — без ретуши.</div>
+    </div>
+    <div class="report">
+      <div class="report-line">
+        <span class="rep-ok">✓</span>
+        <span class="rep-path">C:\Users\…\AppData\Local\Temp\</span>
+        <span class="rep-files">14 файлов</span>
+        <span class="rep-size">226,4 МБ</span>
+      </div>
+      <div class="report-line">
+        <span class="rep-ok">✓</span>
+        <span class="rep-path">кэш Chromium (Default\Cache)</span>
+        <span class="rep-files">312 файлов</span>
+        <span class="rep-size">187,9 МБ</span>
+      </div>
+      <div class="report-line">
+        <span class="rep-ok">✓</span>
+        <span class="rep-path">корзина</span>
+        <span class="rep-files">3 файла</span>
+        <span class="rep-size">1,2 МБ</span>
+      </div>
+      <div class="report-line rep-skip">
+        <span class="rep-warn">✕</span>
+        <span class="rep-path">%TEMP% — файл занят процессом</span>
+        <span class="rep-files">1 файл</span>
+        <span class="rep-size">пропущен</span>
+      </div>
+      <div class="report-total">
+        <span>Освобождено</span>
+        <b>415,5 МБ</b>
+        <span class="rep-note">пропущено: 1 · не удалось: 0</span>
+      </div>
+    </div>
+  </section>
+
   <!-- FAQ -->
   <section class="block" id="faq">
     <div class="sec-head">
@@ -548,7 +644,7 @@
 
 <script>
   // Блик стекла следует за курсором (как в GlassCard приложения)
-  document.querySelectorAll('.feature, .step, .download, .mock').forEach(el => {
+  document.querySelectorAll('.feature, .step, .download').forEach(el => {
     el.addEventListener('mousemove', e => {
       const r = el.getBoundingClientRect();
       el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
