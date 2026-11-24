@@ -246,6 +246,20 @@
   .step h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
   .step p { color: var(--text-2); font-size: 13px; }
 
+  /* Цифры, которые уже есть в приложении — заполняют пустоту по краям */
+  .facts {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    padding: 8px 0 0; margin-bottom: 64px;
+  }
+  .fact {
+    border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px;
+    background: rgba(255,255,255,.02);
+  }
+  .fact b { display: block; font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -.01em; }
+  .fact span { display: block; margin-top: 6px; font-size: 12.5px; color: var(--text-3); line-height: 1.45; }
+  @media (max-width: 900px) { .facts { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .facts { grid-template-columns: 1fr; } }
+
   /* Отчёт об уборке — пример реального результата */
   .report {
     border: 1px solid var(--line); border-radius: 16px;
@@ -303,17 +317,23 @@
   .release-note { font-size: 12px; color: var(--text-3); margin-top: 10px; }
   .release-note a { color: var(--accent); text-decoration: none; }
   .dl-art {
-    flex: none; width: 210px; height: 150px; border-radius: 16px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
-    color: var(--text-2); font-size: 12.5px; text-align: center; padding: 16px;
+    flex: none; width: 220px; border-radius: 16px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    color: var(--text-2); font-size: 12.5px; text-align: center; padding: 20px 16px;
     background:
       radial-gradient(120% 120% at 24% 12%, rgba(255,255,255,.10), rgba(255,255,255,.02) 46%, transparent 70%),
       linear-gradient(180deg, rgba(238,238,242,.06), rgba(56,56,60,.02));
     border: 1px solid var(--line);
     box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 10px 26px rgba(0,0,0,.3);
   }
-  .dl-art svg { width: 40px; height: 40px; color: var(--accent); }
-  @media (max-width: 900px) { .dl-art { width: 100%; height: auto; flex-direction: row; } }
+  .dl-art img {
+    width: 96px; height: 96px; border-radius: 22px; object-fit: cover;
+    display: block; margin: 0 auto;
+    border: 1px solid rgba(255,255,255,.10);
+    box-shadow: 0 8px 20px rgba(0,0,0,.35);
+  }
+  .dl-art span { display: block; line-height: 1.45; }
+  @media (max-width: 900px) { .dl-art { width: 100%; flex-direction: row; flex-wrap: wrap; } }
 
   /* ---------- Блик стекла за курсором (как в приложении) ---------- */
   .feature, .step, .download {
@@ -361,7 +381,7 @@
       <a href="#features">Возможности</a>
       <a href="#how">Как работает</a>
       <a href="#faq">FAQ</a>
-      <span class="ver-badge">v1.0.0 · Windows 10 / 11</span>
+      <span class="ver-badge">v1.1.0 · Windows 10 / 11</span>
     </nav>
   </header>
 
@@ -373,7 +393,7 @@
       <p class="lead">GigaCleaner находит и убирает временные файлы, кэши и устаревшие записи реестра —
         и делает это по белому списку путей. Документы, настройки и профиль не затрагиваются.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="https://github.com/TIZZ13/GigaCleaner/releases/download/v1.0.0/GigaCleaner-Setup-1.0.0.exe" download>
+        <a class="btn btn-primary" href="https://github.com/TIZZ13/GigaCleaner/releases/download/v1.1.0/GigaCleaner-Setup-1.1.0.exe" download>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Скачать GigaCleaner
         </a>
@@ -452,12 +472,12 @@
       </ul>
     </div>
     <div class="cmp bad">
-      <div class="cmp-head"><span class="cmp-name">Ручная чистка</span><span class="cmp-tag">для терпеливых</span></div>
+      <div class="cmp-head"><span class="cmp-name">Ручная чистка</span><span class="cmp-tag">вручную, по шагам</span></div>
       <ul>
-        <li>Страшно что-то удалить в реестре</li>
+        <li>Трудно аккуратно работать с реестром</li>
         <li>Занимает время каждый месяц</li>
         <li>Легко забыть про автозагрузку</li>
-        <li>Нет отчёта о результате</li>
+        <li>Нет общего отчёта о результате</li>
       </ul>
     </div>
   </div>
@@ -510,6 +530,14 @@
       </div>
     </div>
   </section>
+
+  <!-- Мелочи, которые уже есть -->
+  <div class="facts">
+    <div class="fact"><b>24 ч</b><span>минимальный возраст временного файла для удаления</span></div>
+    <div class="fact"><b>99,4 МБ</b><span>найдено при первой проверке на тестовой системе</span></div>
+    <div class="fact"><b>5 языков</b><span>интерфейса: RU, EN, DE, FR, ES</span></div>
+    <div class="fact"><b>100%</b><span>локально — без облаков и телеметрии</span></div>
+  </div>
 
   <!-- Как работает -->
   <section class="block" id="how">
@@ -611,7 +639,7 @@
   <!-- Скачать -->
   <div class="download">
     <div>
-      <h2>Скачать GigaCleaner 1.0.0</h2>
+      <h2>Скачать GigaCleaner 1.1.0</h2>
       <p>Установка занимает пару минут. После неё приложение запустится само.</p>
       <div class="dl-meta">
         <span>Windows 10 1809+ / 11</span>
@@ -619,14 +647,14 @@
         <span>108 МБ</span>
         <span>Русский язык</span>
       </div>
-      <a class="btn btn-primary" href="https://github.com/TIZZ13/GigaCleaner/releases/download/v1.0.0/GigaCleaner-Setup-1.0.0.exe" download>
+      <a class="btn btn-primary" href="https://github.com/TIZZ13/GigaCleaner/releases/download/v1.1.0/GigaCleaner-Setup-1.1.0.exe" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Скачать установщик
       </a>
       <div class="release-note">Релиз на GitHub · <a href="https://github.com/TIZZ13/GigaCleaner/releases">все версии и история изменений</a></div>
     </div>
     <div class="dl-art">
-      <img src="logo.png" alt="GigaCleaner" width="110" height="110">
+      <img src="logo.png" alt="GigaCleaner">
       <span>Бесплатно · без регистрации · локально</span>
     </div>
   </div>
