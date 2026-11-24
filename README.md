@@ -116,6 +116,10 @@ and [SECURITY.md](SECURITY.md) before opening issues or PRs.
 
 **MIT** — see [LICENSE](LICENSE). Use it, study it, improve it.
 
+**Privacy** — see [PRIVACY.md](PRIVACY.md). The app is fully local: no telemetry, no accounts, nothing leaves your PC except a periodic self-update check.
+
+**Third-party software** — see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for the licenses of used libraries and fonts.
+
 ---
 
 ## Русский
