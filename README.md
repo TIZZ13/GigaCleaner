@@ -2,13 +2,13 @@
 
 # GigaCleaner
 
-**Уборка Windows, которая не трогает ваши данные.**
+**A Windows cleaner that never touches your data.**
 
-Очистка временных файлов, реестра и автозагрузки по белому списку путей. Работает локально, без телеметрии. Умеет по расписанию и в тихом режиме.
+Cleans temp files, registry, and startup entries using a strict whitelist of paths.
+Runs 100% locally, no telemetry. Supports scheduling and a silent mode.
 
-[Скачать установщик](https://github.com/TIZZ13/GigaCleaner/releases/latest) ·
-[Сайт](https://tizz13.github.io/GigaCleaner/) ·
-[Документация](#)
+[Download installer](https://github.com/TIZZ13/GigaCleaner/releases/latest) ·
+[Website](https://tizz13.github.io/GigaCleaner/)
 
 ---
 
@@ -17,33 +17,129 @@
 ![License](https://img.shields.io/github/license/TIZZ13/GigaCleaner)
 ![Version](https://img.shields.io/github/v/release/TIZZ13/GigaCleaner)
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%2B-0078d4)
+![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen)
 
 </div>
 
 ---
 
-## О программе
+## English
 
-**GigaCleaner** — десктопный помощник по очистке и оптимизации Windows. Главный принцип: **не удалять наугад**. Каждый путь проверяется по белому списку — Program Files, «Документы», System32 и профиль пользователя не затрагиваются.
+### About
+
+**GigaCleaner** is a desktop utility for cleaning and optimizing Windows. Its core principle: **never delete blindly**. Every path is checked against a strict whitelist — Program Files, Documents, System32, and your user profile are never touched.
+
+Built for everyday users: one-click "Clean now" for quick maintenance, plus a detailed report showing what was found, freed, and skipped.
+
+### Features
+
+| Module | What it does |
+|---|---|
+| 🧹 **Cleaner** | Temp files `%TEMP%` (older than 24h), Chromium/Firefox/Edge caches, Recycle Bin — via a strict whitelist |
+| ⚡ **Optimizer** | Startup and Windows services: less background load, faster boot. Every change is reversible |
+| 🗂️ **Registry** | Finds and removes stale registry entries. Creates a System Restore point before changes |
+| 🔄 **Updates** | Program updates (winget) and driver updates (Windows Update) in one place |
+| 🛠️ **Tools** | Scheduler, global hotkey for quick clean, tray notifications |
+| ⏰ **Automation** | Scheduled cleanups and silent mode `--silent` for unattended scenarios |
+
+### Screenshot
+
+![GigaCleaner overview](Assets/preview.png)
+
+### Build from source
+
+Requires [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) and Windows 10 1809+.
+
+```bash
+git clone https://github.com/TIZZ13/GigaCleaner.git
+cd GigaCleaner
+
+# build
+dotnet build -c Release
+
+# publish single-file exe (as in releases)
+dotnet publish -c Release -p:PublishProfile=PortableSingleFile
+
+# installer (needs Inno Setup 6.7+)
+ISCC.exe installer.iss
+```
+
+This also builds the embedded notification module `GigaCleaner.Notifier`.
+
+### Usage
+
+```bash
+# normal GUI launch
+GigaCleaner.exe
+
+# silent cleanup without a window (background mode)
+GigaCleaner.exe --silent
+```
+
+### Architecture
+
+```
+GigaCleaner/
+├── Services/          # cleaning, registry, optimizer, updates, notifications
+├── ViewModels/        # MVVM view models
+├── Views/             # WPF pages and windows
+├── Controls/          # glass-style controls (GlassCard, LogoGlyph, ...)
+├── Themes/            # dark/light palettes
+├── Notifier/          # separate process for Windows toasts (no admin needed)
+└── installer.iss      # Inno Setup installer
+```
+
+Key services:
+
+- `CleanerEngine` + `CleanCatalog` — whitelist-based junk scanning and removal;
+- `RegistryCleanerService` — registry cleanup with System Restore points;
+- `WingetService` / `WindowsUpdateService` — software and driver updates;
+- `NotificationService` — toast notifications from a non-elevated process;
+- `SelfUpdateService` — checks for new app versions via URL;
+- `ScheduleService` / `SilentRunner` — scheduling and `--silent` mode.
+
+### Tech stack
+
+- **C# / .NET 8**, WPF + `WPF-UI`
+- **MVVM**, self-contained single-file publish
+- **Inno Setup** — installer with a dark wizard theme
+- **SQLite**, **TaskScheduler**, **Windows API**
+
+### Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md),
+and [SECURITY.md](SECURITY.md) before opening issues or PRs.
+
+### License
+
+**MIT** — see [LICENSE](LICENSE). Use it, study it, improve it.
+
+---
+
+## Русский
+
+### О программе
+
+**GigaCleaner** — настольная утилита для очистки и оптимизации Windows. Главный принцип: **не удалять наугад**. Каждый путь проверяется по белому списку — Program Files, «Документы», System32 и профиль пользователя не затрагиваются.
 
 Приложение сделано для обычных людей: одна кнопка «Очистить в 1 клик» для быстрой уборки и подробный отчёт о том, что было найдено, освобождено и пропущено.
 
-## Возможности
+### Возможности
 
 | Модуль | Что делает |
 |---|---|
-| 🧹 **Очистка** | Временные файлы `%TEMP%` (старше 24 ч), кэши Chromium/Firefox/Edge, корзина — по белому списку путей |
+| 🧹 **Очистка** | Временные файлы `%TEMP%` (старше 24 ч), кэши Chromium/Firefox/Edge, корзина — по белому списку |
 | ⚡ **Оптимизация** | Автозагрузка и службы Windows: меньше фоновой нагрузки, быстрее старт. Каждое изменение обратимо |
 | 🗂️ **Реестр** | Поиск и удаление устаревших записей. Перед изменениями создаётся точка восстановления |
 | 🔄 **Обновления** | Проверка обновлений программ (winget) и драйверов (Windows Update) |
 | 🛠️ **Инструменты** | Планировщик, горячая клавиша быстрой очистки, уведомления в трее |
-| ⏰ **Автоматизация** | Уборка по расписанию и тихий режим `--silent` для автоматических сценариев |
+| ⏰ **Автоматизация** | Уборка по расписанию и тихий режим `--silent` |
 
-## Скриншот
+### Скриншот
 
 ![GigaCleaner обзор](Assets/preview.png)
 
-## Быстрый старт (сборка из исходников)
+### Сборка из исходников
 
 Требуется [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) и Windows 10 1809+.
 
@@ -63,7 +159,7 @@ ISCC.exe installer.iss
 
 Этот процесс также собирает встроенный модуль уведомлений `GigaCleaner.Notifier`.
 
-## Использование
+### Использование
 
 ```bash
 # обычный запуск с графическим интерфейсом
@@ -73,49 +169,36 @@ GigaCleaner.exe
 GigaCleaner.exe --silent
 ```
 
-Полные параметры и описание см. в [документации](docs/).
-
-## Архитектура
+### Архитектура
 
 ```
 GigaCleaner/
-├── Services/          # Очистка, реестр, оптимизация, обновления, уведомления
+├── Services/          # очистка, реестр, оптимизация, обновления, уведомления
 ├── ViewModels/        # MVVM-модели представлений
 ├── Views/             # WPF-страницы и окна
-├── Controls/          # Стеклянные контролы (GlassCard, LogoGlyph и др.)
-├── Themes/            # Палитры тёмной/светлой темы
-├── Notifier/          # Отдельный процесс для Windows-уведомлений (без админа)
-└── installer.iss      # Установщик на Inno Setup
+├── Controls/          # стеклянные контролы (GlassCard, LogoGlyph и др.)
+├── Themes/            # палитры тёмной/светлой темы
+├── Notifier/          # отдельный процесс для уведомлений (без прав администратора)
+└── installer.iss      # установщик на Inno Setup
 ```
 
-Ключевые сервисы:
+### Стек
 
-- `CleanerEngine` + `CleanCatalog` — поиск и удаление мусора по белому списку;
-- `RegistryCleanerService` — очистка реестра с точкой восстановления;
-- `WingetService` / `WindowsUpdateService` — обновления программ и драйверов;
-- `NotificationService` — toast-уведомления через отдельный процесс без прав администратора;
-- `SelfUpdateService` — проверка новой версии приложения по URL;
-- `ScheduleService` / `SilentRunner` — расписание и фоновый режим `--silent`.
-
-## Стек
-
-- **C# / .NET 8**, WPF + `WPF-UI` (панели, темы)
-- **MVVM**, Single-file publish (self-contained)
+- **C# / .NET 8**, WPF + `WPF-UI`
+- **MVVM**, single-file publish (self-contained)
 - **Inno Setup** — установщик с тёмной темой мастера
-- **SQLite**, **TaskScheduler**, **Windows API** (реестр, службы, уведомления)
+- **SQLite**, **TaskScheduler**, **Windows API**
 
-## Вклад в проект
+### Вклад в проект
 
-Хотите помочь? Откройте [issue](https://github.com/TIZZ13/GigaCleaner/issues) или создайте pull request.
+Прочитайте [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+и [SECURITY.md](SECURITY.md) перед созданием issue или PR.
 
-- [CONTRIBUTING.md](CONTRIBUTING.md) — гайд по разработке
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — кодекс поведения
-- [SECURITY.md](SECURITY.md) — как сообщить об уязвимости
+### Лицензия
 
-## Лицензия
-
-Проект распространяется под лицензией **MIT** — [LICENSE](LICENSE). Просто используйте, изучайте и дорабатывайте.
+Проект распространяется под лицензией **MIT** — см. [LICENSE](LICENSE). Просто используйте, изучайте и дорабатывайте.
 
 ---
 
-*GigaCleaner работает локально и без телеметрии. Данные не покидают ваш компьютер.*
+*GigaCleaner runs locally and without telemetry. Your data never leaves your computer.*
+*GigaCleaner работает локально и без телеметрии. Ваши данные не покидают ваш компьютер.*
