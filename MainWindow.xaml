@@ -69,11 +69,14 @@
                             Margin="0,8,0,0" HorizontalAlignment="Stretch"
                             Click="OnHotkeySettings"
                             ToolTip="Настроить глобальную клавишу быстрой очистки" />
-                    <Button Content="О программе"
+                    <Button x:Name="AboutButton" Content="О программе"
                             Style="{StaticResource GlassChip}"
                             Margin="0,8,0,0" HorizontalAlignment="Stretch"
                             Click="OnAbout"
                             ToolTip="Версия, сайт и обновления" />
+                    <ComboBox x:Name="LanguageCombo"
+                              Margin="0,8,0,0" HorizontalAlignment="Stretch"
+                              SelectionChanged="OnLanguageChanged" />
                 </StackPanel>
 
                 <Grid Margin="12,8,12,0" VerticalAlignment="Top">
@@ -92,49 +95,49 @@
                                  IsChecked="{Binding Selected, Converter={StaticResource PageMatch}, ConverterParameter=Overview, Mode=TwoWay}">
                         <StackPanel Orientation="Horizontal">
                             <ctrl:NavIcon Symbol="ShieldCheckmark24" SymbolForeground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" />
-                            <TextBlock Text="Обзор" VerticalAlignment="Center" />
+                            <TextBlock x:Name="NavOverviewText" Text="Обзор" VerticalAlignment="Center" />
                         </StackPanel>
                     </RadioButton>
                     <RadioButton GroupName="Nav" Style="{StaticResource NavItem}" Margin="0,2,0,0"
                                  IsChecked="{Binding Selected, Converter={StaticResource PageMatch}, ConverterParameter=Clean, Mode=TwoWay}">
                         <StackPanel Orientation="Horizontal">
                             <ctrl:NavIcon Symbol="Broom24" SymbolForeground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" />
-                            <TextBlock Text="Очистка" VerticalAlignment="Center" />
+                            <TextBlock x:Name="NavCleanText" Text="Очистка" VerticalAlignment="Center" />
                         </StackPanel>
                     </RadioButton>
                     <RadioButton GroupName="Nav" Style="{StaticResource NavItem}" Margin="0,2,0,0"
                                  IsChecked="{Binding Selected, Converter={StaticResource PageMatch}, ConverterParameter=Optimize, Mode=TwoWay}">
                         <StackPanel Orientation="Horizontal">
                             <ctrl:NavIcon Symbol="Gauge24" SymbolForeground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" />
-                            <TextBlock Text="Оптимизация" VerticalAlignment="Center" />
+                            <TextBlock x:Name="NavOptimizeText" Text="Оптимизация" VerticalAlignment="Center" />
                         </StackPanel>
                     </RadioButton>
                     <RadioButton GroupName="Nav" Style="{StaticResource NavItem}" Margin="0,2,0,0"
                                  IsChecked="{Binding Selected, Converter={StaticResource PageMatch}, ConverterParameter=Registry, Mode=TwoWay}">
                         <StackPanel Orientation="Horizontal">
                             <ctrl:NavIcon Symbol="DocumentTable24" SymbolForeground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" />
-                            <TextBlock Text="Реестр" VerticalAlignment="Center" />
+                            <TextBlock x:Name="NavRegistryText" Text="Реестр" VerticalAlignment="Center" />
                         </StackPanel>
                     </RadioButton>
                     <RadioButton GroupName="Nav" Style="{StaticResource NavItem}" Margin="0,2,0,0"
                                  IsChecked="{Binding Selected, Converter={StaticResource PageMatch}, ConverterParameter=Updates, Mode=TwoWay}">
                         <StackPanel Orientation="Horizontal">
                             <ctrl:NavIcon Symbol="ArrowSync24" SymbolForeground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" />
-                            <TextBlock Text="Обновления" VerticalAlignment="Center" />
+                            <TextBlock x:Name="NavUpdatesText" Text="Обновления" VerticalAlignment="Center" />
                         </StackPanel>
                     </RadioButton>
                     <RadioButton GroupName="Nav" Style="{StaticResource NavItem}" Margin="0,2,0,0"
                                  IsChecked="{Binding Selected, Converter={StaticResource PageMatch}, ConverterParameter=Tools, Mode=TwoWay}">
                         <StackPanel Orientation="Horizontal">
                             <ctrl:NavIcon Symbol="WrenchScrewdriver24" SymbolForeground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" />
-                            <TextBlock Text="Инструменты" VerticalAlignment="Center" />
+                            <TextBlock x:Name="NavToolsText" Text="Инструменты" VerticalAlignment="Center" />
                         </StackPanel>
                     </RadioButton>
 <RadioButton GroupName="Nav" Style="{StaticResource NavItem}" Margin="0,2,0,0"
                                  IsChecked="{Binding Selected, Converter={StaticResource PageMatch}, ConverterParameter=Automation, Mode=TwoWay}">
                             <StackPanel Orientation="Horizontal">
                                 <ctrl:NavIcon Symbol="CalendarClock24" SymbolForeground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" />
-                                <TextBlock Text="Автоматизация" VerticalAlignment="Center" />
+                                <TextBlock x:Name="NavAutomationText" Text="Автоматизация" VerticalAlignment="Center" />
                             </StackPanel>
                         </RadioButton>
                     </StackPanel>

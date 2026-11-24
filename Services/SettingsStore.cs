@@ -10,6 +10,7 @@ public sealed class AppSettings
     public int ScheduleHour { get; set; } = 12;
     public int ScheduleMinute { get; set; }
     public AppTheme Theme { get; set; } = AppTheme.Light;
+    public string Language { get; set; } = "ru";
     public int HotkeyModifiers { get; set; } = 4;   // MOD_SHIFT = 0x0004
     public int HotkeyKey { get; set; } = (int)System.Windows.Forms.Keys.C;
     public List<WindowsServiceBackup>? ServiceBackups { get; set; }
@@ -180,6 +181,24 @@ public static class SettingsStore
         {
             var settings = EnsureLoaded();
             settings.Theme = Enum.IsDefined(typeof(AppTheme), theme) ? theme : AppTheme.Light;
+            Save(settings);
+        }
+    }
+
+    public static string Language
+    {
+        get
+        {
+            lock (Gate) return string.IsNullOrWhiteSpace(EnsureLoaded().Language) ? "ru" : EnsureLoaded().Language;
+        }
+    }
+
+    public static void SaveLanguage(string code)
+    {
+        lock (Gate)
+        {
+            var settings = EnsureLoaded();
+            settings.Language = string.IsNullOrWhiteSpace(code) ? "ru" : code;
             Save(settings);
         }
     }

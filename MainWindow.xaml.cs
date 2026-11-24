@@ -28,6 +28,8 @@ public partial class MainWindow : FluentWindow
         NavigationService.Requested += OnNavigationRequested;
         Closed += OnWindowClosed;
         CreateTrayIcon();
+        InitLanguageCombo();
+        ApplyLanguage();
 
         if (DataContext is MainViewModel viewModel)
             viewModel.PropertyChanged += OnPageChanged;
@@ -154,9 +156,9 @@ public partial class MainWindow : FluentWindow
             Icon = LoadTrayIcon(),
             ContextMenuStrip = new WinForms.ContextMenuStrip(),
         };
-        _trayIcon.ContextMenuStrip.Items.Add("Открыть GigaCleaner", null, (_, _) => ShowFromTray());
+        _trayIcon.ContextMenuStrip.Items.Add(Services.Localization.T("open"), null, (_, _) => ShowFromTray());
         _trayIcon.ContextMenuStrip.Items.Add(new WinForms.ToolStripSeparator());
-        _trayIcon.ContextMenuStrip.Items.Add("Выход", null, (_, _) => ExitFromTray());
+        _trayIcon.ContextMenuStrip.Items.Add(Services.Localization.T("exit"), null, (_, _) => ExitFromTray());
         _trayIcon.DoubleClick += (_, _) => ShowFromTray();
     }
 
@@ -244,6 +246,37 @@ public partial class MainWindow : FluentWindow
     private void OnAbout(object sender, RoutedEventArgs e)
     {
         new Views.AboutWindow { Owner = this }.ShowDialog();
+    }
+
+    private void InitLanguageCombo()
+    {
+        LanguageCombo.Items.Clear();
+        foreach (var language in Services.Localization.Supported)
+            LanguageCombo.Items.Add(Services.Localization.NameOf(language));
+        LanguageCombo.SelectedIndex = (int)Services.Localization.Current;
+    }
+
+    private void OnLanguageChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (LanguageCombo.SelectedIndex < 0) return;
+        var language = (Services.AppLanguage)LanguageCombo.SelectedIndex;
+        Services.Localization.Set(language);
+        ApplyLanguage();
+    }
+
+    private void ApplyLanguage()
+    {
+        NavOverviewText.Text = Services.Localization.T("nav.overview");
+        NavCleanText.Text = Services.Localization.T("nav.clean");
+        NavOptimizeText.Text = Services.Localization.T("nav.optimize");
+        NavRegistryText.Text = Services.Localization.T("nav.registry");
+        NavUpdatesText.Text = Services.Localization.T("nav.updates");
+        NavToolsText.Text = Services.Localization.T("nav.tools");
+        NavAutomationText.Text = Services.Localization.T("nav.automation");
+        ThemeLabel.Text = Services.Localization.T(ThemeService.Current == AppTheme.Dark ? "theme.light" : "theme.dark");
+        AboutButton.Content = Services.Localization.T("about");
+        var (modifiers, key) = Services.SettingsStore.Hotkey;
+        HotkeyButton.Content = Services.Localization.T("hotkey") + ": " + Views.HotkeySettingsWindow.FormatCombination(modifiers, key);
     }
 
     private void OnNavigationRequested(string page)

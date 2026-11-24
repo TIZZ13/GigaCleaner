@@ -42,6 +42,7 @@ NotificationService.EnsureDeployed();
         SessionEnding += (_, _) => SleepService.Instance.ResumeAll();
 
         ThemeService.Initialize();
+        GigaCleaner.Services.Localization.ApplySaved();
 
         var window = new MainWindow();
         MainWindow = window;
