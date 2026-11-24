@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="Assets/logo.png" alt="GigaCleaner" width="96">
-
 # GigaCleaner
 
 **A Windows cleaner that never touches your data.**
@@ -46,7 +44,7 @@ Built for everyday users: one-click "Clean now" for quick maintenance, plus a de
 
 ### Screenshot
 
-![GigaCleaner overview](Assets/preview.png)
+![GigaCleaner overview](Assets/screenshot.png)
 
 ### Build from source
 
@@ -143,7 +141,7 @@ and [SECURITY.md](SECURITY.md) before opening issues or PRs.
 
 ### Скриншот
 
-![GigaCleaner обзор](Assets/preview.png)
+![GigaCleaner обзор](Assets/screenshot.png)
 
 ### Сборка из исходников
 
