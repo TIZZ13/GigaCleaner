@@ -1,17 +1,17 @@
-; GigaCleaner — установщик
-; Собирает single-file exe в Program Files, создаёт ярлыки (рабочий стол + меню "Пуск"),
-; регистрирует удаление. Данные приложения хранятся в %APPDATA%\GigaCleaner отдельно.
+﻿; GigaCleaner вЂ” СѓСЃС‚Р°РЅРѕРІС‰РёРє
+; РЎРѕР±РёСЂР°РµС‚ single-file exe РІ Program Files, СЃРѕР·РґР°С‘С‚ СЏСЂР»С‹РєРё (СЂР°Р±РѕС‡РёР№ СЃС‚РѕР» + РјРµРЅСЋ "РџСѓСЃРє"),
+; СЂРµРіРёСЃС‚СЂРёСЂСѓРµС‚ СѓРґР°Р»РµРЅРёРµ. Р”Р°РЅРЅС‹Рµ РїСЂРёР»РѕР¶РµРЅРёСЏ С…СЂР°РЅСЏС‚СЃСЏ РІ %APPDATA%\GigaCleaner РѕС‚РґРµР»СЊРЅРѕ.
 
 [Setup]
 AppId={{8E6A2B1C-4D3F-9A2B-8C1D-6E5F4A3B2C1E}
 AppName=GigaCleaner
-AppVersion=1.0.0
+AppVersion=1.1.0
 AppPublisher=GigaCleaner
 DefaultDirName={autopf}\GigaCleaner
 DefaultGroupName=GigaCleaner
 DisableProgramGroupPage=yes
 OutputDir=installer
-OutputBaseFilename=GigaCleaner-Setup-1.0.0
+OutputBaseFilename=GigaCleaner-Setup-1.1.0
 SetupIconFile=Assets\app.ico
 UninstallDisplayIcon={app}\GigaCleaner.exe
 UninstallIconFile=Assets\app.ico
@@ -30,7 +30,7 @@ CloseApplications=yes
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 
 [Tasks]
-Name: "desktopicon"; Description: "Создать ярлык на рабочем столе"; GroupDescription: "Дополнительно:"; Flags: checkedonce
+Name: "desktopicon"; Description: "РЎРѕР·РґР°С‚СЊ СЏСЂР»С‹Рє РЅР° СЂР°Р±РѕС‡РµРј СЃС‚РѕР»Рµ"; GroupDescription: "Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕ:"; Flags: checkedonce
 
 [Files]
 Source: "artifacts\PortableSingleFile\GigaCleaner.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -40,7 +40,7 @@ Name: "{group}\GigaCleaner"; Filename: "{app}\GigaCleaner.exe"
 Name: "{autodesktop}\GigaCleaner"; Filename: "{app}\GigaCleaner.exe"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\GigaCleaner.exe"; Description: "Запустить GigaCleaner"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\GigaCleaner.exe"; Description: "Р—Р°РїСѓСЃС‚РёС‚СЊ GigaCleaner"; Flags: nowait postinstall skipifsilent
 
 [UninstallDelete]
 Type: dirifempty; Name: "{app}"
@@ -61,8 +61,8 @@ begin
     if FreeBytes < 250 * 1024 * 1024 then
     begin
       Result := False;
-      MsgBox('Недостаточно места на диске.' + #13#10 +
-        'Для установки GigaCleaner требуется не менее 250 МБ свободного места.', mbError, MB_OK);
+      MsgBox('РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РјРµСЃС‚Р° РЅР° РґРёСЃРєРµ.' + #13#10 +
+        'Р”Р»СЏ СѓСЃС‚Р°РЅРѕРІРєРё GigaCleaner С‚СЂРµР±СѓРµС‚СЃСЏ РЅРµ РјРµРЅРµРµ 250 РњР‘ СЃРІРѕР±РѕРґРЅРѕРіРѕ РјРµСЃС‚Р°.', mbError, MB_OK);
     end;
   end;
 end;
@@ -111,7 +111,7 @@ const
   AppExeName = 'GigaCleaner.exe';
   GCAppKey = 'Software\GigaCleaner';
 
-/// Вежливо закрывает работающий экземпляр приложения (без /F — штатное закрытие окна).
+/// Р’РµР¶Р»РёРІРѕ Р·Р°РєСЂС‹РІР°РµС‚ СЂР°Р±РѕС‚Р°СЋС‰РёР№ СЌРєР·РµРјРїР»СЏСЂ РїСЂРёР»РѕР¶РµРЅРёСЏ (Р±РµР· /F вЂ” С€С‚Р°С‚РЅРѕРµ Р·Р°РєСЂС‹С‚РёРµ РѕРєРЅР°).
 procedure CloseRunningApp();
 var
   ResultCode: Integer;
@@ -160,8 +160,8 @@ begin
 
   WizardForm.PageNameLabel.Font.Color := $2563EB;
 
-  WizardForm.FinishedHeadingLabel.Caption := 'Установка GigaCleaner завершена';
-  WizardForm.FinishedLabel.Caption := 'GigaCleaner 1.0.0 установлен. Программа готова к работе — просто нажмите «Завершить».';
+  WizardForm.FinishedHeadingLabel.Caption := 'РЈСЃС‚Р°РЅРѕРІРєР° GigaCleaner Р·Р°РІРµСЂС€РµРЅР°';
+  WizardForm.FinishedLabel.Caption := 'GigaCleaner 1.0.0 СѓСЃС‚Р°РЅРѕРІР»РµРЅ. РџСЂРѕРіСЂР°РјРјР° РіРѕС‚РѕРІР° Рє СЂР°Р±РѕС‚Рµ вЂ” РїСЂРѕСЃС‚Рѕ РЅР°Р¶РјРёС‚Рµ В«Р—Р°РІРµСЂС€РёС‚СЊВ».';
   WizardForm.PageDescriptionLabel.Font.Color := $A1A1AA;
   WizardForm.FinishedHeadingLabel.Font.Color := $FAFAFA;
   WizardForm.FinishedLabel.Font.Color := $A1A1AA;
@@ -175,8 +175,8 @@ begin
   Result := True;
   DeleteSettings := False;
   if FileExists(ExpandConstant('{userappdata}\GigaCleaner\settings.json')) then
-    DeleteSettings := (MsgBox('Удалить вместе с программой и настройки GigaCleaner?' + #13#10 +
-      '(файлы %AppData%\GigaCleaner: профиль, расписание, тема, список «сохранения входа»)', mbConfirmation, MB_YESNO) = IDYES);
+    DeleteSettings := (MsgBox('РЈРґР°Р»РёС‚СЊ РІРјРµСЃС‚Рµ СЃ РїСЂРѕРіСЂР°РјРјРѕР№ Рё РЅР°СЃС‚СЂРѕР№РєРё GigaCleaner?' + #13#10 +
+      '(С„Р°Р№Р»С‹ %AppData%\GigaCleaner: РїСЂРѕС„РёР»СЊ, СЂР°СЃРїРёСЃР°РЅРёРµ, С‚РµРјР°, СЃРїРёСЃРѕРє В«СЃРѕС…СЂР°РЅРµРЅРёСЏ РІС…РѕРґР°В»)', mbConfirmation, MB_YESNO) = IDYES);
 end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
