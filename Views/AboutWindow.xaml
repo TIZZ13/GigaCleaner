@@ -1,0 +1,44 @@
+<Window x:Class="GigaCleaner.Views.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ctrl="clr-namespace:GigaCleaner.Controls"
+        Title="О программе"
+        Width="380" SizeToContent="Height"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource AppBackgroundBrush}"
+        FontFamily="{StaticResource AppFont}"
+        FontSize="13"
+        TextOptions.TextFormattingMode="Display"
+        Foreground="{DynamicResource TextPrimaryBrush}">
+
+    <StackPanel Margin="28,26,28,24">
+        <ctrl:LogoGlyph x:Name="Logo" Width="72" Height="72"
+                        HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <TextBlock x:Name="AppNameText" Text="GigaCleaner" FontSize="20" FontWeight="SemiBold"
+                   HorizontalAlignment="Center" Margin="0,14,0,0" />
+        <TextBlock x:Name="VersionText" Style="{StaticResource Text.Caption}"
+                   HorizontalAlignment="Center" Margin="0,4,0,0"
+                   Text="Версия 1.0.0" />
+        <TextBlock Style="{StaticResource Text.Caption}"
+                   HorizontalAlignment="Center" Margin="0,18,0,0" TextWrapping="Wrap"
+                   Text="Очистка и оптимизация Windows: временные файлы, реестр, автозагрузка, обновления." />
+
+        <Button Content="Сайт и обновления"
+                Style="{StaticResource GlassChip}"
+                HorizontalAlignment="Center" Margin="0,18,0,0" Padding="14,8"
+                Cursor="Hand"
+                Click="OnOpenSite" />
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,18,0,0">
+            <Button Content="Проверить обновления" Style="{StaticResource SmallSecondaryButton}"
+                    Effect="{x:Null}" Click="OnCheckUpdates" />
+            <Button Content="Закрыть" Style="{StaticResource PrimaryButton}"
+                    Effect="{x:Null}" Click="OnClose" Margin="8,0,0,0" />
+        </StackPanel>
+    </StackPanel>
+</Window>

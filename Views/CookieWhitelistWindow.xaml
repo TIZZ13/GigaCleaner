@@ -1,0 +1,74 @@
+﻿<Window x:Class="GigaCleaner.Views.CookieWhitelistWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:ctrl="clr-namespace:GigaCleaner.Controls"
+        Title="GigaCleaner — сохранение входа"
+        Width="540" Height="620"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource AppBackgroundBrush}"
+        FontFamily="{StaticResource AppFont}"
+        FontSize="13"
+        Foreground="{DynamicResource TextPrimaryBrush}">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Сохранение входа" Style="{StaticResource Text.PageTitle}" FontSize="24" />
+        <TextBlock Grid.Row="1" Style="{StaticResource Text.Caption}" Margin="0,6,0,16"
+                   Text="Cookies выбранных сайтов не удаляются. Для остальных сайтов потребуется войти заново. Очистка выполняется для Chrome, Edge, Яндекс Браузера и Brave при закрытом браузере." />
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                          Margin="0,0,0,4"
+                          ctrl:ScrollBehavior.EnableSmooth="True">
+                <ItemsControl x:Name="DomainsList">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ctrl:GlassCard Margin="0,0,0,10" Padding="14,10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Domain}" Margin="12,0,0,0"
+                                               VerticalAlignment="Center" Style="{StaticResource Text.Body}" />
+                                </Grid>
+                            </ctrl:GlassCard>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+        <Grid Grid.Row="3" Margin="0,14,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ui:TextBox x:Name="DomainInput" Height="36" PlaceholderText="example.com"
+                        Style="{StaticResource AppUiTextBox}"
+                        KeyDown="OnDomainKeyDown" VerticalContentAlignment="Center" />
+            <Button Grid.Column="1" Content="Добавить" Style="{StaticResource SecondaryButton}"
+                    Click="OnAddDomain" Margin="8,0,0,0" />
+        </Grid>
+
+        <TextBlock x:Name="ErrorText" Grid.Row="4" Foreground="{DynamicResource DangerBrush}"
+                   FontSize="12" Margin="0,6,0,0" Visibility="Collapsed" TextWrapping="Wrap" />
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+            <Button Content="Экспорт" Style="{StaticResource SmallSecondaryButton}" Click="OnExport" />
+            <Button Content="Импорт" Style="{StaticResource SmallSecondaryButton}" Click="OnImport" Margin="8,0,0,0" />
+            <Button Content="Отмена" Style="{StaticResource SecondaryButton}" Click="OnCancel" Margin="8,0,0,0" />
+            <Button Content="Сохранить" Style="{StaticResource PrimaryButton}" Click="OnSave" Margin="8,0,0,0" />
+        </StackPanel>
+    </Grid>
+</Window>

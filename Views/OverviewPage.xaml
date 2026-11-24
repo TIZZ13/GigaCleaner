@@ -1,0 +1,70 @@
+<UserControl x:Class="GigaCleaner.Views.OverviewPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:ctrl="clr-namespace:GigaCleaner.Controls">
+
+    <Grid Margin="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" HorizontalAlignment="Left">
+            <TextBlock Text="Обзор" Style="{StaticResource Text.PageTitle}" />
+            <TextBlock Text="{Binding Greeting}" Style="{StaticResource Text.Caption}" Margin="0,4,0,0" />
+        </StackPanel>
+
+        <ctrl:GlassCard Grid.Row="1" Margin="0,20,0,16" Padding="22" HorizontalAlignment="Stretch">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Проверка компьютера" Style="{StaticResource Text.Section}" Margin="0" />
+                    <TextBlock Text="{Binding Summary}" Style="{StaticResource Text.Caption}" Margin="0,4,0,0" />
+                    <TextBlock Text="{Binding OptimizationText}" Style="{StaticResource Text.Caption}" Margin="0,3,0,0" />
+                    <Button Content="Открыть рекомендации" Style="{StaticResource SmallSecondaryButton}"
+                            Command="{Binding OpenOptimizeCommand}" HorizontalAlignment="Left" Margin="0,8,0,0"
+                            Visibility="{Binding HasRecommendations, Converter={StaticResource BoolToVisibility}}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
+                    <Button Content="Проверить" Style="{StaticResource SecondaryButton}"
+                            Command="{Binding ScanHealthCommand}" />
+                    <Button Content="Очистить в 1 клик" Style="{StaticResource PrimaryButton}"
+                            Command="{Binding CleanOneClickCommand}" Margin="8,0,0,0" />
+                </StackPanel>
+            </Grid>
+        </ctrl:GlassCard>
+
+        <ItemsControl Grid.Row="2" ItemsSource="{Binding Tiles}" Margin="0,0,0,0">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="3" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ctrl:GlassCard Margin="0,0,12,0" Padding="18">
+                        <StackPanel Orientation="Horizontal">
+                            <ui:SymbolIcon Symbol="{Binding Symbol, Converter={StaticResource SymbolString}}" FontSize="22"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                           VerticalAlignment="Top" Margin="0,1,10,0" />
+                            <StackPanel>
+                                <TextBlock Text="{Binding Label}" Style="{StaticResource Text.Caption}" />
+                                <TextBlock Text="{Binding Value}" FontSize="20" FontWeight="SemiBold" Margin="0,6,0,0"
+                                           Foreground="{DynamicResource TextPrimaryBrush}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ctrl:GlassCard>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <TextBlock Grid.Row="3" Text="{Binding Hint}" Style="{StaticResource Text.Caption}"
+                   VerticalAlignment="Bottom" MaxWidth="720" HorizontalAlignment="Left" />
+    </Grid>
+</UserControl>

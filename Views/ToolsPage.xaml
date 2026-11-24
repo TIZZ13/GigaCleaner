@@ -1,0 +1,359 @@
+﻿<UserControl x:Class="GigaCleaner.Views.ToolsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:ctrl="clr-namespace:GigaCleaner.Controls">
+
+    <UserControl.Resources>
+    </UserControl.Resources>
+
+    <Grid Margin="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,18">
+            <TextBlock Text="Инструменты" Style="{StaticResource Text.PageTitle}" />
+            <TextBlock Text="Деинсталлятор, анализ диска, дубликаты, точки восстановления и системные средства."
+                       Style="{StaticResource Text.Caption}" Margin="0,4,0,0" />
+        </StackPanel>
+
+        <TabControl Grid.Row="1"
+                    Style="{StaticResource CompactTabControl}"
+                    ItemContainerStyle="{StaticResource CompactTabItem}">
+            <TabItem Header="Программы">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Height="36" Style="{StaticResource AppGlassField}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Symbol="Search24" FontSize="14"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                           Margin="10,0,0,0" VerticalAlignment="Center" />
+                            <Grid Grid.Column="1">
+                                <TextBlock x:Name="SearchPlaceholder"
+                                           Text="Поиск по программам…"
+                                           Style="{StaticResource Text.Caption}"
+                                           VerticalAlignment="Center" Margin="8,0,4,0"
+                                           IsHitTestVisible="False" />
+                                <TextBox x:Name="ProgramSearchBox"
+                                         Text="{Binding ProgramSearch, UpdateSourceTrigger=PropertyChanged}"
+                                         Style="{StaticResource AppTextBox}"
+                                         Padding="4,0"
+                                         VerticalAlignment="Stretch"
+                                         TextChanged="OnSearchTextChanged" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+                        <Button Grid.Column="1" Content="Обновить список"
+                                Style="{StaticResource SmallSecondaryButton}"
+                                Command="{Binding RescanProgramsCommand}" Margin="8,0,0,0" />
+                    </Grid>
+
+                    <ctrl:GlassCard Grid.Row="1" Padding="14,12" Margin="0,20,0,16">
+                        <StackPanel>
+                            <TextBlock Text="{Binding ProgramStatus}" Style="{StaticResource Text.Body}" />
+                            <TextBlock Text="{Binding ProgramCountText}"
+                                       Style="{StaticResource Text.Caption}" Margin="16,0,0,0" />
+                        </StackPanel>
+                    </ctrl:GlassCard>
+
+                    <ScrollViewer ctrl:ScrollBehavior.EnableSmooth="True" Grid.Row="2" VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel>
+                            <StackPanel Style="{StaticResource EmptyState}"
+                                        Visibility="{Binding IsEmptyPrograms, Converter={StaticResource BoolToVisibility}}">
+                                <Border Style="{StaticResource EmptyStateIcon}">
+                                    <ui:SymbolIcon Symbol="Apps24" FontSize="26" HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" Foreground="{DynamicResource TextSecondaryBrush}" />
+                                </Border>
+                                <TextBlock Text="Программы не найдены" Style="{StaticResource Text.Body}"
+                                           FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,14,0,0" />
+                                <TextBlock Text="Нажмите «Обновить список», чтобы заново прочитать реестр."
+                                           Style="{StaticResource Text.Caption}" HorizontalAlignment="Center" Margin="0,6,0,0" />
+                            </StackPanel>
+                            <ItemsControl ItemsSource="{Binding Programs}" HorizontalAlignment="Stretch">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ctrl:GlassCard Margin="0,0,0,10" Padding="16,14">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Name}" Style="{StaticResource Text.Body}"
+                                                           FontWeight="SemiBold" TextWrapping="Wrap" />
+                                                <TextBlock Text="{Binding PublisherText}"
+                                                           Style="{StaticResource Text.Caption}" Margin="0,3,0,0" />
+                                                <TextBlock Text="{Binding Details}"
+                                                           Style="{StaticResource Text.Caption}"
+                                                           Foreground="{DynamicResource AccentBrush}" Margin="0,4,0,0" />
+                                            </StackPanel>
+                                            <Button Grid.Column="1" Content="Удалить"
+                                                    Style="{StaticResource SmallSecondaryButton}"
+                                                    VerticalAlignment="Center" Margin="16,0,0,0"
+                                                    Command="{Binding DataContext.UninstallProgramCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}" />
+                                        </Grid>
+</ctrl:GlassCard>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Диск">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Height="36" Style="{StaticResource AppGlassField}">
+                            <TextBox Style="{StaticResource AppTextBox}"
+                                     Text="{Binding DiskPath, UpdateSourceTrigger=PropertyChanged}"
+                                     GotKeyboardFocus="OnPathGotFocus"
+                                     LostKeyboardFocus="OnPathLostFocus"
+                                     ToolTip="Диск или папка, например C:\ или C:\Users" />
+                        </Border>
+                        <Button Grid.Column="1" Content="Сканировать"
+                                Style="{StaticResource SmallPrimaryButton}"
+                                Command="{Binding ScanDiskCommand}" Margin="8,0,0,0" />
+                        <Button Grid.Column="2" Content="Отмена"
+                                Style="{StaticResource SmallSecondaryButton}"
+                                Command="{Binding CancelDiskCommand}" Margin="8,0,0,0" />
+                    </Grid>
+
+                    <ctrl:GlassCard Grid.Row="1" Padding="14,12" Margin="0,0,0,10">
+                        <StackPanel>
+                            <TextBlock Text="{Binding DiskStatus}" Style="{StaticResource Text.Body}" />
+                            <TextBlock Text="{Binding DiskSummary}" Style="{StaticResource Text.Caption}"
+                                       Margin="0,4,0,0" />
+                        </StackPanel>
+                    </ctrl:GlassCard>
+
+                    <ScrollViewer ctrl:ScrollBehavior.EnableSmooth="True" Grid.Row="2" VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <ItemsControl ItemsSource="{Binding DiskFolders}" HorizontalAlignment="Stretch">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ctrl:GlassCard Margin="0,0,0,10" Padding="16,14">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Name}" Style="{StaticResource Text.Body}"
+                                                           FontWeight="SemiBold" TextWrapping="Wrap" />
+                                                <TextBlock Text="{Binding Path}" Style="{StaticResource Text.Caption}"
+                                                           Margin="0,3,0,0" TextTrimming="CharacterEllipsis" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center"
+                                                        HorizontalAlignment="Right" Margin="16,0,0,0">
+                                                <TextBlock Text="{Binding SizeText}" Style="{StaticResource Text.Body}"
+                                                           FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                                <TextBlock Text="{Binding FilesText}" Style="{StaticResource Text.Caption}"
+                                                           Margin="0,2,0,0" HorizontalAlignment="Right" />
+                                            </StackPanel>
+                                            <Button Grid.Column="2" Content="Открыть"
+                                                    Style="{StaticResource SmallSecondaryButton}"
+                                                    VerticalAlignment="Center" Margin="12,0,0,0"
+                                                    Command="{Binding DataContext.OpenDiskFolderCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}" />
+                                        </Grid>
+</ctrl:GlassCard>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Дубликаты">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Height="36" Style="{StaticResource AppGlassField}">
+                            <TextBox Style="{StaticResource AppTextBox}"
+                                     Text="{Binding DuplicatePath, UpdateSourceTrigger=PropertyChanged}"
+                                     GotKeyboardFocus="OnPathGotFocus"
+                                     LostKeyboardFocus="OnPathLostFocus"
+                                     ToolTip="Папка для поиска, например C:\Users\Имя\Downloads" />
+                        </Border>
+                        <Button Grid.Column="1" Content="Найти дубликаты"
+                                Style="{StaticResource SmallPrimaryButton}"
+                                Command="{Binding FindDuplicatesCommand}" Margin="8,0,0,0" />
+                        <Button Grid.Column="2" Content="Отмена"
+                                Style="{StaticResource SmallSecondaryButton}"
+                                Command="{Binding CancelDuplicatesCommand}" Margin="8,0,0,0" />
+                    </Grid>
+
+                    <ctrl:GlassCard Grid.Row="1" Padding="14,12" Margin="0,0,0,10">
+                        <StackPanel>
+                            <TextBlock Text="{Binding DuplicateStatus}" Style="{StaticResource Text.Body}" />
+                            <TextBlock Text="{Binding DuplicateSummary}" Style="{StaticResource Text.Caption}"
+                                       Margin="0,4,0,0" />
+                            <TextBlock Style="{StaticResource Text.Caption}" Margin="0,4,0,0"
+                                       Text="GigaCleaner только показывает совпадения и не удаляет копии автоматически." />
+                        </StackPanel>
+                    </ctrl:GlassCard>
+
+                    <ScrollViewer ctrl:ScrollBehavior.EnableSmooth="True" Grid.Row="2" VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <ItemsControl ItemsSource="{Binding DuplicateGroups}" HorizontalAlignment="Stretch">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ctrl:GlassCard Margin="0,0,0,10" Padding="16,14">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Text="{Binding Title}" Style="{StaticResource Text.Body}"
+                                                       FontWeight="SemiBold" />
+                                            <TextBlock Grid.Row="1" Text="{Binding WastedText}"
+                                                       Style="{StaticResource Text.Caption}"
+                                                       Foreground="{DynamicResource AccentBrush}" Margin="0,3,0,0" />
+                                            <Grid Grid.Row="2" Margin="0,10,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{Binding FilesPreview}" Style="{StaticResource Text.Caption}"
+                                                           FontFamily="Consolas" FontSize="11"
+                                                           TextWrapping="Wrap" />
+                                                <Button Grid.Column="1" Content="Открыть файл"
+                                                        Style="{StaticResource SmallSecondaryButton}"
+                                                        VerticalAlignment="Center" Margin="12,0,0,0"
+                                                        Command="{Binding DataContext.OpenDuplicateFileCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}" />
+                                            </Grid>
+                                        </Grid>
+</ctrl:GlassCard>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Восстановление">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                        <Button Content="Обновить" Style="{StaticResource SmallSecondaryButton}"
+                                Command="{Binding RefreshRestoreCommand}" />
+                        <Button Content="Создать точку" Style="{StaticResource SmallPrimaryButton}"
+                                Command="{Binding CreateRestorePointCommand}" Margin="8,0,0,0" />
+                        <Button Content="Защита системы" Style="{StaticResource SmallSecondaryButton}"
+                                Command="{Binding OpenRestoreProtectionCommand}" Margin="8,0,0,0" />
+                    </StackPanel>
+
+                    <ctrl:GlassCard Grid.Row="1" Padding="14,12" Margin="0,0,0,10">
+                        <StackPanel>
+                            <TextBlock Text="{Binding RestoreStatus}" Style="{StaticResource Text.Body}" />
+                            <TextBlock Style="{StaticResource Text.Caption}" Margin="0,4,0,0"
+                                       Text="Создание точки изменяет системное состояние Windows и требует прав администратора." />
+                        </StackPanel>
+                    </ctrl:GlassCard>
+
+                    <ScrollViewer ctrl:ScrollBehavior.EnableSmooth="True" Grid.Row="2" VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <ItemsControl ItemsSource="{Binding RestorePoints}" HorizontalAlignment="Stretch">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ctrl:GlassCard Margin="0,0,0,10" Padding="16,14">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Description}" Style="{StaticResource Text.Body}"
+                                                       FontWeight="SemiBold" TextWrapping="Wrap" />
+                                            <TextBlock Style="{StaticResource Text.Caption}" Margin="0,4,0,0">
+                                                <Run Text="{Binding CreatedText}" />
+                                                <Run Text=" · " />
+                                                <Run Text="{Binding TypeText}" />
+                                                <Run Text=" · " />
+                                                <Run Text="{Binding SequenceText}" />
+                                            </TextBlock>
+                                        </StackPanel>
+</ctrl:GlassCard>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Стирание">
+                <ScrollViewer ctrl:ScrollBehavior.EnableSmooth="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel MaxWidth="780" HorizontalAlignment="Stretch">
+                        <ctrl:GlassCard Padding="22">
+                            <StackPanel>
+                                <TextBlock Text="Системные средства для работы с дисками"
+                                           Style="{StaticResource Text.Section}" />
+                                <TextBlock Style="{StaticResource Text.Body}"
+                                           Text="GigaCleaner не стирает диски и разделы автоматически. Для форматирования, удаления разделов или полного стирания используйте штатное управление дисками Windows — решение остаётся за вами." />
+                                <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                                    <Button Content="Управление дисками" Style="{StaticResource SecondaryButton}"
+                                            Command="{Binding OpenDiskManagementCommand}" />
+                                    <Button Content="Параметры хранилища" Style="{StaticResource SecondaryButton}"
+                                            Command="{Binding OpenStorageSettingsCommand}" Margin="8,0,0,0" />
+                                </StackPanel>
+                                <TextBlock Text="{Binding EraseStatus}" Style="{StaticResource Text.Caption}"
+                                           Margin="0,12,0,0" />
+                            </StackPanel>
+                        </ctrl:GlassCard>
+
+                        <ctrl:GlassCard Padding="22" Margin="0,12,0,0">
+                            <StackPanel>
+                                <TextBlock Text="Важно" Style="{StaticResource Text.Section}" />
+                                <TextBlock Style="{StaticResource Text.Body}"
+                                           Text="Перед изменением разделов сделайте резервную копию данных. Отмена форматирования или удаления раздела может быть невозможна." />
+                            </StackPanel>
+                        </ctrl:GlassCard>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

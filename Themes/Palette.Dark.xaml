@@ -1,0 +1,63 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="AppBackgroundBrush" Color="#18181B" />
+    <SolidColorBrush x:Key="SurfaceBrush" Color="#1F1F23" />
+    <SolidColorBrush x:Key="SurfaceHoverBrush" Color="#27272A" />
+    <SolidColorBrush x:Key="SurfacePressedBrush" Color="#1B1B1F" />
+    <SolidColorBrush x:Key="NavHoverBrush" Color="#232327" />
+    <SolidColorBrush x:Key="NavSelectedBrush" Color="#2A2A2E" />
+    <SolidColorBrush x:Key="DividerBrush" Color="#27272A" />
+
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#FAFAFA" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#A1A1AA" />
+
+    <SolidColorBrush x:Key="AccentBrush" Color="#2563EB" />
+    <SolidColorBrush x:Key="AccentHoverBrush" Color="#1D4ED8" />
+    <SolidColorBrush x:Key="AccentPressedBrush" Color="#1E40AF" />
+    <SolidColorBrush x:Key="AccentSoftBrush" Color="#17233B" />
+    <SolidColorBrush x:Key="DangerBrush" Color="#F87171" />
+
+    <!-- Liquid Glass: тёмная тема (нейтральное стекло, чуть менее белое) -->
+    <SolidColorBrush x:Key="GlassFillBrush" Color="#14EDEDF0" />
+    <LinearGradientBrush x:Key="GlassFillGradientBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#24F0F0F2" Offset="0" />
+        <GradientStop Color="#0C939396" Offset="0.55" />
+        <GradientStop Color="#0638383E" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="GlassEdgeOuterBrush" Color="#66000000" />
+    <SolidColorBrush x:Key="GlassEdgeOuterHoverBrush" Color="#88444455" />
+    <LinearGradientBrush x:Key="GlassEdgeInnerBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#72EEEEF2" Offset="0" />
+        <GradientStop Color="#249E9EA4" Offset="0.5" />
+        <GradientStop Color="#0843434C" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="GlassTopHighlightBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#3ADADADF" Offset="0" />
+        <GradientStop Color="#00DADADF" Offset="1" />
+    </LinearGradientBrush>
+    <!-- Тени: одна мягкая, почти симметричная (не «провисает» снизу) -->
+    <DropShadowEffect x:Key="GlassShadow" BlurRadius="16" ShadowDepth="2" Direction="270"
+                      Color="#00000000" Opacity="0.35" />
+    <DropShadowEffect x:Key="GlassShadowHover" BlurRadius="18" ShadowDepth="3" Direction="270"
+                      Color="#00000000" Opacity="0.45" />
+
+    <!-- Тёмная тема: глубина стекла (нейтральная, менее белая) -->
+    <Color x:Key="GlassDepthTop">#24EAEAEC</Color>
+    <Color x:Key="GlassDepthMid">#0DE0E0E2</Color>
+    <Color x:Key="GlassDepthBottom">#08383840</Color>
+
+    <!-- Поле ввода: заметная стеклянная подложка (плотнее, чем у карточек) -->
+    <LinearGradientBrush x:Key="GlassFieldFillBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#33EDEDF0" Offset="0" />
+        <GradientStop Color="#1AEDEDF0" Offset="0.55" />
+        <GradientStop Color="#0C383840" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Тень кнопок: мягкая, равномерная -->
+    <DropShadowEffect x:Key="ControlShadow" BlurRadius="10" ShadowDepth="1.5" Direction="270"
+                      Color="#00000000" Opacity="0.3" />
+    <DropShadowEffect x:Key="ControlShadowHover" BlurRadius="12" ShadowDepth="2" Direction="270"
+                      Color="#00000000" Opacity="0.4" />
+
+</ResourceDictionary>

@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="GigaCleaner.Views.AutostartTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:ctrl="clr-namespace:GigaCleaner.Controls">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel HorizontalAlignment="Left">
+                <TextBlock Text="Менеджер автозагрузки" Style="{StaticResource Text.Section}" />
+                <TextBlock Text="Отключение без удаления: реестр, папки автозагрузки и задачи входа в систему."
+                           Style="{StaticResource Text.Caption}" />
+            </StackPanel>
+            <Button Grid.Column="1" Content="Обновить" Style="{StaticResource SecondaryButton}"
+                    Command="{Binding RefreshCommand}" VerticalAlignment="Center" />
+        </Grid>
+
+        <StackPanel Grid.Row="1" Margin="0,12,0,12">
+            <TextBlock Text="{Binding Status}" Style="{StaticResource Text.Caption}" />
+            <TextBlock Style="{StaticResource Text.Caption}" Margin="0,4,0,0"
+                       Text="Реестр и папки отключаются через StartupApproved, задачи — через штатный Enabled. Ничего не удаляется, включение доступно в один клик." />
+        </StackPanel>
+
+        <ScrollViewer ctrl:ScrollBehavior.EnableSmooth="True" Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel>
+                <StackPanel Style="{StaticResource EmptyState}"
+                            Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVisibility}}">
+                    <Border Style="{StaticResource EmptyStateIcon}">
+                        <ui:SymbolIcon Symbol="ArrowSync24" FontSize="26" HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" Foreground="{DynamicResource TextSecondaryBrush}" />
+                    </Border>
+                    <TextBlock Text="Автозагрузка пуста" Style="{StaticResource Text.Body}"
+                               FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,14,0,0" />
+                    <TextBlock Text="Никто не запускается вместе с Windows."
+                               Style="{StaticResource Text.Caption}" HorizontalAlignment="Center" Margin="0,6,0,0" />
+                </StackPanel>
+                <ItemsControl ItemsSource="{Binding Entries}" HorizontalAlignment="Stretch">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ctrl:GlassCard Margin="0,0,0,10" Padding="16"
+                                ContextMenuService.IsEnabled="{Binding IsProtected, Converter={StaticResource InverseBool}}">
+                            <ctrl:GlassCard.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Открыть папку программы" Click="OnOpenFolder" />
+                                    <MenuItem Header="Запустить" Click="OnLaunch" />
+                                </ContextMenu>
+                            </ctrl:GlassCard.ContextMenu>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Name}" Style="{StaticResource Text.Body}"
+                                               FontWeight="SemiBold" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Detail}" Style="{StaticResource Text.Caption}"
+                                               Margin="0,3,0,0" TextTrimming="CharacterEllipsis"
+                                               MaxWidth="560" HorizontalAlignment="Left" ToolTip="{Binding Detail}" />
+                                    <TextBlock Text="{Binding Source}" Style="{StaticResource Text.Caption}"
+                                               Margin="0,4,0,0" />
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="{Binding StateText}" Style="{StaticResource Text.Caption}"
+                                           VerticalAlignment="Center" Margin="12,0,12,0" />
+                                <Button Grid.Column="2" Content="{Binding ToggleText}"
+                                        Style="{StaticResource SmallSecondaryButton}"
+                                        Command="{Binding ToggleCommand}" VerticalAlignment="Center"
+                                        Visibility="{Binding IsProtected, Converter={StaticResource InverseBoolToVisibility}}" />
+                            </Grid>
+                        </ctrl:GlassCard>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

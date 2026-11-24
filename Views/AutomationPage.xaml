@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="GigaCleaner.Views.AutomationPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ctrl="clr-namespace:GigaCleaner.Controls"
+             xmlns:views="clr-namespace:GigaCleaner.Views">
+
+    <UserControl.Resources>
+    </UserControl.Resources>
+
+    <ScrollViewer ctrl:ScrollBehavior.EnableSmooth="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="32" MaxWidth="780" HorizontalAlignment="Stretch">
+            <TextBlock Text="Автоматизация" Style="{StaticResource Text.PageTitle}" />
+            <TextBlock Text="Фоновая очистка по расписанию — без окон и запросов UAC."
+                       Style="{StaticResource Text.Caption}" Margin="0,4,0,0" />
+
+            <ctrl:GlassCard Margin="0,20,0,16" Padding="22">
+                <StackPanel>
+                    <TextBlock Text="Расписание" Style="{StaticResource Text.Section}" />
+
+                    <TextBlock Text="ЧАСТОТА" Style="{StaticResource Text.Caption}" FontWeight="SemiBold"
+                               Margin="0,0,0,10" />
+                    <WrapPanel>
+                        <RadioButton GroupName="ScheduleFrequency" Content="Выключено" Style="{StaticResource OptionRadio}"
+                                     IsChecked="{Binding FrequencyIndex, Converter={StaticResource IndexMatch}, ConverterParameter=0, Mode=TwoWay}" />
+                        <RadioButton GroupName="ScheduleFrequency" Content="Ежедневно" Style="{StaticResource OptionRadio}"
+                                     IsChecked="{Binding FrequencyIndex, Converter={StaticResource IndexMatch}, ConverterParameter=1, Mode=TwoWay}" />
+                        <RadioButton GroupName="ScheduleFrequency" Content="Раз в неделю" Style="{StaticResource OptionRadio}"
+                                     IsChecked="{Binding FrequencyIndex, Converter={StaticResource IndexMatch}, ConverterParameter=2, Mode=TwoWay}" />
+                        <RadioButton GroupName="ScheduleFrequency" Content="Раз в 2 недели" Style="{StaticResource OptionRadio}"
+                                     IsChecked="{Binding FrequencyIndex, Converter={StaticResource IndexMatch}, ConverterParameter=3, Mode=TwoWay}" />
+                        <RadioButton GroupName="ScheduleFrequency" Content="Раз в месяц" Style="{StaticResource OptionRadio}"
+                                     IsChecked="{Binding FrequencyIndex, Converter={StaticResource IndexMatch}, ConverterParameter=4, Mode=TwoWay}" />
+                    </WrapPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                        <TextBlock Text="Время" Style="{StaticResource Text.Body}" VerticalAlignment="Center"
+                                   Width="80" />
+                        <Border CornerRadius="9" BorderThickness="1" Width="62" Height="34"
+                                Background="{DynamicResource GlassFillBrush}"
+                                BorderBrush="{DynamicResource GlassEdgeInnerBrush}">
+                            <TextBox Text="{Binding Hour, UpdateSourceTrigger=PropertyChanged}"
+                                     Background="Transparent" BorderThickness="0"
+                                     CaretBrush="{DynamicResource TextPrimaryBrush}"
+                                     Foreground="{DynamicResource TextPrimaryBrush}"
+                                     FontFamily="{StaticResource AppFont}"
+                                     FontSize="15" FontWeight="SemiBold"
+                                     TextAlignment="Center" VerticalContentAlignment="Center"
+                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                     MaxLength="2"
+                                     PreviewTextInput="OnTimeInput"
+                                     LostKeyboardFocus="OnTimeLostFocus" />
+                        </Border>
+                        <TextBlock Text=":" Style="{StaticResource Text.Body}" FontSize="16" FontWeight="SemiBold"
+                                   VerticalAlignment="Center" Margin="8,0" />
+                        <Border CornerRadius="9" BorderThickness="1" Width="62" Height="34"
+                                Background="{DynamicResource GlassFillBrush}"
+                                BorderBrush="{DynamicResource GlassEdgeInnerBrush}">
+                            <TextBox Text="{Binding Minute, UpdateSourceTrigger=PropertyChanged}"
+                                     Background="Transparent" BorderThickness="0"
+                                     CaretBrush="{DynamicResource TextPrimaryBrush}"
+                                     Foreground="{DynamicResource TextPrimaryBrush}"
+                                     FontFamily="{StaticResource AppFont}"
+                                     FontSize="15" FontWeight="SemiBold"
+                                     TextAlignment="Center" VerticalContentAlignment="Center"
+                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                     MaxLength="2"
+                                     PreviewTextInput="OnTimeInput"
+                                     LostKeyboardFocus="OnTimeLostFocus" />
+                        </Border>
+                    </StackPanel>
+
+                    <TextBlock Style="{StaticResource Text.Caption}" Margin="0,14,0,0"
+                               Text="Еженедельно — по понедельникам, раз в две недели — по понедельникам, раз в месяц — 1-го числа. Задача запускается, когда пользователь вошёл в систему, и не показывает окно." />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
+                        <Button Content="Сохранить расписание" Style="{StaticResource PrimaryButton}"
+                                Command="{Binding SaveCommand}" />
+                        <Button Content="Отключить" Style="{StaticResource SecondaryButton}"
+                                Command="{Binding DisableCommand}" Margin="8,0,0,0" />
+                    </StackPanel>
+
+                    <TextBlock Text="{Binding ScheduleStatus}" Style="{StaticResource Text.Caption}"
+                               Margin="0,12,0,0" />
+                </StackPanel>
+            </ctrl:GlassCard>
+
+            <ctrl:GlassCard Padding="22">
+                <StackPanel>
+                    <TextBlock Text="Уведомления" Style="{StaticResource Text.Section}" />
+                    <TextBlock Style="{StaticResource Text.Body}"
+                               Text="Windows не показывает toast из процесса с правами администратора. Поэтому уведомление отправляет отдельный процесс GigaCleaner.Notifier без повышенных прав." />
+                    <Button Content="Проверить уведомление" Style="{StaticResource SecondaryButton}"
+                            Command="{Binding TestNotificationCommand}" Margin="0,16,0,0"
+                            HorizontalAlignment="Left" />
+                    <TextBlock Text="{Binding NotificationStatus}" Style="{StaticResource Text.Caption}"
+                               Margin="0,10,0,0" />
+                </StackPanel>
+            </ctrl:GlassCard>
+
+            <TextBlock Style="{StaticResource Text.Caption}" Margin="0,16,0,0"
+                       Text="Фоновая очистка удаляет временные файлы, корзину, кэши, журналы и дампы. Cookies, история браузеров и буфер обмена не затрагиваются. Не размещайте GigaCleaner в пользовательской папке: задача Highest не должна ссылаться на exe, который может изменить другой пользователь." />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
