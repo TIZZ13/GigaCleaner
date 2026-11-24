@@ -31,6 +31,13 @@
   .brand img { width: 32px; height: 32px; border-radius: 10px; }
   .back { color: var(--text-2); text-decoration: none; font-size: 13.5px; }
   .back:hover { color: var(--text); }
+  .lang-btn {
+    margin-left: 12px; padding: 5px 10px; border-radius: 8px;
+    border: 1px solid var(--line); background: rgba(255,255,255,.04);
+    color: var(--text-2); font-size: 12.5px; font-weight: 600; font-family: inherit;
+    cursor: pointer; transition: color .15s, background .15s;
+  }
+  .lang-btn:hover { color: var(--text); background: rgba(255,255,255,.08); }
   h1 { font-size: 30px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 8px; }
   .date { color: var(--text-3); font-size: 13px; margin-bottom: 32px; }
   h2 { font-size: 18px; font-weight: 700; margin: 28px 0 10px; }
@@ -50,61 +57,81 @@
     <a class="brand" href="./">
       <img src="logo-64.png" alt="GigaCleaner"> GigaCleaner
     </a>
-    <a class="back" href="./">← На главную</a>
+    <span style="display:flex;align-items:center;gap:4px">
+      <a class="back" href="./" data-ru="← На главную" data-en="← Back">← На главную</a>
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+    </span>
   </header>
 
-  <h1>Политика конфиденциальности</h1>
-  <div class="date">Дата вступления в силу: 25 ноября 2026</div>
+  <h1 data-ru="Политика конфиденциальности" data-en="Privacy Policy">Политика конфиденциальности</h1>
+  <div class="date" data-ru="Дата вступления в силу: 25 ноября 2026" data-en="Effective date: November 25, 2026">Дата вступления в силу: 25 ноября 2026</div>
 
-  <p>Эта политика описывает, как приложение <b>GigaCleaner</b> и его сайт обращаются с данными.</p>
+  <p data-ru="Эта политика описывает, как приложение GigaCleaner и его сайт обращаются с данными." data-en="This policy describes how the GigaCleaner app and its website handle data.">Эта политика описывает, как приложение <b>GigaCleaner</b> и его сайт обращаются с данными.</p>
 
-  <h2>1. Приложение работает локально</h2>
-  <p>GigaCleaner — настольная утилита для Windows. Очистка и оптимизация выполняются <b>полностью на вашем компьютере</b>. Никакие личные данные, имена файлов или информация о системе не собираются, не передаются и не продаются.</p>
+  <h2 data-ru="1. Приложение работает локально" data-en="1. The app runs locally">1. Приложение работает локально</h2>
+  <p data-ru="GigaCleaner — настольная утилита для Windows. Очистка и оптимизация выполняются полностью на вашем компьютере. Никакие личные данные, имена файлов или информация о системе не собираются, не передаются и не продаются." data-en="GigaCleaner is a desktop utility for Windows. Cleaning and optimization run entirely on your computer. No personal data, file names or system information is collected, transmitted or sold.">GigaCleaner — настольная утилита для Windows. Очистка и оптимизация выполняются <b>полностью на вашем компьютере</b>. Никакие личные данные, имена файлов или информация о системе не собираются, не передаются и не продаются.</p>
 
-  <h2>2. Что приложение открывает на компьютере</h2>
-  <p>Локальный доступ к следующим областям — только при выполнении соответствующего действия:</p>
+  <h2 data-ru="2. Что приложение открывает на компьютере" data-en="2. What the app accesses on your PC">2. Что приложение открывает на компьютере</h2>
+  <p data-ru="Локальный доступ к следующим областям — только при выполнении соответствующего действия:" data-en="Local access to the following areas, only when you run the corresponding action:">Локальный доступ к следующим областям — только при выполнении соответствующего действия:</p>
   <ul>
-    <li><b>Временные файлы и кэши</b> — для очистки (только по белому списку путей);</li>
-    <li><b>Реестр и службы Windows</b> — для удаления устаревших записей и управления автозагрузкой (перед изменениями создаётся точка восстановления);</li>
-    <li><b>winget / Центр обновления Windows</b> — для проверки обновлений программ и драйверов (сетевые запросы только для этих проверок).</li>
+    <li><b data-ru="Временные файлы и кэши" data-en="Temp files and caches">Временные файлы и кэши</b><span data-ru=" — для очистки (только по белому списку путей);" data-en=" — for cleaning (whitelist-based paths only);"> — для очистки (только по белому списку путей);</span></li>
+    <li><b data-ru="Реестр и службы Windows" data-en="Registry and Windows services">Реестр и службы Windows</b><span data-ru=" — для удаления устаревших записей и управления автозагрузкой (перед изменениями создаётся точка восстановления);" data-en=" — to remove stale entries and manage startup (a Restore Point is created first);"> — для удаления устаревших записей и управления автозагрузкой (перед изменениями создаётся точка восстановления);</span></li>
+    <li><b data-ru="winget / Центр обновления Windows" data-en="winget / Windows Update">winget / Центр обновления Windows</b><span data-ru=" — для проверки обновлений программ и драйверов (сетевые запросы только для этих проверок)." data-en=" — to check for program and driver updates (network requests only for these checks)."> — для проверки обновлений программ и драйверов (сетевые запросы только для этих проверок).</span></li>
   </ul>
-  <p>Приложение действует <b>только по вашей команде</b>: сканирование, очистка, оптимизация или проверка обновлений.</p>
+  <p data-ru="Приложение действует только по вашей команде: сканирование, очистка, оптимизация или проверка обновлений." data-en="The app acts only on your command: scanning, cleaning, optimizing, or checking for updates.">Приложение действует <b>только по вашей команде</b>: сканирование, очистка, оптимизация или проверка обновлений.</p>
 
-  <h2>3. Сетевые запросы</h2>
-  <p>Приложение обращается в интернет ровно в трёх случаях:</p>
+  <h2 data-ru="3. Сетевые запросы" data-en="3. Network requests">3. Сетевые запросы</h2>
+  <p data-ru="Приложение обращается в интернет ровно в трёх случаях:" data-en="The app makes network requests in exactly three cases:">Приложение обращается в интернет ровно в трёх случаях:</p>
   <ul>
-    <li><b>Проверка обновлений ваших программ</b> через winget и Windows Update — только когда вы открываете страницу «Обновления» или нажимаете «Проверить»;</li>
-    <li><b>Проверка новой версии самого приложения</b> — при запуске запрашивается файл <code>https://tizz13.github.io/GigaCleaner/version.json</code> (крошечный JSON с номером версии и ссылкой на установщик). <b>Никаких идентификаторов, данных об устройстве и статистики использования не передаётся;</b></li>
-    <li><b>Скачивание нового установщика</b> — только после того, как вы подтвердите диалог обновления.</li>
+    <li><b data-ru="Проверка обновлений ваших программ" data-en="Update checks for your apps">Проверка обновлений ваших программ</b><span data-ru=" через winget и Windows Update — только когда вы открываете страницу «Обновления» или нажимаете «Проверить»;" data-en=" via winget and Windows Update — only when you open the Updates page or click Check;"> через winget и Windows Update — только когда вы открываете страницу «Обновления» или нажимаете «Проверить»;</span></li>
+    <li><b data-ru="Проверка новой версии самого приложения" data-en="Self-update check">Проверка новой версии самого приложения</b><span data-ru=" — при запуске запрашивается файл version.json. Никаких идентификаторов, данных об устройстве и статистики использования не передаётся;" data-en=" — at startup the app requests version.json. No identifiers, device info or usage data is sent;"> — при запуске запрашивается файл <code>https://tizz13.github.io/GigaCleaner/version.json</code> (крошечный JSON с номером версии и ссылкой на установщик). <b>Никаких идентификаторов, данных об устройстве и статистики использования не передаётся;</b></span></li>
+    <li><b data-ru="Скачивание нового установщика" data-en="Downloading the new installer">Скачивание нового установщика</b><span data-ru=" — только после того, как вы подтвердите диалог обновления." data-en=" — only after you confirm the update dialog."> — только после того, как вы подтвердите диалог обновления.</span></li>
   </ul>
-  <p>Все остальные операции выполняются офлайн.</p>
+  <p data-ru="Все остальные операции выполняются офлайн." data-en="All other operations run offline.">Все остальные операции выполняются офлайн.</p>
 
-  <h2>4. Чего приложение не делает</h2>
+  <h2 data-ru="4. Чего приложение не делает" data-en="4. What the app does NOT do">4. Чего приложение не делает</h2>
   <ul>
-    <li>Не собирает аналитику, телеметрию или отчёты о сбоях;</li>
-    <li>Не отслеживает вашу активность;</li>
-    <li>Не читает документы, фотографии и сообщения;</li>
-    <li>Ничего не передаёт третьим лицам;</li>
-    <li>Не требует аккаунта или регистрации.</li>
+    <li data-ru="Не собирает аналитику, телеметрию или отчёты о сбоях;" data-en="Does not collect analytics, telemetry or crash reports;">Не собирает аналитику, телеметрию или отчёты о сбоях;</li>
+    <li data-ru="Не отслеживает вашу активность;" data-en="Does not track your activity;">Не отслеживает вашу активность;</li>
+    <li data-ru="Не читает документы, фотографии и сообщения;" data-en="Does not read documents, photos or messages;">Не читает документы, фотографии и сообщения;</li>
+    <li data-ru="Ничего не передаёт третьим лицам;" data-en="Does not share anything with third parties;">Ничего не передаёт третьим лицам;</li>
+    <li data-ru="Не требует аккаунта или регистрации." data-en="Does not require an account or registration.">Не требует аккаунта или регистрации.</li>
   </ul>
 
-  <h2>5. Данные, хранящиеся на вашем компьютере</h2>
-  <p>Настройки (язык, тема, расписание, горячая клавиша, список «сохранения входа») хранятся локально в файле <code>%AppData%\GigaCleaner\settings.json</code>. Этот файл никогда не покидает ваш компьютер. При удалении приложение спрашивает, удалить ли настройки вместе с ним.</p>
+  <h2 data-ru="5. Данные, хранящиеся на вашем компьютере" data-en="5. Data stored on your PC">5. Данные, хранящиеся на вашем компьютере</h2>
+  <p data-ru="Настройки (язык, тема, расписание, горячая клавиша, список «сохранения входа») хранятся локально в файле %AppData%\GigaCleaner\settings.json. Этот файл никогда не покидает ваш компьютер. При удалении приложение спрашивает, удалить ли настройки вместе с ним." data-en="Settings (language, theme, schedule, hotkey, cookie whitelist) are stored locally in %AppData%\GigaCleaner\settings.json. This file never leaves your computer. On uninstall the app asks whether to delete settings too.">Настройки (язык, тема, расписание, горячая клавиша, список «сохранения входа») хранятся локально в файле <code>%AppData%\GigaCleaner\settings.json</code>. Этот файл никогда не покидает ваш компьютер. При удалении приложение спрашивает, удалить ли настройки вместе с ним.</p>
 
-  <h2>6. Сайт (GitHub Pages)</h2>
-  <p>Сайт <code>https://tizz13.github.io/GigaCleaner/</code> — статическая страница на GitHub Pages. GitHub может вести стандартные серверные журналы (IP-адрес, user agent), как для любой публичной страницы. На сайте не используются аналитика и cookie.</p>
+  <h2 data-ru="6. Сайт (GitHub Pages)" data-en="6. The website (GitHub Pages)">6. Сайт (GitHub Pages)</h2>
+  <p data-ru="Сайт — статическая страница на GitHub Pages. GitHub может вести стандартные серверные журналы (IP-адрес, user agent), как для любой публичной страницы. На сайте не используются аналитика и cookie." data-en="The site is a static page on GitHub Pages. GitHub may keep standard server logs (IP address, user agent), as for any public page. No analytics or cookies are used on the site.">Сайт <code>https://tizz13.github.io/GigaCleaner/</code> — статическая страница на GitHub Pages. GitHub может вести стандартные серверные журналы (IP-адрес, user agent), как для любой публичной страницы. На сайте не используются аналитика и cookie.</p>
 
-  <h2>7. Изменения политики</h2>
-  <p>Мы можем обновлять политику по мере развития приложения. Актуальная версия всегда публикуется в этом файле, а также в <b>PRIVACY.md</b> репозитория на GitHub.</p>
+  <h2 data-ru="7. Изменения политики" data-en="7. Changes to this policy">7. Изменения политики</h2>
+  <p data-ru="Мы можем обновлять политику по мере развития приложения. Актуальная версия всегда публикуется в этом файле, а также в PRIVACY.md репозитория на GitHub." data-en="We may update this policy as the app evolves. The current version is always published in this file and in PRIVACY.md in the GitHub repository.">Мы можем обновлять политику по мере развития приложения. Актуальная версия всегда публикуется в этом файле, а также в <b>PRIVACY.md</b> репозитория на GitHub.</p>
 
-  <h2>8. Контакты</h2>
-  <p>По вопросам, связанным с политикой, откройте issue в <a href="https://github.com/TIZZ13/GigaCleaner/issues">репозитории проекта</a>.</p>
+  <h2 data-ru="8. Контакты" data-en="8. Contact">8. Контакты</h2>
+  <p data-ru="По вопросам, связанным с политикой, откройте issue в репозитории проекта." data-en="For questions about this policy, open an issue in the project repository.">По вопросам, связанным с политикой, откройте issue в <a href="https://github.com/TIZZ13/GigaCleaner/issues" data-ru="репозитории проекта" data-en="the project repository">репозитории проекта</a>.</p>
 
   <footer>
     <span>GigaCleaner © 2026</span>
-    <span><a href="https://github.com/TIZZ13/GigaCleaner/blob/main/PRIVACY.md">PRIVACY.md на GitHub</a> · <a href="./">На главную</a></span>
+    <span><a href="https://github.com/TIZZ13/GigaCleaner/blob/main/PRIVACY.md" data-ru="PRIVACY.md на GitHub" data-en="PRIVACY.md on GitHub">PRIVACY.md на GitHub</a> · <a href="./" data-ru="На главную" data-en="Home">На главную</a></span>
   </footer>
 
 </div>
+
+<script>
+  var currentLang = (localStorage.getItem('gclang') || 'ru');
+  function applyLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('gclang', lang);
+    document.querySelectorAll('[data-ru], [data-en]').forEach(function (el) {
+      var text = el.getAttribute(lang === 'ru' ? 'data-ru' : 'data-en');
+      if (text != null) { el.textContent = text; }
+    });
+    var btn = document.getElementById('langBtn');
+    if (btn) btn.textContent = lang === 'ru' ? 'EN' : 'RU';
+    document.documentElement.lang = lang;
+  }
+  function toggleLang() { applyLang(currentLang === 'ru' ? 'en' : 'ru'); }
+  applyLang(currentLang);
+</script>
 </body>
 </html>

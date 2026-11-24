@@ -60,6 +60,13 @@
   .nav { display: flex; align-items: center; gap: 4px; }
   .nav a { color: var(--text-2); text-decoration: none; font-size: 13.5px; padding: 7px 12px; border-radius: 8px; transition: color .16s, background .16s; }
   .nav a:hover { color: var(--text); background: rgba(255,255,255,.05); }
+  .lang-btn {
+    margin-left: 4px; padding: 5px 10px; border-radius: 8px;
+    border: 1px solid var(--line); background: rgba(255,255,255,.04);
+    color: var(--text-2); font-size: 12.5px; font-weight: 600; font-family: inherit;
+    cursor: pointer; transition: color .15s, background .15s, border-color .15s;
+  }
+  .lang-btn:hover { color: var(--text); background: rgba(255,255,255,.08); }
   .ver-badge {
     font-size: 12px; color: var(--text-2); padding: 4px 10px; border-radius: 999px;
     border: 1px solid var(--line); background: rgba(255,255,255,.03);
@@ -378,28 +385,29 @@
       <div class="brand-name">GigaCleaner</div>
     </div>
     <nav class="nav">
-      <a href="#features">Возможности</a>
-      <a href="#how">Как работает</a>
-      <a href="#faq">FAQ</a>
+      <a href="#features" data-ru="Возможности" data-en="Features">Возможности</a>
+      <a href="#how" data-ru="Как работает" data-en="How it works">Как работает</a>
+      <a href="#faq" data-ru="FAQ" data-en="FAQ">FAQ</a>
       <span class="ver-badge">v1.1.0 · Windows 10 / 11</span>
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
     </nav>
   </header>
 
   <!-- Hero -->
   <section class="hero">
     <div>
-      <div class="eyebrow">Очистка и оптимизация Windows</div>
-      <h1>Уборка системы, которая не трогает ваши данные</h1>
-      <p class="lead">GigaCleaner находит и убирает временные файлы, кэши и устаревшие записи реестра —
+      <div class="eyebrow" data-ru="Очистка и оптимизация Windows" data-en="Clean &amp; optimize Windows">Очистка и оптимизация Windows</div>
+      <h1 data-ru="Уборка системы, которая не трогает ваши данные" data-en="Cleanup that never touches your data">Уборка системы, которая не трогает ваши данные</h1>
+      <p class="lead" data-ru="GigaCleaner находит и убирает временные файлы, кэши и устаревшие записи реестра — и делает это по белому списку путей. Документы, настройки и профиль не затрагиваются." data-en="GigaCleaner finds and removes temp files, caches and stale registry entries — and does it using a strict whitelist of paths. Documents, settings and your profile are never touched.">GigaCleaner находит и убирает временные файлы, кэши и устаревшие записи реестра —
         и делает это по белому списку путей. Документы, настройки и профиль не затрагиваются.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="https://github.com/TIZZ13/GigaCleaner/releases/download/v1.1.0/GigaCleaner-Setup-1.1.0.exe" download>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Скачать GigaCleaner
+          <span data-ru="Скачать GigaCleaner" data-en="Download GigaCleaner">Скачать GigaCleaner</span>
         </a>
-        <a class="btn btn-ghost" href="#how">Как это работает</a>
+        <a class="btn btn-ghost" href="#how" data-ru="Как это работает" data-en="How it works">Как это работает</a>
       </div>
-      <div class="meta">Установщик <b>108 МБ</b> · Работает <b>локально</b>, без телеметрии · Бесплатно</div>
+      <div class="meta"><span data-ru="Установщик" data-en="Installer"></span> <b>108 МБ</b> · <span data-ru="Работает локально, без телеметрии · Бесплатно" data-en="runs locally, no telemetry · Free"></span></div>
     </div>
 
     <!-- Мокап окна приложения -->
@@ -511,32 +519,32 @@
       <div class="feature">
         <span class="f-num">02</span>
         <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg></div>
-        <h3>Оптимизация</h3>
-        <p>Автозагрузка и службы: меньше фоновой нагрузки, быстрее старт. Каждое отключение обратимо.</p>
+        <h3 data-ru="Оптимизация" data-en="Optimizer">Оптимизация</h3>
+        <p data-ru="Автозагрузка и службы: меньше фоновой нагрузки, быстрее старт. Каждое отключение обратимо." data-en="Startup and services: less background load, faster boot. Every change is reversible.">Автозагрузка и службы: меньше фоновой нагрузки, быстрее старт. Каждое отключение обратимо.</p>
       </div>
 
       <div class="feature">
         <span class="f-num">03</span>
         <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-        <h3>Реестр</h3>
-        <p>Устаревшие записи — с точкой восстановления до изменений.</p>
+        <h3 data-ru="Реестр" data-en="Registry">Реестр</h3>
+        <p data-ru="Устаревшие записи — с точкой восстановления до изменений." data-en="Stale entries removed — with a System Restore point created first.">Устаревшие записи — с точкой восстановления до изменений.</p>
       </div>
 
       <div class="feature">
         <span class="f-num">04</span>
         <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
-        <h3>Автоматизация</h3>
-        <p>Расписание, тихий режим <code style="font-family:Consolas,monospace;background:rgba(255,255,255,.07);border-radius:4px;padding:0 5px;font-size:12px">--silent</code> и уведомления об уборке в трее.</p>
+        <h3 data-ru="Автоматизация" data-en="Automation">Автоматизация</h3>
+        <p data-ru="Расписание, тихий режим" data-en="Scheduling, silent mode"><span data-ru="Расписание, тихий режим" data-en="Scheduling, silent mode"></span> <code style="font-family:Consolas,monospace;background:rgba(255,255,255,.07);border-radius:4px;padding:0 5px;font-size:12px">--silent</code> <span data-ru="и уведомления об уборке в трее." data-en="and tray notifications after cleanup.">и уведомления об уборке в трее.</span></p>
       </div>
     </div>
   </section>
 
   <!-- Мелочи, которые уже есть -->
   <div class="facts">
-    <div class="fact"><b>24 ч</b><span>минимальный возраст временного файла для удаления</span></div>
-    <div class="fact"><b>99,4 МБ</b><span>найдено при первой проверке на тестовой системе</span></div>
-    <div class="fact"><b>5 языков</b><span>интерфейса: RU, EN, DE, FR, ES</span></div>
-    <div class="fact"><b>100%</b><span>локально — без облаков и телеметрии</span></div>
+    <div class="fact"><b>24 ч</b><span data-ru="минимальный возраст временного файла для удаления" data-en="minimum age of a temp file to delete">минимальный возраст временного файла для удаления</span></div>
+    <div class="fact"><b>99,4 МБ</b><span data-ru="найдено при первой проверке на тестовой системе" data-en="found on first scan on a test system">найдено при первой проверке на тестовой системе</span></div>
+    <div class="fact"><b data-ru="5 языков" data-en="5 languages">5 языков</b><span data-ru="интерфейса: RU, EN, DE, FR, ES" data-en="of UI: RU, EN, DE, FR, ES">интерфейса: RU, EN, DE, FR, ES</span></div>
+    <div class="fact"><b>100%</b><span data-ru="локально — без облаков и телеметрии" data-en="local — no clouds, no telemetry">локально — без облаков и телеметрии</span></div>
   </div>
 
   <!-- Как работает -->
@@ -570,40 +578,40 @@
   <section class="block" id="report">
     <div class="sec-head">
       <div>
-        <div class="sec-kicker">Из отчёта об уборке</div>
-        <div class="sec-title">Как выглядит результат</div>
+        <div class="sec-kicker" data-ru="Из отчёта об уборке" data-en="From a real cleanup report">Из отчёта об уборке</div>
+        <div class="sec-title" data-ru="Как выглядит результат" data-en="What the result looks like">Как выглядит результат</div>
       </div>
-      <div class="sec-note">Настоящие строки из отчёта приложения — без ретуши.</div>
+      <div class="sec-note" data-ru="Настоящие строки из отчёта приложения — без ретуши." data-en="Real lines from the app report — no retouching.">Настоящие строки из отчёта приложения — без ретуши.</div>
     </div>
     <div class="report">
       <div class="report-line">
         <span class="rep-ok">✓</span>
         <span class="rep-path">C:\Users\…\AppData\Local\Temp\</span>
-        <span class="rep-files">14 файлов</span>
+        <span class="rep-files" data-ru="14 файлов" data-en="14 files">14 файлов</span>
         <span class="rep-size">226,4 МБ</span>
       </div>
       <div class="report-line">
         <span class="rep-ok">✓</span>
         <span class="rep-path">кэш Chromium (Default\Cache)</span>
-        <span class="rep-files">312 файлов</span>
+        <span class="rep-files" data-ru="312 файлов" data-en="312 files">312 файлов</span>
         <span class="rep-size">187,9 МБ</span>
       </div>
       <div class="report-line">
         <span class="rep-ok">✓</span>
-        <span class="rep-path">корзина</span>
-        <span class="rep-files">3 файла</span>
+        <span class="rep-path" data-ru="корзина" data-en="recycle bin">корзина</span>
+        <span class="rep-files" data-ru="3 файла" data-en="3 files">3 файла</span>
         <span class="rep-size">1,2 МБ</span>
       </div>
       <div class="report-line rep-skip">
         <span class="rep-warn">✕</span>
-        <span class="rep-path">%TEMP% — файл занят процессом</span>
-        <span class="rep-files">1 файл</span>
-        <span class="rep-size">пропущен</span>
+        <span class="rep-path" data-ru="%TEMP% — файл занят процессом" data-en="%TEMP% — file is in use">%TEMP% — файл занят процессом</span>
+        <span class="rep-files" data-ru="1 файл" data-en="1 file">1 файл</span>
+        <span class="rep-size" data-ru="пропущен" data-en="skipped">пропущен</span>
       </div>
       <div class="report-total">
-        <span>Освобождено</span>
+        <span data-ru="Освобождено" data-en="Freed">Освобождено</span>
         <b>415,5 МБ</b>
-        <span class="rep-note">пропущено: 1 · не удалось: 0</span>
+        <span class="rep-note" data-ru="пропущено: 1 · не удалось: 0" data-en="skipped: 1 · failed: 0">пропущено: 1 · не удалось: 0</span>
       </div>
     </div>
   </section>
@@ -612,26 +620,26 @@
   <section class="block" id="faq">
     <div class="sec-head">
       <div>
-        <div class="sec-kicker">Вопросы</div>
-        <div class="sec-title">Частые вопросы</div>
+        <div class="sec-kicker" data-ru="Вопросы" data-en="Questions">Вопросы</div>
+        <div class="sec-title" data-ru="Частые вопросы" data-en="FAQ">Частые вопросы</div>
       </div>
     </div>
     <div class="faq">
       <details>
-        <summary>Программа удалит мои документы или фотографии?</summary>
-        <p>Нет. Очистка работает по белому списку путей: Program Files, AppData\Roaming, «Документы» и System32 не затрагиваются. Временные файлы %TEMP% удаляются только старше 24 часов.</p>
+        <summary data-ru="Программа удалит мои документы или фотографии?" data-en="Will the app delete my documents or photos?">Программа удалит мои документы или фотографии?</summary>
+        <p data-ru="Нет. Очистка работает по белому списку путей: Program Files, AppData\Roaming, «Документы» и System32 не затрагиваются. Временные файлы %TEMP% удаляются только старше 24 часов." data-en="No. Cleaning works via a strict whitelist: Program Files, AppData\Roaming, Documents and System32 are never touched. %TEMP% files are removed only if older than 24 hours.">Нет. Очистка работает по белому списку путей: Program Files, AppData\Roaming, «Документы» и System32 не затрагиваются. Временные файлы %TEMP% удаляются только старше 24 часов.</p>
       </details>
       <details>
-        <summary>Нужны ли права администратора?</summary>
-        <p>Да, приложение запрашивает права администратора — это нужно для очистки системных папок и работы с реестром и службами.</p>
+        <summary data-ru="Нужны ли права администратора?" data-en="Does it require administrator rights?">Нужны ли права администратора?</summary>
+        <p data-ru="Да, приложение запрашивает права администратора — это нужно для очистки системных папок и работы с реестром и службами." data-en="Yes — administrator rights are needed to clean system folders and to work with the registry and services.">Да, приложение запрашивает права администратора — это нужно для очистки системных папок и работы с реестром и службами.</p>
       </details>
       <details>
-        <summary>Что происходит при обновлении или удалении?</summary>
-        <p>Установщик вежливо закрывает работающее приложение, обновляет файлы и снова запускает его. Настройки хранятся отдельно в %AppData%; при удалении программа спрашивает, удалить ли их вместе с приложением.</p>
+        <summary data-ru="Что происходит при обновлении или удалении?" data-en="What happens on update or uninstall?">Что происходит при обновлении или удалении?</summary>
+        <p data-ru="Установщик вежливо закрывает работающее приложение, обновляет файлы и снова запускает его. Настройки хранятся отдельно в %AppData%; при удалении программа спрашивает, удалить ли их вместе с приложением." data-en="The installer politely closes the running app, updates files and restarts it. Settings live separately in %AppData%; on uninstall the app asks whether to delete them too.">Установщик вежливо закрывает работающее приложение, обновляет файлы и снова запускает его. Настройки хранятся отдельно в %AppData%; при удалении программа спрашивает, удалить ли их вместе с приложением.</p>
       </details>
       <details>
-        <summary>Программа что-то отправляет в интернет?</summary>
-        <p>Нет. GigaCleaner работает локально и без телеметрии. Единственный сетевой запрос — проверка новой версии (по выбору приложения, раз в запуск).</p>
+        <summary data-ru="Программа что-то отправляет в интернет?" data-en="Does the app send anything to the internet?">Программа что-то отправляет в интернет?</summary>
+        <p data-ru="Нет. GigaCleaner работает локально и без телеметрии. Единственный сетевой запрос — проверка новой версии (по выбору приложения, раз в запуск)." data-en="No. GigaCleaner runs locally without telemetry. The only network request is the self-update check, once per launch.">Нет. GigaCleaner работает локально и без телеметрии. Единственный сетевой запрос — проверка новой версии (по выбору приложения, раз в запуск).</p>
       </details>
     </div>
   </section>
@@ -639,37 +647,37 @@
   <!-- Скачать -->
   <div class="download">
     <div>
-      <h2>Скачать GigaCleaner 1.1.0</h2>
-      <p>Установка занимает пару минут. После неё приложение запустится само.</p>
+      <h2 data-ru="Скачать GigaCleaner 1.1.0" data-en="Download GigaCleaner 1.1.0">Скачать GigaCleaner 1.1.0</h2>
+      <p data-ru="Установка занимает пару минут. После неё приложение запустится само." data-en="Installation takes a couple of minutes. The app starts itself afterwards.">Установка занимает пару минут. После неё приложение запустится само.</p>
       <div class="dl-meta">
         <span>Windows 10 1809+ / 11</span>
         <span>x64</span>
         <span>108 МБ</span>
-        <span>Русский язык</span>
+        <span data-ru="Русский язык" data-en="Russian UI">Русский язык</span>
       </div>
       <a class="btn btn-primary" href="https://github.com/TIZZ13/GigaCleaner/releases/download/v1.1.0/GigaCleaner-Setup-1.1.0.exe" download>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Скачать установщик
+        <span data-ru="Скачать установщик" data-en="Download installer">Скачать установщик</span>
       </a>
-      <div class="release-note">Релиз на GitHub · <a href="https://github.com/TIZZ13/GigaCleaner/releases">все версии и история изменений</a></div>
+      <div class="release-note"><span data-ru="Релиз на GitHub · " data-en="Release on GitHub · ">Релиз на GitHub · </span><a href="https://github.com/TIZZ13/GigaCleaner/releases" data-ru="все версии и история изменений" data-en="all versions and changelog">все версии и история изменений</a></div>
     </div>
     <div class="dl-art">
       <img src="logo.png" alt="GigaCleaner">
-      <span>Бесплатно · без регистрации · локально</span>
+      <span data-ru="Бесплатно · без регистрации · локально" data-en="Free · no registration · local">Бесплатно · без регистрации · локально</span>
     </div>
   </div>
 
   <footer>
     <div class="foot-brand">
       <img class="logo-img" src="logo-64.png" alt="GigaCleaner" width="26" height="26" style="width:26px;height:26px;border-radius:8px">
-      <span>GigaCleaner © 2026 · работает локально, без телеметрии</span>
+      <span data-ru="GigaCleaner © 2026 · работает локально, без телеметрии" data-en="GigaCleaner © 2026 · runs locally, no telemetry">GigaCleaner © 2026 · работает локально, без телеметрии</span>
     </div>
     <nav>
-      <a href="#features">Возможности</a>
-      <a href="#how">Как работает</a>
-      <a href="#faq">FAQ</a>
-      <a href="privacy.html">Политика конфиденциальности</a>
-      <a href="https://github.com/TIZZ13/GigaCleaner">GitHub</a>
+      <a href="#features" data-ru="Возможности" data-en="Features">Возможности</a>
+      <a href="#how" data-ru="Как работает" data-en="How it works">Как работает</a>
+      <a href="#faq" data-ru="FAQ" data-en="FAQ">FAQ</a>
+      <a href="privacy.html" data-ru="Политика конфиденциальности" data-en="Privacy policy">Политика конфиденциальности</a>
+      <a href="https://github.com/TIZZ13/GigaCleaner" data-ru="GitHub" data-en="GitHub">GitHub</a>
     </nav>
   </footer>
 
@@ -699,6 +707,25 @@
     window.addEventListener('resize', fit);
     fit();
   })();
+
+  // Переключатель языка RU / EN
+  var currentLang = (localStorage.getItem('gclang') || 'ru');
+  function applyLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('gclang', lang);
+    document.querySelectorAll('[data-ru], [data-en]').forEach(function (el) {
+      var text = el.getAttribute(lang === 'ru' ? 'data-ru' : 'data-en');
+      if (text != null) {
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') { el.placeholder = text; }
+        else { el.textContent = text; }
+      }
+    });
+    var btn = document.getElementById('langBtn');
+    if (btn) btn.textContent = lang === 'ru' ? 'EN' : 'RU';
+    document.documentElement.lang = lang;
+  }
+  function toggleLang() { applyLang(currentLang === 'ru' ? 'en' : 'ru'); }
+  applyLang(currentLang);
 </script>
 </body>
 </html>
