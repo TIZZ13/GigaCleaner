@@ -280,6 +280,18 @@
   .dl-art svg { width: 40px; height: 40px; color: var(--accent); }
   @media (max-width: 900px) { .dl-art { width: 100%; height: auto; flex-direction: row; } }
 
+  /* ---------- Блик стекла за курсором (как в приложении) ---------- */
+  .feature, .step, .download {
+    position: relative;
+  }
+  .feature::after, .step::after, .download::after, .mock-wrap .mock::after {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%), rgba(255,255,255,.10), transparent 62%);
+    opacity: 0; transition: opacity .22s ease-out;
+  }
+  .feature:hover::after, .step:hover::after, .download:hover::after, .mock-wrap .mock:hover::after { opacity: 1; }
+  .feature > *, .step > *, .download > * { position: relative; z-index: 2; }
+
   /* Футер */
   footer { border-top: 1px solid var(--line); margin-top: 64px; padding: 30px 0 44px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
   .foot-brand { display: flex; align-items: center; gap: 10px; }
@@ -542,6 +554,15 @@
 </div>
 
 <script>
+  // Блик стекла следует за курсором (как в GlassCard приложения)
+  document.querySelectorAll('.feature, .step, .download, .mock').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
   // Мокап масштабируется под контейнер, сохраняя пропорции
   (function () {
     var mock = document.getElementById('appMock');
@@ -549,8 +570,9 @@
       var parent = mock.parentElement;
       var w = parent.clientWidth - 2;
       var scale = Math.min(1, w / 560);
+      var h = mock.offsetHeight || 408;
       mock.style.transform = 'scale(' + scale + ')';
-      parent.style.height = Math.ceil(400 * scale) + 'px';
+      parent.style.height = Math.ceil(h * scale) + 'px';
     }
     window.addEventListener('resize', fit);
     fit();
