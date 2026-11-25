@@ -42,10 +42,6 @@ Built for everyday users: one-click "Clean now" for quick maintenance, plus a de
 | 🛠️ **Tools** | Scheduler, global hotkey for quick clean, tray notifications |
 | ⏰ **Automation** | Scheduled cleanups and silent mode `--silent` for unattended scenarios |
 
-### Screenshot
-
-![GigaCleaner overview](Assets/screenshot.png)
-
 ### Build from source
 
 Requires [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) and Windows 10 1809+.
@@ -138,10 +134,6 @@ and [SECURITY.md](SECURITY.md) before opening issues or PRs.
 | 🔄 **Обновления** | Проверка обновлений программ (winget) и драйверов (Windows Update) |
 | 🛠️ **Инструменты** | Планировщик, горячая клавиша быстрой очистки, уведомления в трее |
 | ⏰ **Автоматизация** | Уборка по расписанию и тихий режим `--silent` |
-
-### Скриншот
-
-![GigaCleaner обзор](Assets/screenshot.png)
 
 ### Сборка из исходников
 
