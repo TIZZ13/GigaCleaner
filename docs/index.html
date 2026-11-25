@@ -1,736 +1,1900 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title data-ru="GigaCleaner — уборка Windows, которая не трогает ваши данные" data-en="GigaCleaner — cleanup that never touches your data">GigaCleaner — уборка Windows, которая не трогает ваши данные</title>
-<meta name="description" content="GigaCleaner: очистка временных файлов, реестра и автозагрузки по белому списку путей. Работает локально, умеет по расписанию и в тихом режиме.">
-<meta property="og:title" content="GigaCleaner — уборка Windows, которая не трогает ваши данные">
-<meta property="og:description" content="Очистка временных файлов, реестра и автозагрузки по белому списку путей. Локально, без телеметрии.">
-<meta property="og:image" content="https://tizz13.github.io/GigaCleaner/og-image.png">
-<meta property="og:url" content="https://tizz13.github.io/GigaCleaner/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta
+ charset="UTF-8">
+<meta name="viewport" conte
+nt="width=device-width, initial-scale=1.0">
+<
+title data-ru="GigaCleaner — уборка W
+indows, которая не трогает в
+аши данные" data-en="GigaCleaner —
+ cleanup that never touches your data">GigaCl
+eaner — уборка Windows, котора�
+� не трогает ваши данные</
+title>
+<meta name="description" content="Giga
+Cleaner: очистка временных ф
+айлов, реестра и автозаг�
+�узки по белому списку пу
+тей. Работает локально, у
+меет по расписанию и в ти
+хом режиме.">
+<meta property="og:tit
+le" content="GigaCleaner — уборка Win
+dows, которая не трогает ва
+ши данные">
+<meta property="og:descri
+ption" content="Очистка временн
+ых файлов, реестра и авто
+загрузки по белому списк
+у путей. Локально, без те�
+�еметрии.">
+<meta property="og:image" 
+content="https://tizz13.github.io/GigaCleaner
+/og-image.png">
+<meta property="og:url" conte
+nt="https://tizz13.github.io/GigaCleaner/">
+<
+link rel="preconnect" href="https://fonts.goo
+gleapis.com">
+<link rel="preconnect" href="ht
+tps://fonts.gstatic.com" crossorigin>
+<link h
+ref="https://fonts.googleapis.com/css2?family
+=Inter:wght@400;500;600;700;800&display=swap"
+ rel="stylesheet">
 <style>
   :root {
-    --bg: #18181b;
+    --bg
+: #18181b;
     --text: #fafafa;
-    --text-2: #a1a1aa;
+    --text-2:
+ #a1a1aa;
     --text-3: #6b6b74;
-    --accent: #3b82f6;
+    --accent
+: #3b82f6;
     --accent-deep: #2563eb;
-    --line: rgba(255,255,255,.08);
-    --glass-edge: rgba(238,238,242,.14);
+    --
+line: rgba(255,255,255,.08);
+    --glass-edge
+: rgba(238,238,242,.14);
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  * { margin: 0;
+ padding: 0; box-sizing: border-box; }
+  html
+ { scroll-behavior: smooth; }
   body {
-    background: var(--bg);
+    ba
+ckground: var(--bg);
     color: var(--text);
-    font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
+
+    font-family: "Inter", "Segoe UI", system-
+ui, -apple-system, sans-serif;
+    line-heigh
+t: 1.6;
+    -webkit-font-smoothing: antialias
+ed;
     text-rendering: optimizeLegibility;
-    overflow-x: hidden;
+ 
+   overflow-x: hidden;
   }
   body::before {
-    content: ""; position: fixed; inset: 0; z-index: -1;
+ 
+   content: ""; position: fixed; inset: 0; z-
+index: -1;
     background:
-      radial-gradient(900px 620px at 78% -12%, rgba(37,99,235,.13), transparent 60%),
-      radial-gradient(700px 520px at -6% 32%, rgba(99,102,241,.09), transparent 60%),
-      radial-gradient(760px 560px at 105% 68%, rgba(37,99,235,.07), transparent 58%),
-      radial-gradient(520px 420px at 30% 108%, rgba(217,70,239,.05), transparent 60%);
+      radial-gradi
+ent(900px 620px at 78% -12%, rgba(37,99,235,.
+13), transparent 60%),
+      radial-gradient(
+700px 520px at -6% 32%, rgba(99,102,241,.09),
+ transparent 60%),
+      radial-gradient(760p
+x 560px at 105% 68%, rgba(37,99,235,.07), tra
+nsparent 58%),
+      radial-gradient(520px 42
+0px at 30% 108%, rgba(217,70,239,.05), transp
+arent 60%);
   }
 
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; }
+  .wrap { max-width: 1080px;
+ margin: 0 auto; padding: 0 28px; }
 
-  /* ---------- Шапка ---------- */
+  /* ---
+------- Шапка ---------- */
   header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 26px 0 22px; border-bottom: 1px solid var(--line);
+ 
+   display: flex; align-items: center; justif
+y-content: space-between;
+    padding: 26px 0
+ 22px; border-bottom: 1px solid var(--line);
+
   }
-  .brand { display: flex; align-items: center; gap: 11px; }
+  .brand { display: flex; align-items: ce
+nter; gap: 11px; }
   .logo-img {
-    width: 34px; height: 34px; border-radius: 10px; object-fit: cover;
-    border: 1px solid rgba(255,255,255,.12);
-    box-shadow: 0 4px 12px rgba(0,0,0,.4);
+    width: 3
+4px; height: 34px; border-radius: 10px; objec
+t-fit: cover;
+    border: 1px solid rgba(255,
+255,255,.12);
+    box-shadow: 0 4px 12px rgba
+(0,0,0,.4);
   }
-  .brand-name { font-weight: 700; font-size: 15.5px; letter-spacing: -.01em; }
-  .nav { display: flex; align-items: center; gap: 4px; }
-  .nav a { color: var(--text-2); text-decoration: none; font-size: 13.5px; padding: 7px 12px; border-radius: 8px; transition: color .16s, background .16s; }
-  .nav a:hover { color: var(--text); background: rgba(255,255,255,.05); }
+  .brand-name { font-weight: 
+700; font-size: 15.5px; letter-spacing: -.01e
+m; }
+  .nav { display: flex; align-items: cen
+ter; gap: 4px; }
+  .nav a { color: var(--text
+-2); text-decoration: none; font-size: 13.5px
+; padding: 7px 12px; border-radius: 8px; tran
+sition: color .16s, background .16s; }
+  .nav
+ a:hover { color: var(--text); background: rg
+ba(255,255,255,.05); }
   .lang-btn {
-    margin-left: 4px; padding: 5px 10px; border-radius: 8px;
-    border: 1px solid var(--line); background: rgba(255,255,255,.04);
-    color: var(--text-2); font-size: 12.5px; font-weight: 600; font-family: inherit;
-    cursor: pointer; transition: color .15s, background .15s, border-color .15s;
+    marg
+in-left: 4px; padding: 5px 10px; border-radiu
+s: 8px;
+    border: 1px solid var(--line); ba
+ckground: rgba(255,255,255,.04);
+    color: v
+ar(--text-2); font-size: 12.5px; font-weight:
+ 600; font-family: inherit;
+    cursor: point
+er; transition: color .15s, background .15s, 
+border-color .15s;
   }
-  .lang-btn:hover { color: var(--text); background: rgba(255,255,255,.08); }
+  .lang-btn:hover { co
+lor: var(--text); background: rgba(255,255,25
+5,.08); }
   .ver-badge {
-    font-size: 12px; color: var(--text-2); padding: 4px 10px; border-radius: 999px;
-    border: 1px solid var(--line); background: rgba(255,255,255,.03);
-    margin-left: 8px; white-space: nowrap;
+    font-size: 12px;
+ color: var(--text-2); padding: 4px 10px; bor
+der-radius: 999px;
+    border: 1px solid var(
+--line); background: rgba(255,255,255,.03);
+ 
+   margin-left: 8px; white-space: nowrap;
   }
+
 
   /* ---------- Hero ---------- */
-  .hero {
-    display: grid; grid-template-columns: 1.02fr .98fr; gap: 56px;
-    align-items: center; padding: 72px 0 64px;
+  .hero 
+{
+    display: grid; grid-template-columns: 1
+.02fr .98fr; gap: 56px;
+    align-items: cent
+er; padding: 72px 0 64px;
   }
   .eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-size: 12.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 18px;
+  
+  display: inline-flex; align-items: center; 
+gap: 8px;
+    font-size: 12.5px; font-weight:
+ 600; letter-spacing: .08em; text-transform: 
+uppercase;
+    color: var(--accent); margin-b
+ottom: 18px;
   }
-  .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); opacity: .6; }
+  .eyebrow::before { content
+: ""; width: 22px; height: 1px; background: v
+ar(--accent); opacity: .6; }
   .hero h1 {
-    font-size: clamp(30px, 4.2vw, 46px); font-weight: 800; letter-spacing: -.03em;
-    line-height: 1.08; margin-bottom: 20px;
+   
+ font-size: clamp(30px, 4.2vw, 46px); font-we
+ight: 800; letter-spacing: -.03em;
+    line-h
+eight: 1.08; margin-bottom: 20px;
   }
-  .hero .lead { color: var(--text-2); font-size: 16px; max-width: 460px; margin-bottom: 30px; }
-  .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 10px;
-    text-decoration: none; font-weight: 600; font-size: 14.5px;
-    padding: 12px 22px; border-radius: 11px; transition: transform .16s, filter .16s, box-shadow .16s, background .16s;
+  .hero
+ .lead { color: var(--text-2); font-size: 16p
+x; max-width: 460px; margin-bottom: 30px; }
+ 
+ .hero-actions { display: flex; align-items: 
+center; gap: 14px; flex-wrap: wrap; }
+  .btn 
+{
+    display: inline-flex; align-items: cent
+er; gap: 10px;
+    text-decoration: none; fon
+t-weight: 600; font-size: 14.5px;
+    padding
+: 12px 22px; border-radius: 11px; transition:
+ transform .16s, filter .16s, box-shadow .16s
+, background .16s;
   }
-  .btn svg { width: 17px; height: 17px; }
+  .btn svg { width: 17
+px; height: 17px; }
   .btn-primary {
-    color: #fff;
-    background: linear-gradient(180deg, #3b82f6, #2563eb 60%, #1d4ed8);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 8px 22px rgba(37,99,235,.32);
+    colo
+r: #fff;
+    background: linear-gradient(180d
+eg, #3b82f6, #2563eb 60%, #1d4ed8);
+    box-s
+hadow: inset 0 1px 0 rgba(255,255,255,.22), 0
+ 8px 22px rgba(37,99,235,.32);
   }
-  .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.05); }
+  .btn-pri
+mary:hover { transform: translateY(-1px); fil
+ter: brightness(1.05); }
   .btn-ghost {
-    color: var(--text); border: 1px solid var(--line);
+    c
+olor: var(--text); border: 1px solid var(--li
+ne);
     background: rgba(255,255,255,.03);
-  }
-  .btn-ghost:hover { background: rgba(255,255,255,.06); }
-  .hero .meta { margin-top: 18px; color: var(--text-3); font-size: 12.5px; }
-  .hero .meta b { color: var(--text-2); font-weight: 600; }
+ 
+ }
+  .btn-ghost:hover { background: rgba(255,
+255,255,.06); }
+  .hero .meta { margin-top: 1
+8px; color: var(--text-3); font-size: 12.5px;
+ }
+  .hero .meta b { color: var(--text-2); fo
+nt-weight: 600; }
 
-  /* ---------- Мокап окна приложения ---------- */
+  /* ---------- Мокап
+ окна приложения ---------- */
+
   .mock-wrap { position: relative; }
-  .mock {
+  .mock 
+{
     position: relative;
-    width: 560px; height: 408px; transform-origin: top left;
-    border-radius: 14px;
-    border: 1px solid rgba(255,255,255,.10);
-    background: #1c1c20;
+    width: 560px; h
+eight: 408px; transform-origin: top left;
+   
+ border-radius: 14px;
+    border: 1px solid r
+gba(255,255,255,.10);
+    background: #1c1c20
+;
     box-shadow:
-      inset 0 1px 0 rgba(255,255,255,.12),
-      inset 0 0 0 1px rgba(238,238,242,.06),
-      0 40px 80px rgba(0,0,0,.6),
+      inset 0 1px 0 rgba(25
+5,255,255,.12),
+      inset 0 0 0 1px rgba(23
+8,238,242,.06),
+      0 40px 80px rgba(0,0,0,
+.6),
       0 14px 30px rgba(0,0,0,.45);
-    overflow: hidden;
+    o
+verflow: hidden;
     font-size: 12px;
-    display: flex; flex-direction: column;
+    dis
+play: flex; flex-direction: column;
   }
-  /* Заголовок окна */
-  .mock-title {
-    display: flex; align-items: center; gap: 8px;
-    padding: 9px 14px; border-bottom: 1px solid rgba(255,255,255,.07);
-    font-size: 11.5px; color: var(--text-2); flex: none;
+  /* 
+Заголовок окна */
+  .mock-title 
+{
+    display: flex; align-items: center; gap
+: 8px;
+    padding: 9px 14px; border-bottom: 
+1px solid rgba(255,255,255,.07);
+    font-siz
+e: 11.5px; color: var(--text-2); flex: none;
+
     background: rgba(255,255,255,.02);
   }
-  .mock-dots { display: flex; gap: 6px; margin-right: 8px; }
-  .mock-dots i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.16); box-shadow: inset 0 -1px 2px rgba(0,0,0,.4); }
-  .mock-dots i:first-child { background: #f87171; }
-  .mock-dots i:nth-child(2) { background: #fbbf24; }
-  .mock-dots i:nth-child(3) { background: #34d399; }
+  
+.mock-dots { display: flex; gap: 6px; margin-
+right: 8px; }
+  .mock-dots i { width: 10px; h
+eight: 10px; border-radius: 50%; background: 
+rgba(255,255,255,.16); box-shadow: inset 0 -1
+px 2px rgba(0,0,0,.4); }
+  .mock-dots i:first
+-child { background: #f87171; }
+  .mock-dots 
+i:nth-child(2) { background: #fbbf24; }
+  .mo
+ck-dots i:nth-child(3) { background: #34d399;
+ }
   .mock-title span { font-weight: 500; }
-  /* Тело: сайдбар + контент */
-  .mock-body { display: flex; flex: 1; min-height: 0; }
+ 
+ /* Тело: сайдбар + контент
+ */
+  .mock-body { display: flex; flex: 1; mi
+n-height: 0; }
   .mock-side {
-    width: 122px; flex: none; padding: 10px 8px;
-    border-right: 1px solid rgba(255,255,255,.06);
-    display: flex; flex-direction: column; gap: 2px;
+    width: 122p
+x; flex: none; padding: 10px 8px;
+    border-
+right: 1px solid rgba(255,255,255,.06);
+    d
+isplay: flex; flex-direction: column; gap: 2p
+x;
   }
-  .mock-nav { padding: 5px 9px; border-radius: 6px; color: var(--text-3); font-size: 11px; }
-  .mock-nav.active { background: rgba(59,130,246,.16); color: #fff; box-shadow: inset 0 0 0 1px rgba(59,130,246,.25); }
-  .mock-main { flex: 1; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
-  .mock-line { height: 8px; border-radius: 4px; background: rgba(255,255,255,.09); }
-  .mock-line.w60 { width: 60%; } .mock-line.w90 { width: 90%; } .mock-line.w40 { width: 40%; }
+  .mock-nav { padding: 5px 9px; border
+-radius: 6px; color: var(--text-3); font-size
+: 11px; }
+  .mock-nav.active { background: rg
+ba(59,130,246,.16); color: #fff; box-shadow: 
+inset 0 0 0 1px rgba(59,130,246,.25); }
+  .mo
+ck-main { flex: 1; padding: 14px 16px; displa
+y: flex; flex-direction: column; gap: 12px; }
+
+  .mock-line { height: 8px; border-radius: 4
+px; background: rgba(255,255,255,.09); }
+  .m
+ock-line.w60 { width: 60%; } .mock-line.w90 {
+ width: 90%; } .mock-line.w40 { width: 40%; }
+
   .mock-cta {
-    display: flex; gap: 8px; margin-top: 2px;
+    display: flex; gap: 8px; m
+argin-top: 2px;
   }
-  .mock-cta .btn { padding: 7px 14px; font-size: 11px; border-radius: 8px; }
-  .mock-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 2px; }
+  .mock-cta .btn { paddin
+g: 7px 14px; font-size: 11px; border-radius: 
+8px; }
+  .mock-cards { display: grid; grid-te
+mplate-columns: repeat(3, 1fr); gap: 8px; mar
+gin-top: 2px; }
   .mock-card {
-    border-radius: 9px; padding: 9px 10px;
-    background: linear-gradient(180deg, rgba(240,240,242,.09), rgba(56,56,60,.03));
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.08), inset 0 0 0 1px rgba(238,238,242,.06);
+    border-rad
+ius: 9px; padding: 9px 10px;
+    background: 
+linear-gradient(180deg, rgba(240,240,242,.09)
+, rgba(56,56,60,.03));
+    box-shadow: inset 
+0 1px 0 rgba(255,255,255,.08), inset 0 0 0 1p
+x rgba(238,238,242,.06);
   }
-  .mock-card .t { color: var(--text-2); font-size: 9.5px; }
-  .mock-card .v { font-size: 13px; font-weight: 700; margin-top: 2px; }
-  .mock-card .s { font-size: 9.5px; color: var(--text-3); }
-  /* Плавающие чипы */
+  .mock-card .t 
+{ color: var(--text-2); font-size: 9.5px; }
+ 
+ .mock-card .v { font-size: 13px; font-weight
+: 700; margin-top: 2px; }
+  .mock-card .s { f
+ont-size: 9.5px; color: var(--text-3); }
+  /*
+ Плавающие чипы */
   .chip {
-    position: absolute; z-index: 2;
-    display: flex; align-items: center; gap: 8px;
-    font-size: 12px; font-weight: 500; color: var(--text);
-    padding: 9px 14px; border-radius: 11px;
-    background: linear-gradient(180deg, rgba(240,240,242,.14), rgba(147,147,150,.05));
-    -webkit-backdrop-filter: blur(12px) saturate(1.2);
-    backdrop-filter: blur(12px) saturate(1.2);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.14), inset 0 0 0 1px rgba(238,238,242,.10), 0 12px 24px rgba(0,0,0,.4);
+   
+ position: absolute; z-index: 2;
+    display:
+ flex; align-items: center; gap: 8px;
+    fon
+t-size: 12px; font-weight: 500; color: var(--
+text);
+    padding: 9px 14px; border-radius: 
+11px;
+    background: linear-gradient(180deg,
+ rgba(240,240,242,.14), rgba(147,147,150,.05)
+);
+    -webkit-backdrop-filter: blur(12px) sa
+turate(1.2);
+    backdrop-filter: blur(12px) 
+saturate(1.2);
+    box-shadow: inset 0 1px 0 
+rgba(255,255,255,.14), inset 0 0 0 1px rgba(2
+38,238,242,.10), 0 12px 24px rgba(0,0,0,.4);
+
     animation: float 5s ease-in-out infinite;
+
     white-space: nowrap;
   }
-  .chip svg { width: 14px; height: 14px; color: var(--accent); }
-  .chip.top { top: -18px; right: -10px; }
-  .chip.bottom { bottom: -16px; left: -14px; animation-delay: 2.4s; }
-  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+  .chip svg { w
+idth: 14px; height: 14px; color: var(--accent
+); }
+  .chip.top { top: -18px; right: -10px; 
+}
+  .chip.bottom { bottom: -16px; left: -14px
+; animation-delay: 2.4s; }
+  @keyframes float
+ { 0%,100% { transform: translateY(0); } 50% 
+{ transform: translateY(-7px); } }
 
-  /* ---------- Сравнение ---------- */
-  .compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 0 0 70px; counter-reset: cmp; }
+  /* ----
+------ Сравнение ---------- */
+  .co
+mpare { display: grid; grid-template-columns:
+ repeat(3, 1fr); gap: 14px; padding: 0 0 70px
+; counter-reset: cmp; }
   .cmp {
-    border: 1px solid var(--line); border-radius: 14px; padding: 22px 22px 20px;
-    background: rgba(255,255,255,.02);
+    border: 
+1px solid var(--line); border-radius: 14px; p
+adding: 22px 22px 20px;
+    background: rgba(
+255,255,255,.02);
   }
-  .cmp h3 { font-size: 13px; font-weight: 600; margin-bottom: 10px; color: var(--text); }
-  .cmp ul { display: grid; gap: 7px; }
-  .cmp li { list-style: none; font-size: 12.5px; color: var(--text-2); display: flex; gap: 8px; align-items: baseline; }
-  .cmp.ok li::before { content: "✓"; color: #34d399; font-weight: 700; }
-  .cmp.bad li::before { content: "✕"; color: #f87171; font-weight: 700; }
-  .cmp.mid li::before { content: "·"; color: var(--text-3); font-weight: 700; }
-  .cmp .cmp-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
-  .cmp .cmp-name { font-size: 14.5px; font-weight: 700; color: var(--text); }
-  .cmp .cmp-tag { font-size: 10.5px; color: var(--text-3); text-transform: uppercase; letter-spacing: .05em; }
-  @media (max-width: 900px) { .compare { grid-template-columns: 1fr; } }
+  .cmp h3 { font-size: 
+13px; font-weight: 600; margin-bottom: 10px; 
+color: var(--text); }
+  .cmp ul { display: gr
+id; gap: 7px; }
+  .cmp li { list-style: none;
+ font-size: 12.5px; color: var(--text-2); dis
+play: flex; gap: 8px; align-items: baseline; 
+}
+  .cmp.ok li::before { content: "✓"; colo
+r: #34d399; font-weight: 700; }
+  .cmp.bad li
+::before { content: "✕"; color: #f87171; fo
+nt-weight: 700; }
+  .cmp.mid li::before { con
+tent: "·"; color: var(--text-3); font-weight
+: 700; }
+  .cmp .cmp-head { display: flex; ju
+stify-content: space-between; align-items: ba
+seline; margin-bottom: 12px; }
+  .cmp .cmp-na
+me { font-size: 14.5px; font-weight: 700; col
+or: var(--text); }
+  .cmp .cmp-tag { font-siz
+e: 10.5px; color: var(--text-3); text-transfo
+rm: uppercase; letter-spacing: .05em; }
+  @me
+dia (max-width: 900px) { .compare { grid-temp
+late-columns: 1fr; } }
 
-  /* ---------- Секции ---------- */
-  section.block { padding: 70px 0; border-top: 1px solid var(--line); }
-  .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 40px; }
-  .sec-kicker { font-size: 12.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
-  .sec-title { font-size: clamp(24px, 3vw, 32px); font-weight: 700; letter-spacing: -.02em; line-height: 1.15; }
-  .sec-note { color: var(--text-3); font-size: 13.5px; max-width: 260px; text-align: right; }
+  /* ---------- Се�
+�ции ---------- */
+  section.block { paddi
+ng: 70px 0; border-top: 1px solid var(--line)
+; }
+  .sec-head { display: flex; align-items:
+ baseline; justify-content: space-between; ga
+p: 24px; margin-bottom: 40px; }
+  .sec-kicker
+ { font-size: 12.5px; font-weight: 600; lette
+r-spacing: .08em; text-transform: uppercase; 
+color: var(--text-3); margin-bottom: 10px; }
 
-  /* Фичи: две колонки, карточки равной высоты, большая — первая ячейка */
-  .features { display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; align-items: stretch; }
-  .feature:nth-child(1) { grid-row: span 2; display: flex; flex-direction: column; }
-  .feature:nth-child(2), .feature:nth-child(3) { min-height: 0; }
-  .feature:nth-child(4) { grid-column: 2; }
+  .sec-title { font-size: clamp(24px, 3vw, 32
+px); font-weight: 700; letter-spacing: -.02em
+; line-height: 1.15; }
+  .sec-note { color: v
+ar(--text-3); font-size: 13.5px; max-width: 2
+60px; text-align: right; }
+
+  /* Фичи: д
+ве колонки, карточки рав�
+�ой высоты, большая — пер
+вая ячейка */
+  .features { display:
+ grid; grid-template-columns: 1.1fr .9fr; gap
+: 16px; align-items: stretch; }
+  .feature:nt
+h-child(1) { grid-row: span 2; display: flex;
+ flex-direction: column; }
+  .feature:nth-chi
+ld(2), .feature:nth-child(3) { min-height: 0;
+ }
+  .feature:nth-child(4) { grid-column: 2; 
+}
   .feature {
-    position: relative; border-radius: 16px; padding: 26px 26px 24px;
-    background: linear-gradient(180deg, rgba(240,240,242,.11), rgba(147,147,150,.04) 55%, rgba(56,56,60,.02));
-    -webkit-backdrop-filter: blur(14px) saturate(1.1);
-    backdrop-filter: blur(14px) saturate(1.1);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.10), inset 0 0 0 1px rgba(238,238,242,.08), 0 14px 32px rgba(0,0,0,.3);
+    position: relative; border
+-radius: 16px; padding: 26px 26px 24px;
+    b
+ackground: linear-gradient(180deg, rgba(240,2
+40,242,.11), rgba(147,147,150,.04) 55%, rgba(
+56,56,60,.02));
+    -webkit-backdrop-filter: 
+blur(14px) saturate(1.1);
+    backdrop-filter
+: blur(14px) saturate(1.1);
+    box-shadow: i
+nset 0 1px 0 rgba(255,255,255,.10), inset 0 0
+ 0 1px rgba(238,238,242,.08), 0 14px 32px rgb
+a(0,0,0,.3);
     overflow: hidden;
-    transition: transform .22s cubic-bezier(.2,.7,.3,1.1), box-shadow .22s;
+    transi
+tion: transform .22s cubic-bezier(.2,.7,.3,1.
+1), box-shadow .22s;
   }
-  .feature:hover { transform: translateY(-3px); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), inset 0 0 0 1px rgba(238,238,242,.12), 0 20px 40px rgba(0,0,0,.38); }
-  .f-num { font-size: 12px; font-weight: 700; color: var(--text-3); letter-spacing: .06em; }
-  .f-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 16px 0 14px; background: linear-gradient(180deg, rgba(238,238,242,.12), rgba(56,56,64,.04)); box-shadow: inset 0 1px 0 rgba(255,255,255,.10), inset 0 0 0 1px rgba(238,238,242,.07); }
-  .f-icon svg { width: 19px; height: 19px; color: var(--text); }
-  .feature h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; letter-spacing: -.01em; }
-  .feature p { color: var(--text-2); font-size: 13.5px; }
-  .feature ul { margin-top: 14px; display: grid; gap: 8px; }
-  .feature li { list-style: none; display: flex; gap: 9px; color: var(--text-2); font-size: 13px; }
-  .feature li::before { content: "—"; color: var(--text-3); }
+  .feature:hover { t
+ransform: translateY(-3px); box-shadow: inset
+ 0 1px 0 rgba(255,255,255,.12), inset 0 0 0 1
+px rgba(238,238,242,.12), 0 20px 40px rgba(0,
+0,0,.38); }
+  .f-num { font-size: 12px; font-
+weight: 700; color: var(--text-3); letter-spa
+cing: .06em; }
+  .f-icon { width: 38px; heigh
+t: 38px; border-radius: 10px; display: flex; 
+align-items: center; justify-content: center;
+ margin: 16px 0 14px; background: linear-grad
+ient(180deg, rgba(238,238,242,.12), rgba(56,5
+6,64,.04)); box-shadow: inset 0 1px 0 rgba(25
+5,255,255,.10), inset 0 0 0 1px rgba(238,238,
+242,.07); }
+  .f-icon svg { width: 19px; heig
+ht: 19px; color: var(--text); }
+  .feature h3
+ { font-size: 16px; font-weight: 600; margin-
+bottom: 8px; letter-spacing: -.01em; }
+  .fea
+ture p { color: var(--text-2); font-size: 13.
+5px; }
+  .feature ul { margin-top: 14px; disp
+lay: grid; gap: 8px; }
+  .feature li { list-s
+tyle: none; display: flex; gap: 9px; color: v
+ar(--text-2); font-size: 13px; }
+  .feature l
+i::before { content: "—"; color: var(--text
+-3); }
   .feature .spacer { flex: 1; }
-  .feature .foot { margin-top: 22px; font-size: 12.5px; color: var(--text-3); border-top: 1px solid var(--line); padding-top: 14px; }
-  .feature .foot b { color: var(--text); font-weight: 600; }
+  .fea
+ture .foot { margin-top: 22px; font-size: 12.
+5px; color: var(--text-3); border-top: 1px so
+lid var(--line); padding-top: 14px; }
+  .feat
+ure .foot b { color: var(--text); font-weight
+: 600; }
 
   /* Как работает */
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; counter-reset: step; }
-  .step { position: relative; padding: 24px 22px 22px; border-radius: 14px; border: 1px solid var(--line); background: rgba(255,255,255,.02); }
+  .
+steps { display: grid; grid-template-columns:
+ repeat(3, 1fr); gap: 14px; counter-reset: st
+ep; }
+  .step { position: relative; padding: 
+24px 22px 22px; border-radius: 14px; border: 
+1px solid var(--line); background: rgba(255,2
+55,255,.02); }
   .step::before {
-    counter-increment: step; content: "0" counter(step);
-    font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: .06em;
-    display: block; margin-bottom: 10px;
+    counter-
+increment: step; content: "0" counter(step);
+
+    font-size: 11px; font-weight: 700; color:
+ var(--accent); letter-spacing: .06em;
+    di
+splay: block; margin-bottom: 10px;
   }
-  .step-icon {
-    width: 34px; height: 34px; border-radius: 9px; margin-bottom: 14px;
-    display: flex; align-items: center; justify-content: center;
+  .ste
+p-icon {
+    width: 34px; height: 34px; borde
+r-radius: 9px; margin-bottom: 14px;
+    displ
+ay: flex; align-items: center; justify-conten
+t: center;
     color: var(--text);
-    background: linear-gradient(180deg, rgba(238,238,242,.10), rgba(56,56,64,.03));
-    border: 1px solid var(--line);
+    backgr
+ound: linear-gradient(180deg, rgba(238,238,24
+2,.10), rgba(56,56,64,.03));
+    border: 1px 
+solid var(--line);
   }
-  .step-icon svg { width: 17px; height: 17px; }
-  .step h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-  .step p { color: var(--text-2); font-size: 13px; }
+  .step-icon svg { wid
+th: 17px; height: 17px; }
+  .step h3 { font-s
+ize: 15px; font-weight: 600; margin-bottom: 6
+px; }
+  .step p { color: var(--text-2); font-
+size: 13px; }
 
-  /* Цифры, которые уже есть в приложении — заполняют пустоту по краям */
+  /* Цифры, которы�
+� уже есть в приложении —
+ заполняют пустоту по кр�
+�ям */
   .facts {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
-    padding: 8px 0 0; margin-bottom: 64px;
+    display: grid; grid-t
+emplate-columns: repeat(4, 1fr); gap: 14px;
+ 
+   padding: 8px 0 0; margin-bottom: 64px;
   }
-  .fact {
-    border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px;
-    background: rgba(255,255,255,.02);
-  }
-  .fact b { display: block; font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -.01em; }
-  .fact span { display: block; margin-top: 6px; font-size: 12.5px; color: var(--text-3); line-height: 1.45; }
-  @media (max-width: 900px) { .facts { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px) { .facts { grid-template-columns: 1fr; } }
 
-  /* Отчёт об уборке — пример реального результата */
+  .fact {
+    border: 1px solid var(--line);
+ border-radius: 12px; padding: 16px 18px;
+   
+ background: rgba(255,255,255,.02);
+  }
+  .fa
+ct b { display: block; font-size: 20px; font-
+weight: 700; color: var(--text); letter-spaci
+ng: -.01em; }
+  .fact span { display: block; 
+margin-top: 6px; font-size: 12.5px; color: va
+r(--text-3); line-height: 1.45; }
+  @media (m
+ax-width: 900px) { .facts { grid-template-col
+umns: repeat(2, 1fr); } }
+  @media (max-width
+: 560px) { .facts { grid-template-columns: 1f
+r; } }
+
+  /* Отчёт об уборке —
+ пример реального резуль
+тата */
   .report {
-    border: 1px solid var(--line); border-radius: 16px;
-    background: rgba(255,255,255,.02); overflow: hidden;
+    border: 1px solid
+ var(--line); border-radius: 16px;
+    backgr
+ound: rgba(255,255,255,.02); overflow: hidden
+;
   }
   .report-line {
-    display: grid; grid-template-columns: 24px 1fr auto auto; gap: 12px; align-items: center;
-    padding: 13px 20px; font-size: 13px; border-bottom: 1px solid var(--line);
-    font-family: "Cascadia Mono", Consolas, monospace;
+    display: grid; gri
+d-template-columns: 24px 1fr auto auto; gap: 
+12px; align-items: center;
+    padding: 13px 
+20px; font-size: 13px; border-bottom: 1px sol
+id var(--line);
+    font-family: "Cascadia Mo
+no", Consolas, monospace;
   }
-  .report-line:last-of-type { border-bottom: none; }
-  .rep-ok { color: #34d399; font-weight: 700; }
-  .rep-warn { color: #f87171; font-weight: 700; }
-  .rep-path { color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .rep-files { color: var(--text-3); font-size: 12px; }
-  .rep-size { color: var(--text); font-weight: 600; }
-  .report-line.rep-skip .rep-path { color: var(--text-3); }
+  .report-line:
+last-of-type { border-bottom: none; }
+  .rep-
+ok { color: #34d399; font-weight: 700; }
+  .r
+ep-warn { color: #f87171; font-weight: 700; }
+
+  .rep-path { color: var(--text-2); overflow
+: hidden; text-overflow: ellipsis; white-spac
+e: nowrap; }
+  .rep-files { color: var(--text
+-3); font-size: 12px; }
+  .rep-size { color: 
+var(--text); font-weight: 600; }
+  .report-li
+ne.rep-skip .rep-path { color: var(--text-3);
+ }
   .report-total {
-    display: flex; align-items: baseline; gap: 14px;
-    padding: 16px 20px; font-size: 13px; color: var(--text-2);
-    border-top: 1px solid var(--line); background: rgba(255,255,255,.03);
+    display: flex; align
+-items: baseline; gap: 14px;
+    padding: 16p
+x 20px; font-size: 13px; color: var(--text-2)
+;
+    border-top: 1px solid var(--line); back
+ground: rgba(255,255,255,.03);
   }
-  .report-total b { font-size: 17px; color: var(--text); }
-  .rep-note { margin-left: auto; color: var(--text-3); font-size: 12px; }
-  @media (max-width: 640px) { .report-line { grid-template-columns: 20px 1fr auto; } .rep-files { display: none; } }
+  .report-
+total b { font-size: 17px; color: var(--text)
+; }
+  .rep-note { margin-left: auto; color: v
+ar(--text-3); font-size: 12px; }
+  @media (ma
+x-width: 640px) { .report-line { grid-templat
+e-columns: 20px 1fr auto; } .rep-files { disp
+lay: none; } }
 
   /* FAQ */
-  .faq { display: grid; gap: 10px; max-width: 720px; }
-  details {
-    border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.02);
+  .faq { display:
+ grid; gap: 10px; max-width: 720px; }
+  detai
+ls {
+    border: 1px solid var(--line); borde
+r-radius: 12px; background: rgba(255,255,255,
+.02);
   }
   summary {
-    cursor: pointer; list-style: none; padding: 16px 20px;
-    font-size: 14.5px; font-weight: 500; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    cursor: pointer; li
+st-style: none; padding: 16px 20px;
+    font-
+size: 14.5px; font-weight: 500; display: flex
+; justify-content: space-between; align-items
+: center; gap: 16px;
   }
-  summary::-webkit-details-marker { display: none; }
-  summary::after { content: "+"; font-size: 18px; color: var(--text-3); transition: transform .2s; }
-  details[open] summary::after { transform: rotate(45deg); }
-  details p { padding: 0 20px 16px; color: var(--text-2); font-size: 13.5px; }
+  summary::-webkit-d
+etails-marker { display: none; }
+  summary::a
+fter { content: "+"; font-size: 18px; color: 
+var(--text-3); transition: transform .2s; }
+ 
+ details[open] summary::after { transform: ro
+tate(45deg); }
+  details p { padding: 0 20px 
+16px; color: var(--text-2); font-size: 13.5px
+; }
 
   /* Скачать */
   .download {
-    margin: 70px 0 0;
-    border-radius: 18px; padding: 40px 40px 36px;
-    display: flex; align-items: center; justify-content: space-between; gap: 32px;
-    background: linear-gradient(180deg, rgba(240,240,242,.12), rgba(147,147,150,.05) 55%, rgba(56,56,60,.03));
-    -webkit-backdrop-filter: blur(16px) saturate(1.15);
-    backdrop-filter: blur(16px) saturate(1.15);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.12), inset 0 0 0 1px rgba(238,238,242,.09), 0 20px 44px rgba(0,0,0,.4);
+   
+ margin: 70px 0 0;
+    border-radius: 18px; p
+adding: 40px 40px 36px;
+    display: flex; al
+ign-items: center; justify-content: space-bet
+ween; gap: 32px;
+    background: linear-gradi
+ent(180deg, rgba(240,240,242,.12), rgba(147,1
+47,150,.05) 55%, rgba(56,56,60,.03));
+    -we
+bkit-backdrop-filter: blur(16px) saturate(1.1
+5);
+    backdrop-filter: blur(16px) saturate(
+1.15);
+    box-shadow: inset 0 1px 0 rgba(255
+,255,255,.12), inset 0 0 0 1px rgba(238,238,2
+42,.09), 0 20px 44px rgba(0,0,0,.4);
   }
-  .download h2 { font-size: 22px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 8px; }
-  .download p { color: var(--text-2); font-size: 14px; margin-bottom: 20px; }
-  .dl-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
-  .dl-meta span { font-size: 12px; color: var(--text-2); padding: 5px 11px; border-radius: 8px; border: 1px solid var(--line); background: rgba(255,255,255,.02); }
-  .release-note { font-size: 12px; color: var(--text-3); margin-top: 10px; }
-  .release-note a { color: var(--accent); text-decoration: none; }
+  .d
+ownload h2 { font-size: 22px; font-weight: 70
+0; letter-spacing: -.01em; margin-bottom: 8px
+; }
+  .download p { color: var(--text-2); fon
+t-size: 14px; margin-bottom: 20px; }
+  .dl-me
+ta { display: flex; gap: 10px; flex-wrap: wra
+p; margin-bottom: 22px; }
+  .dl-meta span { f
+ont-size: 12px; color: var(--text-2); padding
+: 5px 11px; border-radius: 8px; border: 1px s
+olid var(--line); background: rgba(255,255,25
+5,.02); }
+  .release-note { font-size: 12px; 
+color: var(--text-3); margin-top: 10px; }
+  .
+release-note a { color: var(--accent); text-d
+ecoration: none; }
   .dl-art {
-    flex: none; width: 220px; border-radius: 16px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
-    color: var(--text-2); font-size: 12.5px; text-align: center; padding: 20px 16px;
-    background:
-      radial-gradient(120% 120% at 24% 12%, rgba(255,255,255,.10), rgba(255,255,255,.02) 46%, transparent 70%),
-      linear-gradient(180deg, rgba(238,238,242,.06), rgba(56,56,60,.02));
-    border: 1px solid var(--line);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 10px 26px rgba(0,0,0,.3);
+    flex: none
+; width: 220px; border-radius: 16px;
+    disp
+lay: flex; flex-direction: column; align-item
+s: center; justify-content: center; gap: 10px
+;
+    color: var(--text-2); font-size: 12.5px
+; text-align: center; padding: 20px 16px;
+   
+ background:
+      radial-gradient(120% 120% 
+at 24% 12%, rgba(255,255,255,.10), rgba(255,2
+55,255,.02) 46%, transparent 70%),
+      line
+ar-gradient(180deg, rgba(238,238,242,.06), rg
+ba(56,56,60,.02));
+    border: 1px solid var(
+--line);
+    box-shadow: inset 0 1px 0 rgba(2
+55,255,255,.08), 0 10px 26px rgba(0,0,0,.3);
+
   }
   .dl-art img {
-    width: 96px; height: 96px; border-radius: 22px; object-fit: cover;
-    display: block; margin: 0 auto;
-    border: 1px solid rgba(255,255,255,.10);
-    box-shadow: 0 8px 20px rgba(0,0,0,.35);
-  }
-  .dl-art span { display: block; line-height: 1.45; }
-  @media (max-width: 900px) { .dl-art { width: 100%; flex-direction: row; flex-wrap: wrap; } }
+    width: 96px; height: 
+96px; border-radius: 22px; object-fit: cover;
 
-  /* ---------- Блик стекла за курсором (как в приложении) ---------- */
-  .feature, .step, .download {
+    display: block; margin: 0 auto;
+    bord
+er: 1px solid rgba(255,255,255,.10);
+    box-
+shadow: 0 8px 20px rgba(0,0,0,.35);
+  }
+  .dl
+-art span { display: block; line-height: 1.45
+; }
+  @media (max-width: 900px) { .dl-art { w
+idth: 100%; flex-direction: row; flex-wrap: w
+rap; } }
+
+  /* ---------- Блик стекл
+а за курсором (как в прил�
+�жении) ---------- */
+  .feature, .step,
+ .download {
     position: relative;
   }
-  .feature::after, .step::after, .download::after, .mock-wrap .mock::after {
-    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%), rgba(255,255,255,.10), transparent 62%);
-    opacity: 0; transition: opacity .22s ease-out;
+  .f
+eature::after, .step::after, .download::after
+, .mock-wrap .mock::after {
+    content: ""; 
+position: absolute; inset: 0; z-index: 1; poi
+nter-events: none;
+    background: radial-gra
+dient(320px circle at var(--mx, 50%) var(--my
+, 0%), rgba(255,255,255,.10), transparent 62%
+);
+    opacity: 0; transition: opacity .22s e
+ase-out;
   }
-  .feature:hover::after, .step:hover::after, .download:hover::after { opacity: 1; }
-  .feature > *, .step > *, .download > * { position: relative; z-index: 2; }
+  .feature:hover::after, .step:h
+over::after, .download:hover::after { opacity
+: 1; }
+  .feature > *, .step > *, .download >
+ * { position: relative; z-index: 2; }
 
-  /* Футер */
-  footer { border-top: 1px solid var(--line); margin-top: 64px; padding: 30px 0 44px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
-  .foot-brand { display: flex; align-items: center; gap: 10px; }
-  .foot-brand span { font-size: 13px; color: var(--text-2); }
-  footer nav { display: flex; gap: 18px; }
-  footer nav a { color: var(--text-3); text-decoration: none; font-size: 13px; transition: color .16s; }
-  footer nav a:hover { color: var(--text); }
+  /* 
+Футер */
+  footer { border-top: 1px soli
+d var(--line); margin-top: 64px; padding: 30p
+x 0 44px; display: flex; justify-content: spa
+ce-between; align-items: center; gap: 16px; f
+lex-wrap: wrap; }
+  .foot-brand { display: fl
+ex; align-items: center; gap: 10px; }
+  .foot
+-brand span { font-size: 13px; color: var(--t
+ext-2); }
+  footer nav { display: flex; gap: 
+18px; }
+  footer nav a { color: var(--text-3)
+; text-decoration: none; font-size: 13px; tra
+nsition: color .16s; }
+  footer nav a:hover {
+ color: var(--text); }
 
-  @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; gap: 48px; padding: 52px 0 44px; }
-    .mock-wrap { max-width: 560px; }
-    .features { grid-template-columns: 1fr; }
-    .features .feature { grid-row: auto; grid-column: auto; }
-    .steps { grid-template-columns: 1fr; }
-    .download { flex-direction: column; align-items: flex-start; padding: 30px 26px; }
-    .sec-head { flex-direction: column; gap: 8px; }
+  @media (max-width: 
+900px) {
+    .hero { grid-template-columns: 1
+fr; gap: 48px; padding: 52px 0 44px; }
+    .m
+ock-wrap { max-width: 560px; }
+    .features 
+{ grid-template-columns: 1fr; }
+    .features
+ .feature { grid-row: auto; grid-column: auto
+; }
+    .steps { grid-template-columns: 1fr; 
+}
+    .download { flex-direction: column; ali
+gn-items: flex-start; padding: 30px 26px; }
+ 
+   .sec-head { flex-direction: column; gap: 8
+px; }
     .sec-note { text-align: left; }
   }
+
 </style>
 </head>
 <body>
 
 <div class="wrap">
 
+
   <!-- Шапка -->
   <header>
-    <div class="brand">
-      <img class="logo-img" src="logo-64.png" alt="GigaCleaner" width="34" height="34">
-      <div class="brand-name">GigaCleaner</div>
+    <div cl
+ass="brand">
+      <img class="logo-img" src=
+"logo-64.png" alt="GigaCleaner" width="34" he
+ight="34">
+      <div class="brand-name">Giga
+Cleaner</div>
     </div>
-    <nav class="nav">
-      <a href="#features" data-ru="Возможности" data-en="Features">Возможности</a>
-      <a href="#how" data-ru="Как работает" data-en="How it works">Как работает</a>
-      <a href="#faq" data-ru="FAQ" data-en="FAQ">FAQ</a>
-      <span class="ver-badge">v1.1.3 · Windows 10 / 11</span>
-      <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+    <nav class="nav"
+>
+      <a href="#features" data-ru="Возм
+ожности" data-en="Features">Возмо
+жности</a>
+      <a href="#how" data-ru
+="Как работает" data-en="How it wo
+rks">Как работает</a>
+      <a hre
+f="#faq" data-ru="FAQ" data-en="FAQ">FAQ</a>
+
+      <span class="ver-badge">V1.1.4 · Windows 10 / 11</span>
+      <button class="lang-b
+tn" id="langBtn" onclick="toggleLang()">EN</b
+utton>
     </nav>
   </header>
 
-  <!-- Hero -->
+  <!-- Hero --
+>
   <section class="hero">
     <div>
-      <div class="eyebrow" data-ru="Очистка и оптимизация Windows" data-en="Clean &amp; optimize Windows">Очистка и оптимизация Windows</div>
-      <h1 data-ru="Уборка системы, которая не трогает ваши данные" data-en="Cleanup that never touches your data">Уборка системы, которая не трогает ваши данные</h1>
-      <p class="lead" data-ru="GigaCleaner находит и убирает временные файлы, кэши и устаревшие записи реестра — и делает это по белому списку путей. Документы, настройки и профиль не затрагиваются." data-en="GigaCleaner finds and removes temp files, caches and stale registry entries — and does it using a strict whitelist of paths. Documents, settings and your profile are never touched.">GigaCleaner находит и убирает временные файлы, кэши и устаревшие записи реестра —
-        и делает это по белому списку путей. Документы, настройки и профиль не затрагиваются.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="https://github.com/TIZZ13/GigaCleaner/releases/download/v1.1.3/GigaCleaner-Setup-1.1.3.exe" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span data-ru="Скачать GigaCleaner" data-en="Download GigaCleaner">Скачать GigaCleaner</span>
+      <d
+iv class="eyebrow" data-ru="Очистка и
+ оптимизация Windows" data-en="Cle
+an &amp; optimize Windows">Очистка и 
+оптимизация Windows</div>
+      <h
+1 data-ru="Уборка системы, ко�
+�орая не трогает ваши дан
+ные" data-en="Cleanup that never touches y
+our data">Уборка системы, кот
+орая не трогает ваши дан�
+�ые</h1>
+      <p class="lead" data-ru="Gig
+aCleaner находит и убирает в�
+�еменные файлы, кэши и ус�
+�аревшие записи реестра �
+�� и делает это по белому �
+�писку путей. Документы, �
+�астройки и профиль не за
+трагиваются." data-en="GigaCleaner
+ finds and removes temp files, caches and sta
+le registry entries — and does it using a s
+trict whitelist of paths. Documents, settings
+ and your profile are never touched.">GigaCle
+aner находит и убирает вре�
+�енные файлы, кэши и уста�
+�евшие записи реестра —
+ 
+       и делает это по белом
+у списку путей. Документ�
+�, настройки и профиль не 
+затрагиваются.</p>
+      <div cl
+ass="hero-actions">
+        <a class="btn btn
+-primary" href="https://github.com/TIZZ13/Gig
+aCleaner/releases/download/v1.1.4/GigaCleaner
+-Setup-1.1.4.exe" download>
+          <svg vi
+ewBox="0 0 24 24" fill="none" stroke="current
+Color" stroke-width="2" stroke-linecap="round
+" stroke-linejoin="round"><path d="M21 15v4a2
+ 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline p
+oints="7 10 12 15 17 10"/><line x1="12" y1="1
+5" x2="12" y2="3"/></svg>
+          <span dat
+a-ru="Скачать GigaCleaner" data-en="Do
+wnload GigaCleaner">Скачать GigaCleane
+r</span>
         </a>
-        <a class="btn btn-ghost" href="#how" data-ru="Как это работает" data-en="How it works">Как это работает</a>
+        <a class="btn b
+tn-ghost" href="#how" data-ru="Как это 
+работает" data-en="How it works">Ка
+к это работает</a>
       </div>
-      <div class="meta"><span data-ru="Установщик" data-en="Installer"></span> <b>108 МБ</b> · <span data-ru="Работает локально, без телеметрии · Бесплатно" data-en="runs locally, no telemetry · Free"></span></div>
-    </div>
+ 
+     <div class="meta"><span data-ru="Уст�
+�новщик" data-en="Installer"></span> <b
+>108 МБ</b> · <span data-ru="Работа�
+�т локально, без телеметр
+ии · Бесплатно" data-en="runs loc
+ally, no telemetry · Free"></span></div>
+   
+ </div>
 
-    <!-- Мокап окна приложения -->
+    <!-- Мокап окна при�
+�ожения -->
     <div class="mock-wrap">
+
       <div class="mock" id="appMock">
-        <div class="mock-title">
-          <div class="mock-dots"><i></i><i></i><i></i></div>
-          <span>GigaCleaner</span>
-        </div>
+      
+  <div class="mock-title">
+          <div cla
+ss="mock-dots"><i></i><i></i><i></i></div>
+  
+        <span>GigaCleaner</span>
+        </di
+v>
         <div class="mock-body">
-          <div class="mock-side">
-            <div class="mock-nav active" data-ru="Обзор" data-en="Overview">Обзор</div>
-            <div class="mock-nav" data-ru="Очистка" data-en="Cleaner">Очистка</div>
-            <div class="mock-nav" data-ru="Оптимизация" data-en="Optimizer">Оптимизация</div>
-            <div class="mock-nav" data-ru="Реестр" data-en="Registry">Реестр</div>
-            <div class="mock-nav" data-ru="Обновления" data-en="Updates">Обновления</div>
-            <div class="mock-nav" data-ru="Инструменты" data-en="Tools">Инструменты</div>
-            <div class="mock-nav" data-ru="Автоматизация" data-en="Automation">Автоматизация</div>
+          
+<div class="mock-side">
+            <div clas
+s="mock-nav active" data-ru="Обзор" data
+-en="Overview">Обзор</div>
+            <
+div class="mock-nav" data-ru="Очистка"
+ data-en="Cleaner">Очистка</div>
+     
+       <div class="mock-nav" data-ru="Опт�
+�мизация" data-en="Optimizer">Опти
+мизация</div>
+            <div class="
+mock-nav" data-ru="Реестр" data-en="Reg
+istry">Реестр</div>
+            <div cl
+ass="mock-nav" data-ru="Обновления"
+ data-en="Updates">Обновления</div>
+
+            <div class="mock-nav" data-ru="�
+�нструменты" data-en="Tools">Инс
+трументы</div>
+            <div class
+="mock-nav" data-ru="Автоматизаци
+я" data-en="Automation">Автоматиза
+ция</div>
           </div>
-          <div class="mock-main">
-            <div class="mock-line w60"></div>
-            <div class="mock-line w40"></div>
-            <div style="display:flex;align-items:baseline;gap:8px">
-              <div class="mock-card" style="flex:1">
-                <div class="t" data-ru="К уборке в системе" data-en="Cleanup available">К уборке в системе</div>
-                <div class="v">99,4 МБ</div>
+          <div 
+class="mock-main">
+            <div class="mo
+ck-line w60"></div>
+            <div class="m
+ock-line w40"></div>
+            <div style="
+display:flex;align-items:baseline;gap:8px">
+ 
+             <div class="mock-card" style="fl
+ex:1">
+                <div class="t" data-ru
+="К уборке в системе" data-en=
+"Cleanup available">К уборке в сис
+теме</div>
+                <div class="v"
+>99,4 МБ</div>
               </div>
+       
+     </div>
+            <div class="mock-cta"
+>
+              <div class="btn btn-primary" 
+style="color:#fff;background:linear-gradient(
+180deg,#3b82f6,#2563eb);box-shadow:inset 0 1p
+x 0 rgba(255,255,255,.2)" data-ru="Прове
+рить" data-en="Check">Проверить<
+/div>
+              <div class="btn" style="b
+order:1px solid rgba(255,255,255,.12);color:#
+fff" data-ru="Очистить в 1 клик"
+ data-en="Clean now">Очистить в 1 к
+лик</div>
             </div>
-            <div class="mock-cta">
-              <div class="btn btn-primary" style="color:#fff;background:linear-gradient(180deg,#3b82f6,#2563eb);box-shadow:inset 0 1px 0 rgba(255,255,255,.2)" data-ru="Проверить" data-en="Check">Проверить</div>
-              <div class="btn" style="border:1px solid rgba(255,255,255,.12);color:#fff" data-ru="Очистить в 1 клик" data-en="Clean now">Очистить в 1 клик</div>
+            <
+div class="mock-cards">
+              <div cl
+ass="mock-card"><div class="t" data-ru="Windo
+ws" data-en="Windows">Windows</div><div class
+="v">35,3 МБ</div><div class="s" data-ru="�
+� приложения" data-en="& apps">и �
+�риложения</div></div>
+             
+ <div class="mock-card"><div class="t" data-r
+u="Браузеры" data-en="Browsers">Бр�
+�узеры</div><div class="v">64,0 МБ</di
+v><div class="s" data-ru="кэши" data-en="
+caches">кэши</div></div>
+              <d
+iv class="mock-card"><div class="t" data-ru="
+Корзина" data-en="Recycle bin">Кор�
+�ина</div><div class="v">0 Б</div><div cl
+ass="s" data-ru="пусто" data-en="empty">
+пусто</div></div>
             </div>
-            <div class="mock-cards">
-              <div class="mock-card"><div class="t" data-ru="Windows" data-en="Windows">Windows</div><div class="v">35,3 МБ</div><div class="s" data-ru="и приложения" data-en="& apps">и приложения</div></div>
-              <div class="mock-card"><div class="t" data-ru="Браузеры" data-en="Browsers">Браузеры</div><div class="v">64,0 МБ</div><div class="s" data-ru="кэши" data-en="caches">кэши</div></div>
-              <div class="mock-card"><div class="t" data-ru="Корзина" data-en="Recycle bin">Корзина</div><div class="v">0 Б</div><div class="s" data-ru="пусто" data-en="empty">пусто</div></div>
-            </div>
-          </div>
+   
+       </div>
         </div>
       </div>
-      <div class="chip top">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
-        <span data-ru="Уборка по расписанию" data-en="Scheduled cleaning">Уборка по расписанию</span>
+   
+   <div class="chip top">
+        <svg viewBo
+x="0 0 24 24" fill="none" stroke="currentColo
+r" stroke-width="2" stroke-linecap="round" st
+roke-linejoin="round"><circle cx="12" cy="12"
+ r="9"/><polyline points="12 7 12 12 15 14"/>
+</svg>
+        <span data-ru="Уборка п
+о расписанию" data-en="Scheduled c
+leaning">Уборка по расписани
+ю</span>
       </div>
-      <div class="chip bottom">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        <span data-ru="Данные в безопасности" data-en="Your data stays safe">Данные в безопасности</span>
+      <div class="chip
+ bottom">
+        <svg viewBox="0 0 24 24" fi
+ll="none" stroke="currentColor" stroke-width=
+"2" stroke-linecap="round" stroke-linejoin="r
+ound"><path d="M22 11.08V12a10 10 0 1 1-5.93-
+9.14"/><polyline points="22 4 12 14.01 9 11.0
+1"/></svg>
+        <span data-ru="Данны�
+� в безопасности" data-en="Your 
+data stays safe">Данные в безопа
+сности</span>
       </div>
     </div>
-  </section>
+ 
+ </section>
 
   <!-- Сравнение -->
-  <div class="compare">
-    <div class="cmp ok">
-      <div class="cmp-head"><span class="cmp-name">GigaCleaner</span><span class="cmp-tag" data-ru="это мы" data-en="this is us">это мы</span></div>
+  
+<div class="compare">
+    <div class="cmp ok"
+>
+      <div class="cmp-head"><span class="cm
+p-name">GigaCleaner</span><span class="cmp-ta
+g" data-ru="это мы" data-en="this is us"
+>это мы</span></div>
       <ul>
-        <li data-ru="Белый список путей, документы не трогаются" data-en="Strict path whitelist, documents are never touched">Белый список путей, документы не трогаются</li>
-        <li data-ru="Отчёт: сколько освободили и что пропустили" data-en="A report: how much freed and what was skipped">Отчёт: сколько освободили и что пропустили</li>
-        <li data-ru="Работает локально, без телеметрии" data-en="Runs locally, no telemetry">Работает локально, без телеметрии</li>
-        <li data-ru="Расписание и тихий режим встроены" data-en="Scheduling and silent mode built in">Расписание и тихий режим встроены</li>
+        
+<li data-ru="Белый список путе
+й, документы не трогаютс�
+�" data-en="Strict path whitelist, documents 
+are never touched">Белый список п
+утей, документы не трога�
+�тся</li>
+        <li data-ru="Отчёт:
+ сколько освободили и чт�
+� пропустили" data-en="A report: ho
+w much freed and what was skipped">Отчёт
+: сколько освободили и чт
+о пропустили</li>
+        <li data
+-ru="Работает локально, бе�
+� телеметрии" data-en="Runs locally
+, no telemetry">Работает локаль
+но, без телеметрии</li>
+      
+  <li data-ru="Расписание и тих
+ий режим встроены" data-en="Sc
+heduling and silent mode built in">Распи
+сание и тихий режим встр�
+�ены</li>
       </ul>
     </div>
-    <div class="cmp mid">
-      <div class="cmp-head"><span class="cmp-name" data-ru="Обычные чистильщики" data-en="Typical cleaners">Обычные чистильщики</span><span class="cmp-tag" data-ru="как часто бывает" data-en="as it often goes">как часто бывает</span></div>
+    <div 
+class="cmp mid">
+      <div class="cmp-head">
+<span class="cmp-name" data-ru="Обычны�
+� чистильщики" data-en="Typical cl
+eaners">Обычные чистильщики
+</span><span class="cmp-tag" data-ru="как 
+часто бывает" data-en="as it often
+ goes">как часто бывает</span><
+/div>
       <ul>
-        <li data-ru="«Удалить всё» одной кнопкой, без разбора" data-en="\"Delete everything\" with one click, no questions asked">«Удалить всё» одной кнопкой, без разбора</li>
-        <li data-ru="Ломают кэши и входы в сервисах" data-en="Break caches and sign-ins">Ломают кэши и входы в сервисах</li>
-        <li data-ru="Что удалено — неизвестно" data-en="What was deleted is unknown">Что удалено — неизвестно</li>
-        <li data-ru="Постоянные предложения «установить их VPN»" data-en="Constant offers to install their VPN">Постоянные предложения «установить их VPN»</li>
+        <li data-ru="«Уд�
+�лить всё» одной кнопкой,
+ без разбора" data-en="\"Delete eve
+rything\" with one click, no questions asked"
+>«Удалить всё» одной кно�
+�кой, без разбора</li>
+        <
+li data-ru="Ломают кэши и вход
+ы в сервисах" data-en="Break caches
+ and sign-ins">Ломают кэши и вх�
+�ды в сервисах</li>
+        <li da
+ta-ru="Что удалено — неизве
+стно" data-en="What was deleted is unknow
+n">Что удалено — неизвест
+но</li>
+        <li data-ru="Постоян
+ные предложения «устано�
+�ить их VPN»" data-en="Constant offers 
+to install their VPN">Постоянные п
+редложения «установить �
+�х VPN»</li>
       </ul>
     </div>
-    <div class="cmp bad">
-      <div class="cmp-head"><span class="cmp-name" data-ru="Ручная чистка" data-en="Manual cleaning">Ручная чистка</span><span class="cmp-tag" data-ru="вручную, по шагам" data-en="step by step">вручную, по шагам</span></div>
+    <di
+v class="cmp bad">
+      <div class="cmp-head
+"><span class="cmp-name" data-ru="Ручна�
+� чистка" data-en="Manual cleaning">Р�
+�чная чистка</span><span class="cmp
+-tag" data-ru="вручную, по шага�
+�" data-en="step by step">вручную, п�
+� шагам</span></div>
       <ul>
-        <li data-ru="Трудно аккуратно работать с реестром" data-en="Hard to work with the registry carefully">Трудно аккуратно работать с реестром</li>
-        <li data-ru="Занимает время каждый месяц" data-en="Takes time every month">Занимает время каждый месяц</li>
-        <li data-ru="Легко забыть про автозагрузку" data-en="Easy to forget about startup">Легко забыть про автозагрузку</li>
-        <li data-ru="Нет общего отчёта о результате" data-en="No overall result report">Нет общего отчёта о результате</li>
+        
+<li data-ru="Трудно аккуратно 
+работать с реестром" data-en
+="Hard to work with the registry carefully">�
+�рудно аккуратно работат
+ь с реестром</li>
+        <li data-
+ru="Занимает время каждый 
+месяц" data-en="Takes time every month">
+Занимает время каждый ме
+сяц</li>
+        <li data-ru="Легко �
+�абыть про автозагрузку" 
+data-en="Easy to forget about startup">Лег
+ко забыть про автозагруз
+ку</li>
+        <li data-ru="Нет общ�
+�го отчёта о результате" d
+ata-en="No overall result report">Нет об
+щего отчёта о результате
+</li>
       </ul>
     </div>
   </div>
 
-  <!-- Возможности -->
-  <section class="block" id="features">
-    <div class="sec-head">
+  <!--
+ Возможности -->
+  <section class=
+"block" id="features">
+    <div class="sec-he
+ad">
       <div>
-        <div class="sec-kicker" data-ru="Возможности" data-en="Features">Возможности</div>
-        <div class="sec-title" data-ru="Не «почистить всё подряд», а адресная уборка" data-en="Not \"clean everything\", but targeted cleaning">Не «почистить всё подряд», а адресная уборка</div>
-      </div>
-      <div class="sec-note" data-ru="Каждый путь проверяется по белому списку. Программы и System32 не затрагиваются." data-en="Every path is checked against a strict whitelist. Programs and System32 are never touched.">Каждый путь проверяется по белому списку. Программы и System32 не затрагиваются.</div>
+        <div class="sec-kick
+er" data-ru="Возможности" data-en=
+"Features">Возможности</div>
+     
+   <div class="sec-title" data-ru="Не «п�
+�чистить всё подряд», а а�
+�ресная уборка" data-en="Not \"cl
+ean everything\", but targeted cleaning">Не
+ «почистить всё подряд», 
+а адресная уборка</div>
+      
+</div>
+      <div class="sec-note" data-ru="�
+�аждый путь проверяется �
+�о белому списку. Програм
+мы и System32 не затрагивают�
+�я." data-en="Every path is checked against 
+a strict whitelist. Programs and System32 are
+ never touched.">Каждый путь про
+веряется по белому списк
+у. Программы и System32 не за�
+�рагиваются.</div>
     </div>
 
-    <div class="features">
-      <div class="feature">
+    
+<div class="features">
+      <div class="feat
+ure">
         <span class="f-num">01</span>
-        <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></div>
-        <h3 data-ru="Очистка" data-en="Cleaner">Очистка</h3>
-        <p data-ru="Временные файлы, кэши браузеров и корзина — по белому списку путей:" data-en="Temp files, browser caches and the recycle bin — via a strict whitelist:">Временные файлы, кэши браузеров и корзина — по белому списку путей:</p>
+ 
+       <div class="f-icon"><svg viewBox="0 0 
+24 24" fill="none" stroke="currentColor" stro
+ke-width="1.8" stroke-linecap="round" stroke-
+linejoin="round"><path d="M3 6h18"/><path d="
+M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><p
+ath d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2
+"/><line x1="10" y1="11" x2="10" y2="17"/><li
+ne x1="14" y1="11" x2="14" y2="17"/></svg></d
+iv>
+        <h3 data-ru="Очистка" data
+-en="Cleaner">Очистка</h3>
+        <p 
+data-ru="Временные файлы, кэ�
+�и браузеров и корзина — 
+по белому списку путей:" d
+ata-en="Temp files, browser caches and the re
+cycle bin — via a strict whitelist:">Вре
+менные файлы, кэши брауз�
+�ров и корзина — по белом
+у списку путей:</p>
         <ul>
-          <li data-ru="%TEMP% старше 24 часов" data-en="%TEMP% older than 24 hours">%TEMP% старше 24 часов</li>
-          <li data-ru="кэши Chromium, Firefox и Edge" data-en="Chromium, Firefox and Edge caches">кэши Chromium, Firefox и Edge</li>
-          <li data-ru="Program Files и Документы не трогаются" data-en="Program Files and Documents are never touched">Program Files и Документы не трогаются</li>
-          <li data-ru="отчёт: сколько освободили, что пропустили" data-en="report: how much freed, what was skipped">отчёт: сколько освободили, что пропустили</li>
-        </ul>
+
+          <li data-ru="%TEMP% старше 24
+ часов" data-en="%TEMP% older than 24 ho
+urs">%TEMP% старше 24 часов</li>
+ 
+         <li data-ru="кэши Chromium, Fire
+fox и Edge" data-en="Chromium, Firefox and E
+dge caches">кэши Chromium, Firefox и Edg
+e</li>
+          <li data-ru="Program Files �
+� Документы не трогаются"
+ data-en="Program Files and Documents are nev
+er touched">Program Files и Документ
+ы не трогаются</li>
+          <li
+ data-ru="отчёт: сколько осво
+бодили, что пропустили" da
+ta-en="report: how much freed, what was skipp
+ed">отчёт: сколько освобод
+или, что пропустили</li>
+    
+    </ul>
         <div class="spacer"></div>
-        <div class="foot" data-ru="Пропущенные файлы — <b>всегда</b> в отчёте: вы видите, что и почему не удалено." data-en="Skipped files are <b>always</b> in the report: you see what was not removed and why.">Пропущенные файлы — <b>всегда</b> в отчёте: вы видите, что и почему не удалено.</div>
+
+        <div class="foot" data-ru="Пропу
+щенные файлы — <b>всегда</
+b> в отчёте: вы видите, что
+ и почему не удалено." data-e
+n="Skipped files are <b>always</b> in the rep
+ort: you see what was not removed and why.">�
+�ропущенные файлы — <b>вс�
+�гда</b> в отчёте: вы видит�
+�, что и почему не удалено
+.</div>
       </div>
 
-      <div class="feature">
+      <div class="featu
+re">
         <span class="f-num">02</span>
-        <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg></div>
-        <h3 data-ru="Оптимизация" data-en="Optimizer">Оптимизация</h3>
-        <p data-ru="Автозагрузка и службы: меньше фоновой нагрузки, быстрее старт. Каждое отключение обратимо." data-en="Startup and services: less background load, faster boot. Every change is reversible.">Автозагрузка и службы: меньше фоновой нагрузки, быстрее старт. Каждое отключение обратимо.</p>
+  
+      <div class="f-icon"><svg viewBox="0 0 2
+4 24" fill="none" stroke="currentColor" strok
+e-width="1.8" stroke-linecap="round" stroke-l
+inejoin="round"><path d="M12 20V10"/><path d=
+"M18 20V4"/><path d="M6 20v-4"/></svg></div>
+
+        <h3 data-ru="Оптимизация" 
+data-en="Optimizer">Оптимизация</h
+3>
+        <p data-ru="Автозагрузк
+а и службы: меньше фоново
+й нагрузки, быстрее стар�
+�. Каждое отключение обра
+тимо." data-en="Startup and services: les
+s background load, faster boot. Every change 
+is reversible.">Автозагрузка и �
+�лужбы: меньше фоновой на
+грузки, быстрее старт. Ка
+ждое отключение обратим�
+�.</p>
       </div>
 
-      <div class="feature">
+      <div class="featur
+e">
         <span class="f-num">03</span>
-        <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-        <h3 data-ru="Реестр" data-en="Registry">Реестр</h3>
-        <p data-ru="Устаревшие записи — с точкой восстановления до изменений." data-en="Stale entries removed — with a System Restore point created first.">Устаревшие записи — с точкой восстановления до изменений.</p>
+   
+     <div class="f-icon"><svg viewBox="0 0 24
+ 24" fill="none" stroke="currentColor" stroke
+-width="1.8" stroke-linecap="round" stroke-li
+nejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2
+v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><poly
+line points="14 2 14 8 20 8"/><line x1="16" y
+1="13" x2="8" y2="13"/><line x1="16" y1="17" 
+x2="8" y2="17"/></svg></div>
+        <h3 data
+-ru="Реестр" data-en="Registry">Рее�
+�тр</h3>
+        <p data-ru="Устарев
+шие записи — с точкой во�
+�становления до изменени
+й." data-en="Stale entries removed — with 
+a System Restore point created first.">Уст
+аревшие записи — с точко
+й восстановления до изме
+нений.</p>
       </div>
 
-      <div class="feature">
-        <span class="f-num">04</span>
-        <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
-        <h3 data-ru="Автоматизация" data-en="Automation">Автоматизация</h3>
-        <p data-ru="Расписание, тихий режим" data-en="Scheduling, silent mode"><span data-ru="Расписание, тихий режим" data-en="Scheduling, silent mode"></span> <code style="font-family:Consolas,monospace;background:rgba(255,255,255,.07);border-radius:4px;padding:0 5px;font-size:12px">--silent</code> <span data-ru="и уведомления об уборке в трее." data-en="and tray notifications after cleanup.">и уведомления об уборке в трее.</span></p>
-      </div>
+      <div clas
+s="feature">
+        <span class="f-num">04</
+span>
+        <div class="f-icon"><svg viewBo
+x="0 0 24 24" fill="none" stroke="currentColo
+r" stroke-width="1.8" stroke-linecap="round" 
+stroke-linejoin="round"><path d="M18 8A6 6 0 
+0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M1
+3.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+     
+   <h3 data-ru="Автоматизация" d
+ata-en="Automation">Автоматизаци�
+�</h3>
+        <p data-ru="Расписани
+е, тихий режим" data-en="Schedulin
+g, silent mode"><span data-ru="Расписа
+ние, тихий режим" data-en="Sched
+uling, silent mode"></span> <code style="font
+-family:Consolas,monospace;background:rgba(25
+5,255,255,.07);border-radius:4px;padding:0 5p
+x;font-size:12px">--silent</code> <span data-
+ru="и уведомления об уборк
+е в трее." data-en="and tray notificati
+ons after cleanup.">и уведомления
+ об уборке в трее.</span></p>
+  
+    </div>
     </div>
   </section>
 
-  <!-- Мелочи, которые уже есть -->
+  <!-- М
+елочи, которые уже есть --
+>
   <div class="facts">
-    <div class="fact"><b>24 ч</b><span data-ru="минимальный возраст временного файла для удаления" data-en="minimum age of a temp file to delete">минимальный возраст временного файла для удаления</span></div>
-    <div class="fact"><b>99,4 МБ</b><span data-ru="найдено при первой проверке на тестовой системе" data-en="found on first scan on a test system">найдено при первой проверке на тестовой системе</span></div>
-    <div class="fact"><b data-ru="5 языков" data-en="5 languages">5 языков</b><span data-ru="интерфейса: RU, EN, DE, FR, ES" data-en="of UI: RU, EN, DE, FR, ES">интерфейса: RU, EN, DE, FR, ES</span></div>
-    <div class="fact"><b>100%</b><span data-ru="локально — без облаков и телеметрии" data-en="local — no clouds, no telemetry">локально — без облаков и телеметрии</span></div>
+    <div class="fact"
+><b>24 ч</b><span data-ru="минималь�
+�ый возраст временного ф�
+�йла для удаления" data-en="min
+imum age of a temp file to delete">миним
+альный возраст временно�
+�о файла для удаления</span>
+</div>
+    <div class="fact"><b>99,4 МБ</b>
+<span data-ru="найдено при перв
+ой проверке на тестовой �
+�истеме" data-en="found on first scan o
+n a test system">найдено при пер
+вой проверке на тестовой
+ системе</span></div>
+    <div class="
+fact"><b data-ru="5 языков" data-en="5 
+languages">5 языков</b><span data-ru="�
+�нтерфейса: RU, EN, DE, FR, ES" data
+-en="of UI: RU, EN, DE, FR, ES">интерф�
+�йса: RU, EN, DE, FR, ES</span></div>
+    
+<div class="fact"><b>100%</b><span data-ru="�
+�окально — без облаков и 
+телеметрии" data-en="local — no c
+louds, no telemetry">локально — б�
+�з облаков и телеметрии</s
+pan></div>
   </div>
 
-  <!-- Как работает -->
+  <!-- Как работ
+ает -->
   <section class="block" id="how">
+
     <div class="sec-head">
       <div>
-        <div class="sec-kicker" data-ru="Как это работает" data-en="How it works">Как это работает</div>
-        <div class="sec-title" data-ru="Три шага — и вы видите, что было убрано" data-en="Three steps — and you see what was cleaned">Три шага — и вы видите, что было убрано</div>
+     
+   <div class="sec-kicker" data-ru="Как э
+то работает" data-en="How it works"
+>Как это работает</div>
+       
+ <div class="sec-title" data-ru="Три ша�
+�а — и вы видите, что было
+ убрано" data-en="Three steps — and y
+ou see what was cleaned">Три шага — 
+и вы видите, что было убр�
+�но</div>
       </div>
     </div>
-    <div class="steps">
+    <div 
+class="steps">
       <div class="step">
-        <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
-        <h3 data-ru="Сканирование" data-en="Scan">Сканирование</h3>
-        <p data-ru="Белый список путей, временные файлы старше 24 часов. Безопасно по умолчанию." data-en="A strict path whitelist, temp files older than 24 hours. Safe by default.">Белый список путей, временные файлы старше 24 часов. Безопасно по умолчанию.</p>
+     
+   <div class="step-icon"><svg viewBox="0 0 2
+4 24" fill="none" stroke="currentColor" strok
+e-width="1.8" stroke-linecap="round" stroke-l
+inejoin="round"><circle cx="11" cy="11" r="8"
+/><line x1="21" y1="21" x2="16.65" y2="16.65"
+/></svg></div>
+        <h3 data-ru="Скан�
+�рование" data-en="Scan">Сканир�
+�вание</h3>
+        <p data-ru="Белы
+й список путей, временны�
+� файлы старше 24 часов. Бе
+зопасно по умолчанию." data
+-en="A strict path whitelist, temp files olde
+r than 24 hours. Safe by default.">Белый
+ список путей, временные 
+файлы старше 24 часов. Без
+опасно по умолчанию.</p>
+   
+   </div>
+      <div class="step">
+        <d
+iv class="step-icon"><svg viewBox="0 0 24 24"
+ fill="none" stroke="currentColor" stroke-wid
+th="1.8" stroke-linecap="round" stroke-linejo
+in="round"><path d="M1 12s4-8 11-8 11 8 11 8-
+4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12"
+ r="3"/></svg></div>
+        <h3 data-ru="П�
+�едпросмотр" data-en="Preview">Пр
+едпросмотр</h3>
+        <p data-ru=
+"Числа до очистки: что на�
+�дено, сколько весит, что 
+будет пропущено." data-en="Numb
+ers before cleaning: what was found, how big,
+ what will be skipped.">Числа до оч�
+�стки: что найдено, сколь�
+�о весит, что будет пропу�
+�ено.</p>
       </div>
-      <div class="step">
-        <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
-        <h3 data-ru="Предпросмотр" data-en="Preview">Предпросмотр</h3>
-        <p data-ru="Числа до очистки: что найдено, сколько весит, что будет пропущено." data-en="Numbers before cleaning: what was found, how big, what will be skipped.">Числа до очистки: что найдено, сколько весит, что будет пропущено.</p>
-      </div>
-      <div class="step">
-        <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-        <h3 data-ru="Уборка и отчёт" data-en="Cleaning and report">Уборка и отчёт</h3>
-        <p data-ru="Освобождено, пропущено, ошибки. Всё можно повторить или запланировать." data-en="Freed, skipped, failed. Everything can be repeated or scheduled.">Освобождено, пропущено, ошибки. Всё можно повторить или запланировать.</p>
+      <div class="s
+tep">
+        <div class="step-icon"><svg vie
+wBox="0 0 24 24" fill="none" stroke="currentC
+olor" stroke-width="1.8" stroke-linecap="roun
+d" stroke-linejoin="round"><path d="M22 11.08
+V12a10 10 0 1 1-5.93-9.14"/><polyline points=
+"22 4 12 14.01 9 11.01"/></svg></div>
+       
+ <h3 data-ru="Уборка и отчёт" dat
+a-en="Cleaning and report">Уборка и о
+тчёт</h3>
+        <p data-ru="Освоб�
+�ждено, пропущено, ошибки
+. Всё можно повторить или
+ запланировать." data-en="Freed,
+ skipped, failed. Everything can be repeated 
+or scheduled.">Освобождено, про
+пущено, ошибки. Всё можно
+ повторить или запланиро
+вать.</p>
       </div>
     </div>
-  </section>
+  </sec
+tion>
 
   <!-- Из отчёта -->
-  <section class="block" id="report">
-    <div class="sec-head">
+  <sectio
+n class="block" id="report">
+    <div class="
+sec-head">
       <div>
-        <div class="sec-kicker" data-ru="Из отчёта об уборке" data-en="From a real cleanup report">Из отчёта об уборке</div>
-        <div class="sec-title" data-ru="Как выглядит результат" data-en="What the result looks like">Как выглядит результат</div>
-      </div>
-      <div class="sec-note" data-ru="Настоящие строки из отчёта приложения — без ретуши." data-en="Real lines from the app report — no retouching.">Настоящие строки из отчёта приложения — без ретуши.</div>
+        <div class="se
+c-kicker" data-ru="Из отчёта об у�
+�орке" data-en="From a real cleanup repor
+t">Из отчёта об уборке</div>
+
+        <div class="sec-title" data-ru="Ка�
+� выглядит результат" data-e
+n="What the result looks like">Как выг�
+�ядит результат</div>
+      </di
+v>
+      <div class="sec-note" data-ru="На�
+�тоящие строки из отчёта 
+приложения — без ретуши.
+" data-en="Real lines from the app report —
+ no retouching.">Настоящие стро�
+�и из отчёта приложения �
+� без ретуши.</div>
     </div>
-    <div class="report">
+    <
+div class="report">
+      <div class="report-
+line">
+        <span class="rep-ok">✓</span
+>
+        <span class="rep-path">C:\Users\…
+\AppData\Local\Temp\</span>
+        <span cla
+ss="rep-files" data-ru="14 файлов" data
+-en="14 files">14 файлов</span>
+       
+ <span class="rep-size">226,4 МБ</span>
+   
+   </div>
       <div class="report-line">
-        <span class="rep-ok">✓</span>
-        <span class="rep-path">C:\Users\…\AppData\Local\Temp\</span>
-        <span class="rep-files" data-ru="14 файлов" data-en="14 files">14 файлов</span>
-        <span class="rep-size">226,4 МБ</span>
+   
+     <span class="rep-ok">✓</span>
+        
+<span class="rep-path" data-ru="кэш Chromi
+um (Default\Cache)" data-en="Chromium cache (
+Default\Cache)">кэш Chromium (Default\Cach
+e)</span>
+        <span class="rep-files" dat
+a-ru="312 файлов" data-en="312 files">3
+12 файлов</span>
+        <span class="r
+ep-size">187,9 МБ</span>
       </div>
-      <div class="report-line">
-        <span class="rep-ok">✓</span>
-        <span class="rep-path" data-ru="кэш Chromium (Default\Cache)" data-en="Chromium cache (Default\Cache)">кэш Chromium (Default\Cache)</span>
-        <span class="rep-files" data-ru="312 файлов" data-en="312 files">312 файлов</span>
-        <span class="rep-size">187,9 МБ</span>
-      </div>
-      <div class="report-line">
-        <span class="rep-ok">✓</span>
-        <span class="rep-path" data-ru="корзина" data-en="recycle bin">корзина</span>
-        <span class="rep-files" data-ru="3 файла" data-en="3 files">3 файла</span>
-        <span class="rep-size">1,2 МБ</span>
-      </div>
+     
+ <div class="report-line">
+        <span clas
+s="rep-ok">✓</span>
+        <span class="re
+p-path" data-ru="корзина" data-en="rec
+ycle bin">корзина</span>
+        <span
+ class="rep-files" data-ru="3 файла" dat
+a-en="3 files">3 файла</span>
+        <s
+pan class="rep-size">1,2 МБ</span>
+      </
+div>
       <div class="report-line rep-skip">
+
         <span class="rep-warn">✕</span>
-        <span class="rep-path" data-ru="%TEMP% — файл занят процессом" data-en="%TEMP% — file is in use">%TEMP% — файл занят процессом</span>
-        <span class="rep-files" data-ru="1 файл" data-en="1 file">1 файл</span>
-        <span class="rep-size" data-ru="пропущен" data-en="skipped">пропущен</span>
+  
+      <span class="rep-path" data-ru="%TEMP% 
+— файл занят процессом" d
+ata-en="%TEMP% — file is in use">%TEMP% —
+ файл занят процессом</span
+>
+        <span class="rep-files" data-ru="1 
+файл" data-en="1 file">1 файл</span>
+
+        <span class="rep-size" data-ru="пр�
+�пущен" data-en="skipped">пропуще
+н</span>
       </div>
-      <div class="report-total">
-        <span data-ru="Освобождено" data-en="Freed">Освобождено</span>
+      <div class="repo
+rt-total">
+        <span data-ru="Освоб�
+�ждено" data-en="Freed">Освобожд
+ено</span>
         <b>415,5 МБ</b>
-        <span class="rep-note" data-ru="пропущено: 1 · не удалось: 0" data-en="skipped: 1 · failed: 0">пропущено: 1 · не удалось: 0</span>
-      </div>
+     
+   <span class="rep-note" data-ru="пропу
+щено: 1 · не удалось: 0" data-e
+n="skipped: 1 · failed: 0">пропущен�
+�: 1 · не удалось: 0</span>
+      <
+/div>
     </div>
   </section>
 
   <!-- FAQ -->
+
   <section class="block" id="faq">
-    <div class="sec-head">
+    <div 
+class="sec-head">
       <div>
-        <div class="sec-kicker" data-ru="Вопросы" data-en="Questions">Вопросы</div>
-        <div class="sec-title" data-ru="Частые вопросы" data-en="FAQ">Частые вопросы</div>
+        <div cl
+ass="sec-kicker" data-ru="Вопросы" dat
+a-en="Questions">Вопросы</div>
+       
+ <div class="sec-title" data-ru="Частые
+ вопросы" data-en="FAQ">Частые �
+�опросы</div>
       </div>
     </div>
-    <div class="faq">
+ 
+   <div class="faq">
       <details>
-        <summary data-ru="Программа удалит мои документы или фотографии?" data-en="Will the app delete my documents or photos?">Программа удалит мои документы или фотографии?</summary>
-        <p data-ru="Нет. Очистка работает по белому списку путей: Program Files, AppData\Roaming, «Документы» и System32 не затрагиваются. Временные файлы %TEMP% удаляются только старше 24 часов." data-en="No. Cleaning works via a strict whitelist: Program Files, AppData\Roaming, Documents and System32 are never touched. %TEMP% files are removed only if older than 24 hours.">Нет. Очистка работает по белому списку путей: Program Files, AppData\Roaming, «Документы» и System32 не затрагиваются. Временные файлы %TEMP% удаляются только старше 24 часов.</p>
-      </details>
+        
+<summary data-ru="Программа удал
+ит мои документы или фот�
+�графии?" data-en="Will the app delete 
+my documents or photos?">Программа �
+�далит мои документы или 
+фотографии?</summary>
+        <p da
+ta-ru="Нет. Очистка работае�
+� по белому списку путей: 
+Program Files, AppData\Roaming, «Докум�
+�нты» и System32 не затрагива
+ются. Временные файлы %TEMP
+% удаляются только старш�
+� 24 часов." data-en="No. Cleaning works
+ via a strict whitelist: Program Files, AppDa
+ta\Roaming, Documents and System32 are never 
+touched. %TEMP% files are removed only if old
+er than 24 hours.">Нет. Очистка р�
+�ботает по белому списку 
+путей: Program Files, AppData\Roaming, �
+�Документы» и System32 не зат
+рагиваются. Временные фа
+йлы %TEMP% удаляются только
+ старше 24 часов.</p>
+      </deta
+ils>
       <details>
-        <summary data-ru="Нужны ли права администратора?" data-en="Does it require administrator rights?">Нужны ли права администратора?</summary>
-        <p data-ru="Да, приложение запрашивает права администратора — это нужно для очистки системных папок и работы с реестром и службами." data-en="Yes — administrator rights are needed to clean system folders and to work with the registry and services.">Да, приложение запрашивает права администратора — это нужно для очистки системных папок и работы с реестром и службами.</p>
-      </details>
+        <summary data-ru
+="Нужны ли права админист
+ратора?" data-en="Does it require admin
+istrator rights?">Нужны ли права 
+администратора?</summary>
+     
+   <p data-ru="Да, приложение з�
+�прашивает права админис
+тратора — это нужно для �
+�чистки системных папок �
+� работы с реестром и слу�
+�бами." data-en="Yes — administrator ri
+ghts are needed to clean system folders and t
+o work with the registry and services.">Да,
+ приложение запрашивает 
+права администратора — �
+�то нужно для очистки сис
+темных папок и работы с р
+еестром и службами.</p>
+     
+ </details>
       <details>
-        <summary data-ru="Что происходит при обновлении или удалении?" data-en="What happens on update or uninstall?">Что происходит при обновлении или удалении?</summary>
-        <p data-ru="Установщик вежливо закрывает работающее приложение, обновляет файлы и снова запускает его. Настройки хранятся отдельно в %AppData%; при удалении программа спрашивает, удалить ли их вместе с приложением." data-en="The installer politely closes the running app, updates files and restarts it. Settings live separately in %AppData%; on uninstall the app asks whether to delete them too.">Установщик вежливо закрывает работающее приложение, обновляет файлы и снова запускает его. Настройки хранятся отдельно в %AppData%; при удалении программа спрашивает, удалить ли их вместе с приложением.</p>
-      </details>
+        <summary 
+data-ru="Что происходит при �
+�бновлении или удалении?"
+ data-en="What happens on update or uninstall
+?">Что происходит при обн�
+�влении или удалении?</summa
+ry>
+        <p data-ru="Установщик 
+вежливо закрывает работ�
+�ющее приложение, обновл�
+�ет файлы и снова запуска
+ет его. Настройки хранят�
+�я отдельно в %AppData%; при у�
+�алении программа спраши
+вает, удалить ли их вмест
+е с приложением." data-en="The i
+nstaller politely closes the running app, upd
+ates files and restarts it. Settings live sep
+arately in %AppData%; on uninstall the app as
+ks whether to delete them too.">Устано�
+�щик вежливо закрывает р�
+�ботающее приложение, об�
+�овляет файлы и снова зап
+ускает его. Настройки хр�
+�нятся отдельно в %AppData%; п
+ри удалении программа сп
+рашивает, удалить ли их в
+месте с приложением.</p>
+   
+   </details>
       <details>
-        <summary data-ru="Программа что-то отправляет в интернет?" data-en="Does the app send anything to the internet?">Программа что-то отправляет в интернет?</summary>
-        <p data-ru="Нет. GigaCleaner работает локально и без телеметрии. Единственный сетевой запрос — проверка новой версии (по выбору приложения, раз в запуск)." data-en="No. GigaCleaner runs locally without telemetry. The only network request is the self-update check, once per launch.">Нет. GigaCleaner работает локально и без телеметрии. Единственный сетевой запрос — проверка новой версии (по выбору приложения, раз в запуск).</p>
+        <summar
+y data-ru="Программа что-то о�
+�правляет в интернет?" data-
+en="Does the app send anything to the interne
+t?">Программа что-то отпра
+вляет в интернет?</summary>
+   
+     <p data-ru="Нет. GigaCleaner рабо
+тает локально и без теле�
+�етрии. Единственный сет�
+�вой запрос — проверка н�
+�вой версии (по выбору пр�
+�ложения, раз в запуск)." da
+ta-en="No. GigaCleaner runs locally without t
+elemetry. The only network request is the sel
+f-update check, once per launch.">Нет. Gig
+aCleaner работает локально и
+ без телеметрии. Единств�
+�нный сетевой запрос — п�
+�оверка новой версии (по �
+�ыбору приложения, раз в �
+�апуск).</p>
       </details>
     </div>
+
   </section>
 
   <!-- Скачать -->
-  <div class="download">
+  <d
+iv class="download">
     <div>
-      <h2 data-ru="Скачать GigaCleaner 1.1.3" data-en="Download GigaCleaner 1.1.3">Скачать GigaCleaner 1.1.3</h2>
-      <p data-ru="Установка занимает пару минут. После неё приложение запустится само." data-en="Installation takes a couple of minutes. The app starts itself afterwards.">Установка занимает пару минут. После неё приложение запустится само.</p>
-      <div class="dl-meta">
-        <span>Windows 10 1809+ / 11</span>
+      <h2 data
+-ru="Скачать GigaCleaner 1.1.4" data-e
+n="Download GigaCleaner 1.1.4">Скачать
+ GigaCleaner 1.1.4</h2>
+      <p data-ru="У�
+�тановка занимает пару м�
+�нут. После неё приложени
+е запустится само." data-en="I
+nstallation takes a couple of minutes. The ap
+p starts itself afterwards.">Установк
+а занимает пару минут. По
+сле неё приложение запус
+тится само.</p>
+      <div class="dl
+-meta">
+        <span>Windows 10 1809+ / 11</
+span>
         <span>x64</span>
-        <span>108 МБ</span>
-        <span data-ru="Русский язык" data-en="Russian UI">Русский язык</span>
+        <span>
+108 МБ</span>
+        <span data-ru="Рус
+ский язык" data-en="Russian UI">Ру�
+�ский язык</span>
       </div>
-      <a class="btn btn-primary" href="https://github.com/TIZZ13/GigaCleaner/releases/download/v1.1.3/GigaCleaner-Setup-1.1.3.exe" download>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        <span data-ru="Скачать установщик" data-en="Download installer">Скачать установщик</span>
-      </a>
-      <div class="release-note"><span data-ru="Релиз на GitHub · " data-en="Release on GitHub · ">Релиз на GitHub · </span><a href="https://github.com/TIZZ13/GigaCleaner/releases" data-ru="все версии и история изменений" data-en="all versions and changelog">все версии и история изменений</a></div>
+      
+<a class="btn btn-primary" href="https://gith
+ub.com/TIZZ13/GigaCleaner/releases/download/v
+1.1.4/GigaCleaner-Setup-1.1.4.exe" download>
+
+        <svg viewBox="0 0 24 24" fill="none" 
+stroke="currentColor" stroke-width="2" stroke
+-linecap="round" stroke-linejoin="round"><pat
+h d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-
+4"/><polyline points="7 10 12 15 17 10"/><lin
+e x1="12" y1="15" x2="12" y2="3"/></svg>
+    
+    <span data-ru="Скачать устан�
+�вщик" data-en="Download installer">Ск�
+�чать установщик</span>
+      <
+/a>
+      <div class="release-note"><span dat
+a-ru="Релиз на GitHub · " data-en="Re
+lease on GitHub · ">Релиз на GitHub �
+� </span><a href="https://github.com/TIZZ13/G
+igaCleaner/releases" data-ru="все верс
+ии и история изменений" da
+ta-en="all versions and changelog">все в�
+�рсии и история изменени�
+�</a></div>
     </div>
-    <div class="dl-art">
-      <img src="logo.png" alt="GigaCleaner">
-      <span data-ru="Бесплатно · без регистрации · локально" data-en="Free · no registration · local">Бесплатно · без регистрации · локально</span>
-    </div>
+    <div class="dl-art
+">
+      <img src="logo.png" alt="GigaCleaner
+">
+      <span data-ru="Бесплатно ·
+ без регистрации · локал�
+�но" data-en="Free · no registration · lo
+cal">Бесплатно · без регис�
+�рации · локально</span>
+    </
+div>
   </div>
 
   <footer>
-    <div class="foot-brand">
-      <img class="logo-img" src="logo-64.png" alt="GigaCleaner" width="26" height="26" style="width:26px;height:26px;border-radius:8px">
-      <span data-ru="GigaCleaner © 2026 · работает локально, без телеметрии" data-en="GigaCleaner © 2026 · runs locally, no telemetry">GigaCleaner © 2026 · работает локально, без телеметрии</span>
+    <div class="foo
+t-brand">
+      <img class="logo-img" src="lo
+go-64.png" alt="GigaCleaner" width="26" heigh
+t="26" style="width:26px;height:26px;border-r
+adius:8px">
+      <span data-ru="GigaCleaner 
+© 2026 · работает локально,
+ без телеметрии" data-en="GigaCl
+eaner © 2026 · runs locally, no telemetry">
+GigaCleaner © 2026 · работает ло�
+�ально, без телеметрии</spa
+n>
     </div>
     <nav>
-      <a href="#features" data-ru="Возможности" data-en="Features">Возможности</a>
-      <a href="#how" data-ru="Как работает" data-en="How it works">Как работает</a>
-      <a href="#faq" data-ru="FAQ" data-en="FAQ">FAQ</a>
-      <a href="privacy.html" data-ru="Политика конфиденциальности" data-en="Privacy policy">Политика конфиденциальности</a>
-      <a href="https://github.com/TIZZ13/GigaCleaner" data-ru="GitHub" data-en="GitHub">GitHub</a>
+      <a href="#featu
+res" data-ru="Возможности" data-en
+="Features">Возможности</a>
+      
+<a href="#how" data-ru="Как работае
+т" data-en="How it works">Как работ�
+�ет</a>
+      <a href="#faq" data-ru="FAQ" 
+data-en="FAQ">FAQ</a>
+      <a href="privacy.
+html" data-ru="Политика конфид�
+�нциальности" data-en="Privacy pol
+icy">Политика конфиденциа�
+�ьности</a>
+      <a href="https://gith
+ub.com/TIZZ13/GigaCleaner" data-ru="GitHub" d
+ata-en="GitHub">GitHub</a>
     </nav>
-  </footer>
+  </foo
+ter>
 
 </div>
 
 <script>
-  // Блик стекла следует за курсором (как в GlassCard приложения)
-  document.querySelectorAll('.feature, .step, .download').forEach(el => {
-    el.addEventListener('mousemove', e => {
-      const r = el.getBoundingClientRect();
-      el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-      el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  // Блик стек
+ла следует за курсором (к
+ак в GlassCard приложения)
+  doc
+ument.querySelectorAll('.feature, .step, .dow
+nload').forEach(el => {
+    el.addEventListen
+er('mousemove', e => {
+      const r = el.get
+BoundingClientRect();
+      el.style.setPrope
+rty('--mx', (e.clientX - r.left) + 'px');
+   
+   el.style.setProperty('--my', (e.clientY - 
+r.top) + 'px');
     });
   });
 
-  // Мокап масштабируется под контейнер, сохраняя пропорции
+  // Мока�
+� масштабируется под кон�
+�ейнер, сохраняя пропорц�
+�и
   (function () {
-    var mock = document.getElementById('appMock');
-    function fit() {
+    var mock = document.
+getElementById('appMock');
+    function fit()
+ {
       var parent = mock.parentElement;
-      var w = parent.clientWidth - 2;
-      var scale = Math.min(1, w / 560);
-      var h = mock.offsetHeight || 408;
-      mock.style.transform = 'scale(' + scale + ')';
-      parent.style.height = Math.ceil(h * scale) + 'px';
+   
+   var w = parent.clientWidth - 2;
+      var 
+scale = Math.min(1, w / 560);
+      var h = m
+ock.offsetHeight || 408;
+      mock.style.tra
+nsform = 'scale(' + scale + ')';
+      parent
+.style.height = Math.ceil(h * scale) + 'px';
+
     }
-    window.addEventListener('resize', fit);
+    window.addEventListener('resize', f
+it);
     fit();
   })();
 
-  // Переключатель языка RU / EN
-  var currentLang = (localStorage.getItem('gclang') || 'ru');
+  // Переклю�
+�атель языка RU / EN
+  var currentL
+ang = (localStorage.getItem('gclang') || 'ru'
+);
   function applyLang(lang) {
-    currentLang = lang;
-    localStorage.setItem('gclang', lang);
-    document.querySelectorAll('[data-ru], [data-en]').forEach(function (el) {
-      var text = el.getAttribute(lang === 'ru' ? 'data-ru' : 'data-en');
-      if (text != null) {
-        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') { el.placeholder = text; }
-        else { el.textContent = text; }
+    currentLa
+ng = lang;
+    localStorage.setItem('gclang',
+ lang);
+    document.querySelectorAll('[data-
+ru], [data-en]').forEach(function (el) {
+    
+  var text = el.getAttribute(lang === 'ru' ? 
+'data-ru' : 'data-en');
+      if (text != nul
+l) {
+        if (el.tagName === 'INPUT' || el
+.tagName === 'TEXTAREA') { el.placeholder = t
+ext; }
+        else { el.textContent = text; 
+}
       }
     });
-    var btn = document.getElementById('langBtn');
-    if (btn) btn.textContent = lang === 'ru' ? 'EN' : 'RU';
-    var titleEl = document.querySelector('title');
-    if (titleEl) {
-      var t = titleEl.getAttribute(lang === 'ru' ? 'data-ru' : 'data-en');
-      if (t != null) titleEl.textContent = t;
+    var btn = document.getE
+lementById('langBtn');
+    if (btn) btn.textC
+ontent = lang === 'ru' ? 'EN' : 'RU';
+    var
+ titleEl = document.querySelector('title');
+ 
+   if (titleEl) {
+      var t = titleEl.getAt
+tribute(lang === 'ru' ? 'data-ru' : 'data-en'
+);
+      if (t != null) titleEl.textContent =
+ t;
     }
-    document.documentElement.lang = lang;
+    document.documentElement.lang =
+ lang;
   }
-  function toggleLang() { applyLang(currentLang === 'ru' ? 'en' : 'ru'); }
-  applyLang(currentLang);
+  function toggleLang() { applyLan
+g(currentLang === 'ru' ? 'en' : 'ru'); }
+  ap
+plyLang(currentLang);
 </script>
 </body>
-</html>
+</htm
+l>
+
