@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Политика конфиденциальности — GigaCleaner</title>
+<title data-ru="Политика конфиденциальности — GigaCleaner" data-en="Privacy Policy — GigaCleaner">Политика конфиденциальности — GigaCleaner</title>
 <meta name="robots" content="index,follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -128,6 +128,11 @@
     });
     var btn = document.getElementById('langBtn');
     if (btn) btn.textContent = lang === 'ru' ? 'EN' : 'RU';
+    var titleEl = document.querySelector('title');
+    if (titleEl) {
+      var t = titleEl.getAttribute(lang === 'ru' ? 'data-ru' : 'data-en');
+      if (t != null) titleEl.textContent = t;
+    }
     document.documentElement.lang = lang;
   }
   function toggleLang() { applyLang(currentLang === 'ru' ? 'en' : 'ru'); }
