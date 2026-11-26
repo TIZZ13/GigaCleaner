@@ -19,7 +19,21 @@ Runs 100% locally, no telemetry. Supports scheduling and a silent mode.
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%2B-0078d4)
 ![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen)
 
+<br>
+
+<a href="https://tizz13.github.io/GigaCleaner/#appDemo"><img src="docs/media/clean-demo.gif" alt="GigaCleaner demo: scan → report → cleanup" width="720"></a>
+
 </div>
+
+---
+
+## Демо и скриншоты · Demo & screenshots
+
+| Обзор · Overview | Очистка · Cleaner | Планировщик · Scheduler |
+|:---:|:---:|:---:|
+| <img src="docs/media/screen-1.png" alt="Overview" width="250"> | <img src="docs/media/screen-2.png" alt="Cleaner with scan results" width="250"> | <img src="docs/media/screen-3.png" alt="Scheduler" width="250"> |
+
+[Интерактивное демо на сайте · Interactive demo](https://tizz13.github.io/GigaCleaner/#appDemo)
 
 ---
 
