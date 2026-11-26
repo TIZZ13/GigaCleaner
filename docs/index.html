@@ -9,6 +9,7 @@
 <meta property="og:description" content="Очистка временных файлов, реестра и автозагрузки по белому списку путей. Локально, без телеметрии.">
 <meta property="og:image" content="https://tizz13.github.io/GigaCleaner/og-image.png">
 <meta property="og:url" content="https://tizz13.github.io/GigaCleaner/">
+<link rel="icon" href="logo-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -45,10 +46,22 @@
 
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; }
 
+  /* ---------- Появление при скролле ---------- */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s cubic-bezier(.2,.7,.3,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .chip, .float-slow { animation: none !important; }
+  }
+
   /* ---------- Шапка ---------- */
   header {
+    position: sticky; top: 0; z-index: 50;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 26px 0 22px; border-bottom: 1px solid var(--line);
+    padding: 14px 0; border-bottom: 1px solid var(--line);
+    background: rgba(24,24,27,.82);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
+    backdrop-filter: blur(12px) saturate(1.2);
   }
   .brand { display: flex; align-items: center; gap: 11px; }
   .logo-img {
@@ -57,9 +70,33 @@
     box-shadow: 0 4px 12px rgba(0,0,0,.4);
   }
   .brand-name { font-weight: 700; font-size: 15.5px; letter-spacing: -.01em; }
-  .nav { display: flex; align-items: center; gap: 4px; }
+  .nav { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
   .nav a { color: var(--text-2); text-decoration: none; font-size: 13.5px; padding: 7px 12px; border-radius: 8px; transition: color .16s, background .16s; }
   .nav a:hover { color: var(--text); background: rgba(255,255,255,.05); }
+  .nav .nav-links { display: contents; }
+  @media (max-width: 1080px) {
+    .nav .nav-links .ver-badge { display: none; }
+  }
+  .star-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 6px 13px; border-radius: 8px;
+    border: 1px solid rgba(255,255,255,.14); text-decoration: none;
+    color: var(--text); background: rgba(255,255,255,.05);
+    font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer;
+    transition: background .16s, transform .16s, border-color .16s; white-space: nowrap;
+  }
+  .star-btn:hover { background: rgba(255,255,255,.1); transform: translateY(-1px); border-color: rgba(255,255,255,.22); }
+  .star-btn svg { width: 15px; height: 15px; color: #fbbf24; }
+  .btn-sm {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 13px; border-radius: 8px; text-decoration: none;
+    background: linear-gradient(180deg, #3b82f6, #2563eb 70%, #1d4ed8);
+    color: #fff; font-weight: 600; font-size: 13px; font-family: inherit;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 6px 16px rgba(37,99,235,.3);
+    transition: transform .16s, filter .16s; white-space: nowrap;
+  }
+  .btn-sm:hover { transform: translateY(-1px); filter: brightness(1.06); }
+  .btn-sm svg { width: 14px; height: 14px; }
   .lang-btn {
     margin-left: 4px; padding: 5px 10px; border-radius: 8px;
     border: 1px solid var(--line); background: rgba(255,255,255,.04);
@@ -75,20 +112,20 @@
 
   /* ---------- Hero ---------- */
   .hero {
-    display: grid; grid-template-columns: 1.02fr .98fr; gap: 56px;
-    align-items: center; padding: 72px 0 64px;
+    display: grid; grid-template-columns: 1.02fr .98fr; gap: 48px;
+    align-items: center; padding: 56px 0 48px;
   }
   .eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
     font-size: 12.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 18px;
+    color: var(--accent); margin-bottom: 16px;
   }
   .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); opacity: .6; }
   .hero h1 {
     font-size: clamp(30px, 4.2vw, 46px); font-weight: 800; letter-spacing: -.03em;
-    line-height: 1.08; margin-bottom: 20px;
+    line-height: 1.08; margin-bottom: 18px;
   }
-  .hero .lead { color: var(--text-2); font-size: 16px; max-width: 460px; margin-bottom: 30px; }
+  .hero .lead { color: var(--text-2); font-size: 16px; max-width: 460px; margin-bottom: 26px; }
   .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
   .btn {
     display: inline-flex; align-items: center; gap: 10px;
@@ -107,14 +144,13 @@
     background: rgba(255,255,255,.03);
   }
   .btn-ghost:hover { background: rgba(255,255,255,.06); }
-  .hero .meta { margin-top: 18px; color: var(--text-3); font-size: 12.5px; }
+  .hero .meta { margin-top: 16px; color: var(--text-3); font-size: 12.5px; }
   .hero .meta b { color: var(--text-2); font-weight: 600; }
 
-  /* ---------- Мокап окна приложения ---------- */
-  .mock-wrap { position: relative; }
-  .mock {
-    position: relative;
-    width: 560px; height: 408px; transform-origin: top left;
+  /* ---------- Интерактивное демо ---------- */
+  .demo-wrap { position: relative; }
+  .demo {
+    width: 100%; max-width: 560px;
     border-radius: 14px;
     border: 1px solid rgba(255,255,255,.10);
     background: #1c1c20;
@@ -124,50 +160,51 @@
       0 40px 80px rgba(0,0,0,.6),
       0 14px 30px rgba(0,0,0,.45);
     overflow: hidden;
-    font-size: 12px;
-    display: flex; flex-direction: column;
+    font-size: 12.5px;
   }
-  /* Заголовок окна */
-  .mock-title {
+  .demo-title {
     display: flex; align-items: center; gap: 8px;
-    padding: 9px 14px; border-bottom: 1px solid rgba(255,255,255,.07);
-    font-size: 11.5px; color: var(--text-2); flex: none;
-    background: rgba(255,255,255,.02);
+    padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,.07);
+    font-size: 11.5px; color: var(--text-2); background: rgba(255,255,255,.02);
   }
-  .mock-dots { display: flex; gap: 6px; margin-right: 8px; }
-  .mock-dots i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.16); box-shadow: inset 0 -1px 2px rgba(0,0,0,.4); }
-  .mock-dots i:first-child { background: #f87171; }
-  .mock-dots i:nth-child(2) { background: #fbbf24; }
-  .mock-dots i:nth-child(3) { background: #34d399; }
-  .mock-title span { font-weight: 500; }
-  /* Тело: сайдбар + контент */
-  .mock-body { display: flex; flex: 1; min-height: 0; }
-  .mock-side {
-    width: 122px; flex: none; padding: 10px 8px;
-    border-right: 1px solid rgba(255,255,255,.06);
-    display: flex; flex-direction: column; gap: 2px;
+  .demo-dots { display: flex; gap: 6px; margin-right: 8px; }
+  .demo-dots i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.16); box-shadow: inset 0 -1px 2px rgba(0,0,0,.4); }
+  .demo-dots i:first-child { background: #f87171; }
+  .demo-dots i:nth-child(2) { background: #fbbf24; }
+  .demo-dots i:nth-child(3) { background: #34d399; }
+  .demo-main { padding: 16px 18px 18px; }
+  .demo-hint { color: var(--text-3); font-size: 11px; margin-bottom: 12px; }
+  .demo-cats { display: grid; gap: 8px; margin-bottom: 14px; }
+  .demo-cat {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 10px;
+    border: 1px solid var(--line); background: rgba(255,255,255,.025);
+    cursor: pointer; transition: border-color .15s, background .15s;
+    user-select: none;
   }
-  .mock-nav { padding: 5px 9px; border-radius: 6px; color: var(--text-3); font-size: 11px; }
-  .mock-nav.active { background: rgba(59,130,246,.16); color: #fff; box-shadow: inset 0 0 0 1px rgba(59,130,246,.25); }
-  .mock-main { flex: 1; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
-  .mock-line { height: 8px; border-radius: 4px; background: rgba(255,255,255,.09); }
-  .mock-line.w60 { width: 60%; } .mock-line.w90 { width: 90%; } .mock-line.w40 { width: 40%; }
-  .mock-cta {
-    display: flex; gap: 8px; margin-top: 2px;
-  }
-  .mock-cta .btn { padding: 7px 14px; font-size: 11px; border-radius: 8px; }
-  .mock-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 2px; }
-  .mock-card {
-    border-radius: 9px; padding: 9px 10px;
-    background: linear-gradient(180deg, rgba(240,240,242,.09), rgba(56,56,60,.03));
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.08), inset 0 0 0 1px rgba(238,238,242,.06);
-  }
-  .mock-card .t { color: var(--text-2); font-size: 9.5px; }
-  .mock-card .v { font-size: 13px; font-weight: 700; margin-top: 2px; }
-  .mock-card .s { font-size: 9.5px; color: var(--text-3); }
+  .demo-cat:hover { border-color: rgba(255,255,255,.16); }
+  .demo-cat input { accent-color: var(--accent); width: 15px; height: 15px; flex: none; cursor: pointer; }
+  .demo-cat .nm { color: var(--text); font-weight: 500; font-size: 12.5px; }
+  .demo-cat .sz { margin-left: auto; color: var(--text-2); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .demo-cat.off { opacity: .45; }
+  .demo-actions { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .demo-actions .btn { padding: 10px 18px; font-size: 13px; }
+  .demo-bar { height: 8px; border-radius: 4px; background: rgba(255,255,255,.08); overflow: hidden; margin-bottom: 10px; }
+  .demo-bar .fill { height: 100%; width: 0; border-radius: 4px; background: linear-gradient(90deg, #3b82f6, #6366f1); transition: width .06s linear; }
+  .demo-bar .fill.ok { background: linear-gradient(90deg, #34d399, #10b981); }
+  .demo-status { min-height: 20px; font-size: 12px; color: var(--text-2); }
+  .demo-status.hot { color: var(--accent); font-weight: 600; }
+  .demo-status.ok { color: #34d399; font-weight: 600; }
+  .demo-total { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; border-top: 1px solid var(--line); margin-top: 6px; padding-top: 12px; font-size: 12px; color: var(--text-3); }
+  .demo-total b { font-size: 16px; color: var(--text); letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+  .demo-total.ok b { color: #34d399; }
+  .demo-again { text-align: right; }
+  .demo-again a { color: var(--accent); font-size: 11.5px; text-decoration: none; cursor: pointer; }
+  .demo-again a:hover { text-decoration: underline; }
+
   /* Плавающие чипы */
   .chip {
-    position: absolute; z-index: 2;
+    position: absolute; z-index: 2; pointer-events: none;
     display: flex; align-items: center; gap: 8px;
     font-size: 12px; font-weight: 500; color: var(--text);
     padding: 9px 14px; border-radius: 11px;
@@ -180,11 +217,11 @@
   }
   .chip svg { width: 14px; height: 14px; color: var(--accent); }
   .chip.top { top: -18px; right: -10px; }
-  .chip.bottom { bottom: -16px; left: -14px; animation-delay: 2.4s; }
+  .chip.bottom { bottom: -46px; left: -14px; animation-delay: 2.4s; }
   @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 
   /* ---------- Сравнение ---------- */
-  .compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 0 0 70px; counter-reset: cmp; }
+  .compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 0 0 56px; }
   .cmp {
     border: 1px solid var(--line); border-radius: 14px; padding: 22px 22px 20px;
     background: rgba(255,255,255,.02);
@@ -201,11 +238,11 @@
   @media (max-width: 900px) { .compare { grid-template-columns: 1fr; } }
 
   /* ---------- Секции ---------- */
-  section.block { padding: 70px 0; border-top: 1px solid var(--line); }
-  .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 40px; }
+  section.block { padding: 52px 0; border-top: 1px solid var(--line); }
+  .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 30px; }
   .sec-kicker { font-size: 12.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
   .sec-title { font-size: clamp(24px, 3vw, 32px); font-weight: 700; letter-spacing: -.02em; line-height: 1.15; }
-  .sec-note { color: var(--text-3); font-size: 13.5px; max-width: 260px; text-align: right; }
+  .sec-note { color: var(--text-3); font-size: 13.5px; max-width: 280px; text-align: right; }
 
   /* Фичи: две колонки, карточки равной высоты, большая — первая ячейка */
   .features { display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; align-items: stretch; }
@@ -213,7 +250,7 @@
   .feature:nth-child(2), .feature:nth-child(3) { min-height: 0; }
   .feature:nth-child(4) { grid-column: 2; }
   .feature {
-    position: relative; border-radius: 16px; padding: 26px 26px 24px;
+    position: relative; border-radius: 16px; padding: 24px 24px 22px;
     background: linear-gradient(180deg, rgba(240,240,242,.11), rgba(147,147,150,.04) 55%, rgba(56,56,60,.02));
     -webkit-backdrop-filter: blur(14px) saturate(1.1);
     backdrop-filter: blur(14px) saturate(1.1);
@@ -223,60 +260,86 @@
   }
   .feature:hover { transform: translateY(-3px); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), inset 0 0 0 1px rgba(238,238,242,.12), 0 20px 40px rgba(0,0,0,.38); }
   .f-num { font-size: 12px; font-weight: 700; color: var(--text-3); letter-spacing: .06em; }
-  .f-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 16px 0 14px; background: linear-gradient(180deg, rgba(238,238,242,.12), rgba(56,56,64,.04)); box-shadow: inset 0 1px 0 rgba(255,255,255,.10), inset 0 0 0 1px rgba(238,238,242,.07); }
+  .f-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 14px 0 12px; background: linear-gradient(180deg, rgba(238,238,242,.12), rgba(56,56,64,.04)); box-shadow: inset 0 1px 0 rgba(255,255,255,.10), inset 0 0 0 1px rgba(238,238,242,.07); }
   .f-icon svg { width: 19px; height: 19px; color: var(--text); }
   .feature h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; letter-spacing: -.01em; }
   .feature p { color: var(--text-2); font-size: 13.5px; }
-  .feature ul { margin-top: 14px; display: grid; gap: 8px; }
+  .feature ul { margin-top: 12px; display: grid; gap: 8px; }
   .feature li { list-style: none; display: flex; gap: 9px; color: var(--text-2); font-size: 13px; }
   .feature li::before { content: "—"; color: var(--text-3); }
   .feature .spacer { flex: 1; }
-  .feature .foot { margin-top: 22px; font-size: 12.5px; color: var(--text-3); border-top: 1px solid var(--line); padding-top: 14px; }
+  .feature .foot { margin-top: 20px; font-size: 12.5px; color: var(--text-3); border-top: 1px solid var(--line); padding-top: 12px; }
   .feature .foot b { color: var(--text); font-weight: 600; }
 
+  /* ---------- GIF: как это работает ---------- */
+  .showcase { display: grid; grid-template-columns: 1.15fr .85fr; gap: 44px; align-items: center; }
+  .gif-frame { position: relative; }
+  .gif-frame .win {
+    border-radius: 14px; overflow: hidden;
+    border: 1px solid rgba(255,255,255,.10);
+    background: #1c1c20;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 30px 60px rgba(0,0,0,.5), 0 10px 24px rgba(0,0,0,.4);
+  }
+  .gif-frame .bar {
+    display: flex; align-items: center; gap: 6px;
+    padding: 9px 14px; border-bottom: 1px solid rgba(255,255,255,.07);
+    font-size: 11.5px; color: var(--text-2); background: rgba(255,255,255,.02);
+  }
+  .gif-frame .bar i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.16); }
+  .gif-frame .bar i:first-child { background: #f87171; }
+  .gif-frame .bar i:nth-child(2) { background: #fbbf24; }
+  .gif-frame .bar i:nth-child(3) { background: #34d399; }
+  .gif-frame img { display: block; width: 100%; height: auto; }
+  .gif-cap {
+    position: absolute; left: 12px; right: 12px; bottom: 12px;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 8px 13px; border-radius: 10px;
+    background: rgba(16,16,19,.72);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.10);
+    font-size: 11.5px; color: var(--text-2);
+  }
+  .gif-cap b { color: #fff; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; }
+  .showcase-side ul { display: grid; gap: 10px; }
+  .showcase-side li { list-style: none; display: flex; gap: 11px; color: var(--text-2); font-size: 13.5px; }
+  .showcase-side li::before { content: "✓"; color: #34d399; font-weight: 700; flex: none; }
+  .showcase-side h3 { font-size: 17px; font-weight: 650; margin-bottom: 6px; letter-spacing: -.01em; }
+
+  /* ---------- Галерея ---------- */
+  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .gal-item { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: rgba(255,255,255,.02); transition: transform .22s cubic-bezier(.2,.7,.3,1.1), box-shadow .22s; }
+  .gal-item:hover { transform: translateY(-3px); box-shadow: 0 18px 36px rgba(0,0,0,.35); }
+  .gal-item img { display: block; width: 100%; height: auto; }
+  .gal-cap { padding: 12px 16px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--text-2); background: rgba(255,255,255,.025); }
+  .gal-cap b { display: block; color: var(--text); font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+  @media (max-width: 720px) { .gallery { grid-template-columns: 1fr; } }
+
   /* Как работает */
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; counter-reset: step; }
-  .step { position: relative; padding: 24px 22px 22px; border-radius: 14px; border: 1px solid var(--line); background: rgba(255,255,255,.02); }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .step { position: relative; padding: 22px 22px 20px; border-radius: 14px; border: 1px solid var(--line); background: rgba(255,255,255,.02); }
   .step::before {
     counter-increment: step; content: "0" counter(step);
     font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: .06em;
     display: block; margin-bottom: 10px;
   }
-  .step-icon {
-    width: 34px; height: 34px; border-radius: 9px; margin-bottom: 14px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--text);
-    background: linear-gradient(180deg, rgba(238,238,242,.10), rgba(56,56,64,.03));
-    border: 1px solid var(--line);
-  }
+  .steps { counter-reset: step; }
+  .step-icon { width: 34px; height: 34px; border-radius: 9px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; color: var(--text); background: linear-gradient(180deg, rgba(238,238,242,.10), rgba(56,56,64,.03)); border: 1px solid var(--line); }
   .step-icon svg { width: 17px; height: 17px; }
   .step h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
   .step p { color: var(--text-2); font-size: 13px; }
 
-  /* Цифры, которые уже есть в приложении — заполняют пустоту по краям */
-  .facts {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
-    padding: 8px 0 0; margin-bottom: 64px;
-  }
-  .fact {
-    border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px;
-    background: rgba(255,255,255,.02);
-  }
+  /* Цифры, которые уже есть в приложении */
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; padding: 8px 0 0; margin-bottom: 48px; }
+  .fact { border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; background: rgba(255,255,255,.02); }
   .fact b { display: block; font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -.01em; }
   .fact span { display: block; margin-top: 6px; font-size: 12.5px; color: var(--text-3); line-height: 1.45; }
   @media (max-width: 900px) { .facts { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .facts { grid-template-columns: 1fr; } }
 
   /* Отчёт об уборке — пример реального результата */
-  .report {
-    border: 1px solid var(--line); border-radius: 16px;
-    background: rgba(255,255,255,.02); overflow: hidden;
-  }
-  .report-line {
-    display: grid; grid-template-columns: 24px 1fr auto auto; gap: 12px; align-items: center;
-    padding: 13px 20px; font-size: 13px; border-bottom: 1px solid var(--line);
-    font-family: "Cascadia Mono", Consolas, monospace;
-  }
+  .report { border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.02); overflow: hidden; }
+  .report-line { display: grid; grid-template-columns: 24px 1fr auto auto; gap: 12px; align-items: center; padding: 13px 20px; font-size: 13px; border-bottom: 1px solid var(--line); font-family: "Cascadia Mono", Consolas, monospace; }
   .report-line:last-of-type { border-bottom: none; }
   .rep-ok { color: #34d399; font-weight: 700; }
   .rep-warn { color: #f87171; font-weight: 700; }
@@ -284,93 +347,61 @@
   .rep-files { color: var(--text-3); font-size: 12px; }
   .rep-size { color: var(--text); font-weight: 600; }
   .report-line.rep-skip .rep-path { color: var(--text-3); }
-  .report-total {
-    display: flex; align-items: baseline; gap: 14px;
-    padding: 16px 20px; font-size: 13px; color: var(--text-2);
-    border-top: 1px solid var(--line); background: rgba(255,255,255,.03);
-  }
+  .report-total { display: flex; align-items: baseline; gap: 14px; padding: 16px 20px; font-size: 13px; color: var(--text-2); border-top: 1px solid var(--line); background: rgba(255,255,255,.03); }
   .report-total b { font-size: 17px; color: var(--text); }
   .rep-note { margin-left: auto; color: var(--text-3); font-size: 12px; }
   @media (max-width: 640px) { .report-line { grid-template-columns: 20px 1fr auto; } .rep-files { display: none; } }
 
   /* FAQ */
   .faq { display: grid; gap: 10px; max-width: 720px; }
-  details {
-    border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.02);
-  }
-  summary {
-    cursor: pointer; list-style: none; padding: 16px 20px;
-    font-size: 14.5px; font-weight: 500; display: flex; justify-content: space-between; align-items: center; gap: 16px;
-  }
+  details { border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.02); }
+  summary { cursor: pointer; list-style: none; padding: 16px 20px; font-size: 14.5px; font-weight: 500; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
   summary::-webkit-details-marker { display: none; }
   summary::after { content: "+"; font-size: 18px; color: var(--text-3); transition: transform .2s; }
   details[open] summary::after { transform: rotate(45deg); }
   details p { padding: 0 20px 16px; color: var(--text-2); font-size: 13.5px; }
 
   /* Скачать */
-  .download {
-    margin: 70px 0 0;
-    border-radius: 18px; padding: 40px 40px 36px;
-    display: flex; align-items: center; justify-content: space-between; gap: 32px;
-    background: linear-gradient(180deg, rgba(240,240,242,.12), rgba(147,147,150,.05) 55%, rgba(56,56,60,.03));
-    -webkit-backdrop-filter: blur(16px) saturate(1.15);
-    backdrop-filter: blur(16px) saturate(1.15);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.12), inset 0 0 0 1px rgba(238,238,242,.09), 0 20px 44px rgba(0,0,0,.4);
-  }
+  .download { margin: 56px 0 0; border-radius: 18px; padding: 38px 40px 34px; display: flex; align-items: center; justify-content: space-between; gap: 32px; background: linear-gradient(180deg, rgba(240,240,242,.12), rgba(147,147,150,.05) 55%, rgba(56,56,60,.03)); -webkit-backdrop-filter: blur(16px) saturate(1.15); backdrop-filter: blur(16px) saturate(1.15); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), inset 0 0 0 1px rgba(238,238,242,.09), 0 20px 44px rgba(0,0,0,.4); }
   .download h2 { font-size: 22px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 8px; }
   .download p { color: var(--text-2); font-size: 14px; margin-bottom: 20px; }
   .dl-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
   .dl-meta span { font-size: 12px; color: var(--text-2); padding: 5px 11px; border-radius: 8px; border: 1px solid var(--line); background: rgba(255,255,255,.02); }
   .release-note { font-size: 12px; color: var(--text-3); margin-top: 10px; }
   .release-note a { color: var(--accent); text-decoration: none; }
-  .dl-art {
-    flex: none; width: 220px; border-radius: 16px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
-    color: var(--text-2); font-size: 12.5px; text-align: center; padding: 20px 16px;
-    background:
-      radial-gradient(120% 120% at 24% 12%, rgba(255,255,255,.10), rgba(255,255,255,.02) 46%, transparent 70%),
-      linear-gradient(180deg, rgba(238,238,242,.06), rgba(56,56,60,.02));
-    border: 1px solid var(--line);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 10px 26px rgba(0,0,0,.3);
-  }
-  .dl-art img {
-    width: 96px; height: 96px; border-radius: 22px; object-fit: cover;
-    display: block; margin: 0 auto;
-    border: 1px solid rgba(255,255,255,.10);
-    box-shadow: 0 8px 20px rgba(0,0,0,.35);
-  }
+  .dl-art { flex: none; width: 210px; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--text-2); font-size: 12.5px; text-align: center; padding: 18px 14px; background: radial-gradient(120% 120% at 24% 12%, rgba(255,255,255,.10), rgba(255,255,255,.02) 46%, transparent 70%), linear-gradient(180deg, rgba(238,238,242,.06), rgba(56,56,60,.02)); border: 1px solid var(--line); box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 10px 26px rgba(0,0,0,.3); }
+  .dl-art img { width: 88px; height: 88px; border-radius: 20px; object-fit: cover; display: block; margin: 0 auto; border: 1px solid rgba(255,255,255,.10); box-shadow: 0 8px 20px rgba(0,0,0,.35); }
   .dl-art span { display: block; line-height: 1.45; }
   @media (max-width: 900px) { .dl-art { width: 100%; flex-direction: row; flex-wrap: wrap; } }
 
-  /* ---------- Блик стекла за курсором (как в приложении) ---------- */
-  .feature, .step, .download {
-    position: relative;
-  }
-  .feature::after, .step::after, .download::after, .mock-wrap .mock::after {
-    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%), rgba(255,255,255,.10), transparent 62%);
-    opacity: 0; transition: opacity .22s ease-out;
-  }
+  /* ---------- Блик стекла за курсором ---------- */
+  .feature, .step, .download { position: relative; }
+  .feature::after, .step::after, .download::after, .demo::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%), rgba(255,255,255,.10), transparent 62%); opacity: 0; transition: opacity .22s ease-out; }
   .feature:hover::after, .step:hover::after, .download:hover::after { opacity: 1; }
   .feature > *, .step > *, .download > * { position: relative; z-index: 2; }
+  .demo { position: relative; }
+  .demo > * { position: relative; z-index: 2; }
+  .demo-wrap { padding-bottom: 34px; }
 
   /* Футер */
-  footer { border-top: 1px solid var(--line); margin-top: 64px; padding: 30px 0 44px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  footer { border-top: 1px solid var(--line); margin-top: 40px; padding: 30px 0 44px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
   .foot-brand { display: flex; align-items: center; gap: 10px; }
   .foot-brand span { font-size: 13px; color: var(--text-2); }
-  footer nav { display: flex; gap: 18px; }
+  footer nav { display: flex; gap: 18px; flex-wrap: wrap; }
   footer nav a { color: var(--text-3); text-decoration: none; font-size: 13px; transition: color .16s; }
   footer nav a:hover { color: var(--text); }
 
   @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; gap: 48px; padding: 52px 0 44px; }
-    .mock-wrap { max-width: 560px; }
+    .hero { grid-template-columns: 1fr; gap: 40px; padding: 44px 0 40px; }
+    .demo-wrap { max-width: 560px; }
+    .showcase { grid-template-columns: 1fr; gap: 28px; }
     .features { grid-template-columns: 1fr; }
     .features .feature { grid-row: auto; grid-column: auto; }
     .steps { grid-template-columns: 1fr; }
-    .download { flex-direction: column; align-items: flex-start; padding: 30px 26px; }
+    .download { flex-direction: column; align-items: flex-start; padding: 28px 24px; }
     .sec-head { flex-direction: column; gap: 8px; }
     .sec-note { text-align: left; }
+    .nav .nav-links { display: none; }
   }
 </style>
 </head>
@@ -385,10 +416,21 @@
       <div class="brand-name">GigaCleaner</div>
     </div>
     <nav class="nav">
-      <a href="#features" data-ru="Возможности" data-en="Features">Возможности</a>
-      <a href="#how" data-ru="Как работает" data-en="How it works">Как работает</a>
-      <a href="#faq" data-ru="FAQ" data-en="FAQ">FAQ</a>
-      <span class="ver-badge">V1.1.6 · Windows 10 / 11</span>
+      <span class="nav-links">
+        <a href="#features" data-ru="Возможности" data-en="Features">Возможности</a>
+        <a href="#how" data-ru="Как работает" data-en="How it works">Как работает</a>
+        <a href="#gallery" data-ru="Галерея" data-en="Gallery">Галерея</a>
+        <a href="#faq" data-ru="FAQ" data-en="FAQ">FAQ</a>
+        <span class="ver-badge">V1.1.6 · Windows 10 / 11</span>
+      </span>
+      <a class="star-btn" id="starBtn" href="https://github.com/TIZZ13/GigaCleaner" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+        <span data-ru="Звёзд на GitHub" data-en="stars on GitHub">Звёзд на GitHub</span> <b id="starCount" data-num="1">1</b>
+      </a>
+      <a class="btn-sm" href="https://github.com/TIZZ13/GigaCleaner/releases/download/v1.1.6/GigaCleaner-Setup-1.1.6.exe" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span data-ru="Скачать" data-en="Download">Скачать</span>
+      </a>
       <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
     </nav>
   </header>
@@ -407,50 +449,61 @@
         </a>
         <a class="btn btn-ghost" href="#how" data-ru="Как это работает" data-en="How it works">Как это работает</a>
       </div>
-      <div class="meta"><span data-ru="Установщик" data-en="Installer"></span> <b>108 МБ</b> · <span data-ru="Работает локально, без телеметрии · Бесплатно" data-en="runs locally, no telemetry · Free"></span></div>
+      <div class="meta"><span data-ru="Установщик" data-en="Installer"></span> <b>90 МБ</b> · <span data-ru="Работает локально, без телеметрии · Бесплатно" data-en="runs locally, no telemetry · Free"></span></div>
     </div>
 
-    <!-- Мокап окна приложения -->
-    <div class="mock-wrap">
-      <div class="mock" id="appMock">
-        <div class="mock-title">
-          <div class="mock-dots"><i></i><i></i><i></i></div>
-          <span>GigaCleaner</span>
-        </div>
-        <div class="mock-body">
-          <div class="mock-side">
-            <div class="mock-nav active" data-ru="Обзор" data-en="Overview">Обзор</div>
-            <div class="mock-nav" data-ru="Очистка" data-en="Cleaner">Очистка</div>
-            <div class="mock-nav" data-ru="Оптимизация" data-en="Optimizer">Оптимизация</div>
-            <div class="mock-nav" data-ru="Реестр" data-en="Registry">Реестр</div>
-            <div class="mock-nav" data-ru="Обновления" data-en="Updates">Обновления</div>
-            <div class="mock-nav" data-ru="Инструменты" data-en="Tools">Инструменты</div>
-            <div class="mock-nav" data-ru="Автоматизация" data-en="Automation">Автоматизация</div>
-          </div>
-          <div class="mock-main">
-            <div class="mock-line w60"></div>
-            <div class="mock-line w40"></div>
-            <div style="display:flex;align-items:baseline;gap:8px">
-              <div class="mock-card" style="flex:1">
-                <div class="t" data-ru="К уборке в системе" data-en="Cleanup available">К уборке в системе</div>
-                <div class="v">99,4 МБ</div>
-              </div>
-            </div>
-            <div class="mock-cta">
-              <div class="btn btn-primary" style="color:#fff;background:linear-gradient(180deg,#3b82f6,#2563eb);box-shadow:inset 0 1px 0 rgba(255,255,255,.2)" data-ru="Проверить" data-en="Check">Проверить</div>
-              <div class="btn" style="border:1px solid rgba(255,255,255,.12);color:#fff" data-ru="Очистить в 1 клик" data-en="Clean now">Очистить в 1 клик</div>
-            </div>
-            <div class="mock-cards">
-              <div class="mock-card"><div class="t" data-ru="Windows" data-en="Windows">Windows</div><div class="v">35,3 МБ</div><div class="s" data-ru="и приложения" data-en="& apps">и приложения</div></div>
-              <div class="mock-card"><div class="t" data-ru="Браузеры" data-en="Browsers">Браузеры</div><div class="v">64,0 МБ</div><div class="s" data-ru="кэши" data-en="caches">кэши</div></div>
-              <div class="mock-card"><div class="t" data-ru="Корзина" data-en="Recycle bin">Корзина</div><div class="v">0 Б</div><div class="s" data-ru="пусто" data-en="empty">пусто</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- Интерактивное демо: попробуйте сами -->
+    <div class="demo-wrap">
       <div class="chip top">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
         <span data-ru="Уборка по расписанию" data-en="Scheduled cleaning">Уборка по расписанию</span>
+      </div>
+      <div class="demo" id="appDemo">
+        <div class="demo-title">
+          <div class="demo-dots"><i></i><i></i><i></i></div>
+          <span>GigaCleaner</span>
+        </div>
+        <div class="demo-main">
+          <div class="demo-hint" data-ru="Попробуйте прямо здесь — отметьте категории и нажмите «Сканировать»." data-en="Try it right here — tick the categories and press Scan.">Попробуйте прямо здесь — отметьте категории и нажмите «Сканировать».</div>
+          <div class="demo-cats" id="demoCats">
+            <label class="demo-cat" data-key="tmp">
+              <input type="checkbox" checked>
+              <span class="nm" data-ru="Временные файлы" data-en="Temp files">Временные файлы</span>
+              <span class="sz" data-size="190.6">190,6 МБ</span>
+            </label>
+            <label class="demo-cat" data-key="browsers">
+              <input type="checkbox" checked>
+              <span class="nm" data-ru="Кэши браузеров" data-en="Browser caches">Кэши браузеров</span>
+              <span class="sz" data-size="184.1">184,1 МБ</span>
+            </label>
+            <label class="demo-cat" data-key="bin">
+              <input type="checkbox" checked>
+              <span class="nm" data-ru="Корзина" data-en="Recycle bin">Корзина</span>
+              <span class="sz" data-size="22.3">22,3 МБ</span>
+            </label>
+            <label class="demo-cat" data-key="dumps">
+              <input type="checkbox" checked>
+              <span class="nm" data-ru="Дампы и журналы" data-en="Dumps and logs">Дампы и журналы</span>
+              <span class="sz" data-size="4.9">4,9 МБ</span>
+            </label>
+            <label class="demo-cat" data-key="setup">
+              <input type="checkbox" checked>
+              <span class="nm" data-ru="Журналы установки" data-en="Setup logs">Журналы установки</span>
+              <span class="sz" data-size="2.3">2,3 МБ</span>
+            </label>
+          </div>
+          <div class="demo-actions">
+            <button class="btn btn-primary" id="demoScan" data-ru="Сканировать" data-en="Scan">Сканировать</button>
+            <button class="btn btn-ghost" id="demoClean" style="height: 0; padding: 0; border: 0; overflow: hidden;" data-ru="Очистить в 1 клик" data-en="Clean now">Очистить в 1 клик</button>
+          </div>
+          <div class="demo-bar"><div class="fill" id="demoFill"></div></div>
+          <div class="demo-status" id="demoStatus"></div>
+          <div class="demo-total" id="demoTotalWrap">
+            <span data-ru="К уборке в системе" data-en="Cleanup available">К уборке в системе</span>
+            <b id="demoTotal">404,2 МБ</b>
+          </div>
+          <div class="demo-again" id="demoAgain" style="display:none"><a id="demoReset" data-ru="Попробовать ещё раз" data-en="Try again">Попробовать ещё раз</a></div>
+        </div>
       </div>
       <div class="chip bottom">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -473,7 +526,7 @@
     <div class="cmp mid">
       <div class="cmp-head"><span class="cmp-name" data-ru="Обычные чистильщики" data-en="Typical cleaners">Обычные чистильщики</span><span class="cmp-tag" data-ru="как часто бывает" data-en="as it often goes">как часто бывает</span></div>
       <ul>
-        <li data-ru="«Удалить всё» одной кнопкой, без разбора" data-en="\"Delete everything\" with one click, no questions asked">«Удалить всё» одной кнопкой, без разбора</li>
+        <li data-ru="«Удалить всё» одной кнопкой, без разбора" data-en="&quot;Delete everything&quot; with one click, no questions asked">«Удалить всё» одной кнопкой, без разбора</li>
         <li data-ru="Ломают кэши и входы в сервисах" data-en="Break caches and sign-ins">Ломают кэши и входы в сервисах</li>
         <li data-ru="Что удалено — неизвестно" data-en="What was deleted is unknown">Что удалено — неизвестно</li>
         <li data-ru="Постоянные предложения «установить их VPN»" data-en="Constant offers to install their VPN">Постоянные предложения «установить их VPN»</li>
@@ -492,16 +545,16 @@
 
   <!-- Возможности -->
   <section class="block" id="features">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <div>
         <div class="sec-kicker" data-ru="Возможности" data-en="Features">Возможности</div>
-        <div class="sec-title" data-ru="Не «почистить всё подряд», а адресная уборка" data-en="Not \"clean everything\", but targeted cleaning">Не «почистить всё подряд», а адресная уборка</div>
+        <div class="sec-title" data-ru="Не «почистить всё подряд», а адресная уборка" data-en="Not &quot;clean everything&quot;, but targeted cleaning">Не «почистить всё подряд», а адресная уборка</div>
       </div>
       <div class="sec-note" data-ru="Каждый путь проверяется по белому списку. Программы и System32 не затрагиваются." data-en="Every path is checked against a strict whitelist. Programs and System32 are never touched.">Каждый путь проверяется по белому списку. Программы и System32 не затрагиваются.</div>
     </div>
 
     <div class="features">
-      <div class="feature">
+      <div class="feature reveal">
         <span class="f-num">01</span>
         <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></div>
         <h3 data-ru="Очистка" data-en="Cleaner">Очистка</h3>
@@ -513,60 +566,121 @@
           <li data-ru="отчёт: сколько освободили, что пропустили" data-en="report: how much freed, what was skipped">отчёт: сколько освободили, что пропустили</li>
         </ul>
         <div class="spacer"></div>
-        <div class="foot" data-ru="Пропущенные файлы — <b>всегда</b> в отчёте: вы видите, что и почему не удалено." data-en="Skipped files are <b>always</b> in the report: you see what was not removed and why.">Пропущенные файлы — <b>всегда</b> в отчёте: вы видите, что и почему не удалено.</div>
+        <div class="foot" data-ru="Пропущенные файлы" data-en="Skipped files">Пропущенные файлы</div>
+        <div class="foot"><span data-ru="— всегда в отчёте: вы видите, что и почему не удалено." data-en="— always in the report: you see what was not removed and why.">— всегда в отчёте: вы видите, что и почему не удалено.</span></div>
       </div>
 
-      <div class="feature">
+      <div class="feature reveal">
         <span class="f-num">02</span>
         <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg></div>
         <h3 data-ru="Оптимизация" data-en="Optimizer">Оптимизация</h3>
         <p data-ru="Автозагрузка и службы: меньше фоновой нагрузки, быстрее старт. Каждое отключение обратимо." data-en="Startup and services: less background load, faster boot. Every change is reversible.">Автозагрузка и службы: меньше фоновой нагрузки, быстрее старт. Каждое отключение обратимо.</p>
       </div>
 
-      <div class="feature">
+      <div class="feature reveal">
         <span class="f-num">03</span>
         <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
         <h3 data-ru="Реестр" data-en="Registry">Реестр</h3>
         <p data-ru="Устаревшие записи — с точкой восстановления до изменений." data-en="Stale entries removed — with a System Restore point created first.">Устаревшие записи — с точкой восстановления до изменений.</p>
       </div>
 
-      <div class="feature">
+      <div class="feature reveal">
         <span class="f-num">04</span>
         <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
         <h3 data-ru="Автоматизация" data-en="Automation">Автоматизация</h3>
-        <p data-ru="Расписание, тихий режим" data-en="Scheduling, silent mode"><span data-ru="Расписание, тихий режим" data-en="Scheduling, silent mode"></span> <code style="font-family:Consolas,monospace;background:rgba(255,255,255,.07);border-radius:4px;padding:0 5px;font-size:12px">--silent</code> <span data-ru="и уведомления об уборке в трее." data-en="and tray notifications after cleanup.">и уведомления об уборке в трее.</span></p>
+        <p><span data-ru="Расписание, тихий режим" data-en="Scheduling, silent mode">Расписание, тихий режим</span> <code style="font-family:Consolas,monospace;background:rgba(255,255,255,.07);border-radius:4px;padding:0 5px;font-size:12px">--silent</code> <span data-ru="и уведомления об уборке в трее." data-en="and tray notifications after cleanup.">и уведомления об уборке в трее.</span></p>
       </div>
     </div>
   </section>
 
-  <!-- Мелочи, которые уже есть -->
+  <!-- Как это работает: видео за 23 секунды -->
+  <section class="block" id="how">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-kicker" data-ru="Как это работает" data-en="How it works">Как это работает</div>
+        <div class="sec-title" data-ru="Посмотрите, как это работает" data-en="See it in action">Посмотрите, как это работает</div>
+      </div>
+      <div class="sec-note" data-ru="Запись настоящего приложения · 23 секунды" data-en="A real recording of the app · 23 seconds">Запись настоящего приложения · 23 секунды</div>
+    </div>
+    <div class="showcase">
+      <div class="gif-frame reveal">
+        <div class="win">
+          <div class="bar"><i></i><i></i><i></i><span style="margin-left:6px">GigaCleaner</span></div>
+          <img src="gigacleaner-demo.gif" alt="GigaCleaner: скан, результаты и очистка" loading="lazy">
+        </div>
+        <div class="gif-cap">
+          <b data-ru="Скан · 404,2 МБ · очистка" data-en="Scan · 404.2 MB · cleanup">Скан · 404,2 МБ · очистка</b>
+          <span>GIF · 23 с</span>
+        </div>
+      </div>
+      <div class="showcase-side reveal">
+        <h3 data-ru="Полный цикл за полминуты" data-en="A full cycle in half a minute">Полный цикл за полминуты</h3>
+        <ul>
+          <li data-ru="Скан показывает, что и сколько весит — до очистки" data-en="The scan shows what and how much weighs — before cleaning">Скан показывает, что и сколько весит — до очистки</li>
+          <li data-ru="В кадре ни одного личного документа или пароля" data-en="No personal documents or passwords in the frame">В кадре ни одного личного документа или пароля</li>
+          <li data-ru="Результат: строки отчёта и освобождённое место" data-en="Result: report lines and freed space">Результат: строки отчёта и освобождённое место</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Галерея -->
+  <section class="block" id="gallery">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-kicker" data-ru="Галерея" data-en="Gallery">Галерея</div>
+        <div class="sec-title" data-ru="Как выглядит приложение" data-en="What the app looks like">Как выглядит приложение</div>
+      </div>
+      <div class="sec-note" data-ru="Скриншоты из текущей версии 1.1.6" data-en="Screenshots from the current 1.1.6 build">Скриншоты из текущей версии 1.1.6</div>
+    </div>
+    <div class="gallery">
+      <figure class="gal-item reveal">
+        <img src="screen-overview.png" alt="GigaCleaner: обзорный экран" loading="lazy">
+        <figcaption class="gal-cap"><b data-ru="Обзор" data-en="Overview">Обзор</b><span data-ru="Всё состояние системы — на одном экране" data-en="The whole system status on one screen">Всё состояние системы — на одном экране</span></figcaption>
+      </figure>
+      <figure class="gal-item reveal">
+        <img src="screen-cleaner.png" alt="GigaCleaner: очистка с категориями" loading="lazy">
+        <figcaption class="gal-cap"><b data-ru="Очистка" data-en="Cleaner">Очистка</b><span data-ru="Категории и размеры до удаления" data-en="Categories and sizes before removal">Категории и размеры до удаления</span></figcaption>
+      </figure>
+      <figure class="gal-item reveal">
+        <img src="scan-result.png" alt="GigaCleaner: результат сканирования" loading="lazy">
+        <figcaption class="gal-cap"><b data-ru="Результат скана" data-en="Scan result">Результат скана</b><span data-ru="Строки отчёта: очищено, пропущено, ошибки" data-en="Report lines: cleaned, skipped, failed">Строки отчёта: очищено, пропущено, ошибки</span></figcaption>
+      </figure>
+      <figure class="gal-item reveal">
+        <img src="screen-optimizer.png" alt="GigaCleaner: оптимизация и автозагрузка" loading="lazy">
+        <figcaption class="gal-cap"><b data-ru="Оптимизация" data-en="Optimizer">Оптимизация</b><span data-ru="Автозагрузка и службы под контролем" data-en="Startup and services under control">Автозагрузка и службы под контролем</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Цифры -->
   <div class="facts">
-    <div class="fact"><b>24 ч</b><span data-ru="минимальный возраст временного файла для удаления" data-en="minimum age of a temp file to delete">минимальный возраст временного файла для удаления</span></div>
-    <div class="fact"><b>99,4 МБ</b><span data-ru="найдено при первой проверке на тестовой системе" data-en="found on first scan on a test system">найдено при первой проверке на тестовой системе</span></div>
-    <div class="fact"><b data-ru="5 языков" data-en="5 languages">5 языков</b><span data-ru="интерфейса: RU, EN, DE, FR, ES" data-en="of UI: RU, EN, DE, FR, ES">интерфейса: RU, EN, DE, FR, ES</span></div>
-    <div class="fact"><b>100%</b><span data-ru="локально — без облаков и телеметрии" data-en="local — no clouds, no telemetry">локально — без облаков и телеметрии</span></div>
+    <div class="fact reveal"><b>24 ч</b><span data-ru="минимальный возраст временного файла для удаления" data-en="minimum age of a temp file to delete">минимальный возраст временного файла для удаления</span></div>
+    <div class="fact reveal"><b>404,2 МБ</b><span data-ru="найдено при сканировании тестовой системы в записи выше" data-en="found when scanning a test system in the video above">найдено при сканировании тестовой системы в записи выше</span></div>
+    <div class="fact reveal"><b data-ru="5 языков" data-en="5 languages">5 языков</b><span data-ru="интерфейса: RU, EN, DE, FR, ES" data-en="of UI: RU, EN, DE, FR, ES">интерфейса: RU, EN, DE, FR, ES</span></div>
+    <div class="fact reveal"><b>100%</b><span data-ru="локально — без облаков и телеметрии" data-en="local — no clouds, no telemetry">локально — без облаков и телеметрии</span></div>
   </div>
 
-  <!-- Как работает -->
-  <section class="block" id="how">
-    <div class="sec-head">
+  <!-- Как работает: три шага -->
+  <section class="block" id="how-steps">
+    <div class="sec-head reveal">
       <div>
         <div class="sec-kicker" data-ru="Как это работает" data-en="How it works">Как это работает</div>
         <div class="sec-title" data-ru="Три шага — и вы видите, что было убрано" data-en="Three steps — and you see what was cleaned">Три шага — и вы видите, что было убрано</div>
       </div>
     </div>
     <div class="steps">
-      <div class="step">
+      <div class="step reveal">
         <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
         <h3 data-ru="Сканирование" data-en="Scan">Сканирование</h3>
         <p data-ru="Белый список путей, временные файлы старше 24 часов. Безопасно по умолчанию." data-en="A strict path whitelist, temp files older than 24 hours. Safe by default.">Белый список путей, временные файлы старше 24 часов. Безопасно по умолчанию.</p>
       </div>
-      <div class="step">
+      <div class="step reveal">
         <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
         <h3 data-ru="Предпросмотр" data-en="Preview">Предпросмотр</h3>
         <p data-ru="Числа до очистки: что найдено, сколько весит, что будет пропущено." data-en="Numbers before cleaning: what was found, how big, what will be skipped.">Числа до очистки: что найдено, сколько весит, что будет пропущено.</p>
       </div>
-      <div class="step">
+      <div class="step reveal">
         <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
         <h3 data-ru="Уборка и отчёт" data-en="Cleaning and report">Уборка и отчёт</h3>
         <p data-ru="Освобождено, пропущено, ошибки. Всё можно повторить или запланировать." data-en="Freed, skipped, failed. Everything can be repeated or scheduled.">Освобождено, пропущено, ошибки. Всё можно повторить или запланировать.</p>
@@ -576,14 +690,14 @@
 
   <!-- Из отчёта -->
   <section class="block" id="report">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <div>
         <div class="sec-kicker" data-ru="Из отчёта об уборке" data-en="From a real cleanup report">Из отчёта об уборке</div>
         <div class="sec-title" data-ru="Как выглядит результат" data-en="What the result looks like">Как выглядит результат</div>
       </div>
       <div class="sec-note" data-ru="Настоящие строки из отчёта приложения — без ретуши." data-en="Real lines from the app report — no retouching.">Настоящие строки из отчёта приложения — без ретуши.</div>
     </div>
-    <div class="report">
+    <div class="report reveal">
       <div class="report-line">
         <span class="rep-ok">✓</span>
         <span class="rep-path">C:\Users\…\AppData\Local\Temp\</span>
@@ -618,26 +732,26 @@
 
   <!-- FAQ -->
   <section class="block" id="faq">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <div>
         <div class="sec-kicker" data-ru="Вопросы" data-en="Questions">Вопросы</div>
         <div class="sec-title" data-ru="Частые вопросы" data-en="FAQ">Частые вопросы</div>
       </div>
     </div>
     <div class="faq">
-      <details>
+      <details class="reveal">
         <summary data-ru="Программа удалит мои документы или фотографии?" data-en="Will the app delete my documents or photos?">Программа удалит мои документы или фотографии?</summary>
         <p data-ru="Нет. Очистка работает по белому списку путей: Program Files, AppData\Roaming, «Документы» и System32 не затрагиваются. Временные файлы %TEMP% удаляются только старше 24 часов." data-en="No. Cleaning works via a strict whitelist: Program Files, AppData\Roaming, Documents and System32 are never touched. %TEMP% files are removed only if older than 24 hours.">Нет. Очистка работает по белому списку путей: Program Files, AppData\Roaming, «Документы» и System32 не затрагиваются. Временные файлы %TEMP% удаляются только старше 24 часов.</p>
       </details>
-      <details>
+      <details class="reveal">
         <summary data-ru="Нужны ли права администратора?" data-en="Does it require administrator rights?">Нужны ли права администратора?</summary>
         <p data-ru="Да, приложение запрашивает права администратора — это нужно для очистки системных папок и работы с реестром и службами." data-en="Yes — administrator rights are needed to clean system folders and to work with the registry and services.">Да, приложение запрашивает права администратора — это нужно для очистки системных папок и работы с реестром и службами.</p>
       </details>
-      <details>
+      <details class="reveal">
         <summary data-ru="Что происходит при обновлении или удалении?" data-en="What happens on update or uninstall?">Что происходит при обновлении или удалении?</summary>
         <p data-ru="Установщик вежливо закрывает работающее приложение, обновляет файлы и снова запускает его. Настройки хранятся отдельно в %AppData%; при удалении программа спрашивает, удалить ли их вместе с приложением." data-en="The installer politely closes the running app, updates files and restarts it. Settings live separately in %AppData%; on uninstall the app asks whether to delete them too.">Установщик вежливо закрывает работающее приложение, обновляет файлы и снова запускает его. Настройки хранятся отдельно в %AppData%; при удалении программа спрашивает, удалить ли их вместе с приложением.</p>
       </details>
-      <details>
+      <details class="reveal">
         <summary data-ru="Программа что-то отправляет в интернет?" data-en="Does the app send anything to the internet?">Программа что-то отправляет в интернет?</summary>
         <p data-ru="Нет. GigaCleaner работает локально и без телеметрии. Единственный сетевой запрос — проверка новой версии (по выбору приложения, раз в запуск)." data-en="No. GigaCleaner runs locally without telemetry. The only network request is the self-update check, once per launch.">Нет. GigaCleaner работает локально и без телеметрии. Единственный сетевой запрос — проверка новой версии (по выбору приложения, раз в запуск).</p>
       </details>
@@ -645,14 +759,14 @@
   </section>
 
   <!-- Скачать -->
-  <div class="download">
+  <div class="download reveal">
     <div>
       <h2 data-ru="Скачать GigaCleaner 1.1.6" data-en="Download GigaCleaner 1.1.6">Скачать GigaCleaner 1.1.6</h2>
       <p data-ru="Установка занимает пару минут. После неё приложение запустится само." data-en="Installation takes a couple of minutes. The app starts itself afterwards.">Установка занимает пару минут. После неё приложение запустится само.</p>
       <div class="dl-meta">
         <span>Windows 10 1809+ / 11</span>
         <span>x64</span>
-        <span>108 МБ</span>
+        <span>90 МБ</span>
         <span data-ru="Русский язык" data-en="Russian UI">Русский язык</span>
       </div>
       <a class="btn btn-primary" href="https://github.com/TIZZ13/GigaCleaner/releases/download/v1.1.6/GigaCleaner-Setup-1.1.6.exe" download>
@@ -675,6 +789,7 @@
     <nav>
       <a href="#features" data-ru="Возможности" data-en="Features">Возможности</a>
       <a href="#how" data-ru="Как работает" data-en="How it works">Как работает</a>
+      <a href="#gallery" data-ru="Галерея" data-en="Gallery">Галерея</a>
       <a href="#faq" data-ru="FAQ" data-en="FAQ">FAQ</a>
       <a href="privacy.html" data-ru="Политика конфиденциальности" data-en="Privacy policy">Политика конфиденциальности</a>
       <a href="https://github.com/TIZZ13/GigaCleaner" data-ru="GitHub" data-en="GitHub">GitHub</a>
@@ -693,19 +808,169 @@
     });
   });
 
-  // Мокап масштабируется под контейнер, сохраняя пропорции
+  // Появление при скролле
   (function () {
-    var mock = document.getElementById('appMock');
-    function fit() {
-      var parent = mock.parentElement;
-      var w = parent.clientWidth - 2;
-      var scale = Math.min(1, w / 560);
-      var h = mock.offsetHeight || 408;
-      mock.style.transform = 'scale(' + scale + ')';
-      parent.style.height = Math.ceil(h * scale) + 'px';
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('in'); });
+      return;
     }
-    window.addEventListener('resize', fit);
-    fit();
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+
+  // Кнопка «Звёзд на GitHub»
+  (function () {
+    var countEl = document.getElementById('starCount');
+    if (!countEl) return;
+    fetch('https://api.github.com/repos/TIZZ13/GigaCleaner')
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function (d) {
+        if (typeof d.stargazers_count === 'number') countEl.textContent = d.stargazers_count;
+        applyLang(currentLang);
+      })
+      .catch(function () { /* fallback: оставляем 1 */ });
+  })();
+
+  // Интерактивное демо
+  (function () {
+    var cats = Array.prototype.slice.call(document.querySelectorAll('#demoCats .demo-cat'));
+    var totalEl = document.getElementById('demoTotal');
+    var fillEl = document.getElementById('demoFill');
+    var statusEl = document.getElementById('demoStatus');
+    var scanBtn = document.getElementById('demoScan');
+    var cleanBtn = document.getElementById('demoClean');
+    var againEl = document.getElementById('demoAgain');
+    var resetLink = document.getElementById('demoReset');
+    var timer = null;
+    var state = 'idle';
+    var freed = null;
+
+    function fmt(v, lang) {
+      var s = v.toFixed(1);
+      return lang === 'ru' ? s.replace('.', ',') : s;
+    }
+    function sizeLabel(mb, lang) {
+      return fmt(mb, lang) + (lang === 'ru' ? ' МБ' : ' MB');
+    }
+    function lang() { return currentLang; }
+    function catSize(c) {
+      return parseFloat(c.querySelector('.sz').getAttribute('data-size'));
+    }
+    function checkedTotal() {
+      return cats.reduce(function (s, c) { return s + (c.querySelector('input').checked ? catSize(c) : 0); }, 0);
+    }
+    function renderSizes() {
+      var l = lang();
+      cats.forEach(function (c) {
+        var sz = c.querySelector('.sz');
+        var mb = catSize(c);
+        sz.textContent = (c.classList.contains('off')) ? '0 Б' : sizeLabel(mb, l);
+      });
+      var total = checkedTotal();
+      totalEl.textContent = (state === 'cleaned') ? '0 Б' : sizeLabel(total, l);
+      totalEl.parentElement.classList.toggle('ok', state === 'cleaned');
+    }
+    function setStatus(key) {
+      var texts = {
+        scanning: { ru: 'Ищем…', en: 'Scanning…' },
+        found: { ru: 'Найдено ', en: 'Found ' },
+        need: { ru: 'Выберите хотя бы одну категорию', en: 'Pick at least one category' },
+        cleaned: { ru: 'Очищено ✓', en: 'Cleaned ✓' },
+        freed: { ru: 'Освобождено ', en: 'Freed ' }
+      };
+      var l = lang();
+      if (!key) { statusEl.textContent = ''; return; }
+      if (key === 'found') statusEl.textContent = texts.found[l] + sizeLabel(freed, l);
+      else if (key === 'freed') statusEl.textContent = texts.freed[l] + sizeLabel(freed, l);
+      else statusEl.textContent = texts[key][l];
+    }
+    function setState(next) {
+      state = next;
+      statusEl.className = 'demo-status' + (next === 'cleaned' || next === 'freed' ? ' ok' : next === 'scanning' ? ' hot' : '');
+      if (next === 'scanning') {
+        cats.forEach(function (c) { c.classList.add('off'); });
+      } else if (next === 'idle') {
+        cats.forEach(function (c) { c.classList.remove('off'); });
+      }
+      renderSizes();
+    }
+    function startScan() {
+      if (timer) return;
+      var total = checkedTotal();
+      if (total <= 0) { setStatus('need'); return; }
+      freed = total;
+      setState('scanning');
+      setStatus('scanning');
+      scanBtn.setAttribute('data-was', scanBtn.getAttribute('data-ru'));
+      scanBtn.textContent = lang() === 'ru' ? 'Сканируем…' : 'Scanning…';
+      scanBtn.disabled = true;
+      var p = 0;
+      timer = setInterval(function () {
+        p += 2.4;
+        if (p >= 100) {
+          clearInterval(timer); timer = null;
+          fillEl.style.width = '100%';
+          showFound();
+          return;
+        }
+        fillEl.style.width = p + '%';
+      }, 26);
+    }
+    function showFound() {
+      setState('found');
+      setStatus('found');
+      fillEl.classList.add('ok');
+      cleanBtn.style.height = ''; cleanBtn.style.padding = ''; cleanBtn.style.border = ''; cleanBtn.style.overflow = '';
+      scanBtn.textContent = lang() === 'ru' ? 'Проверено' : 'Scanned';
+    }
+    function doClean() {
+      if (state !== 'found') return;
+      setState('cleaned');
+      setStatus('freed');
+      totalEl.textContent = '0 Б';
+      fillEl.style.width = '100%';
+      cleanBtn.disabled = true;
+      againEl.style.display = '';
+    }
+    function resetDemo() {
+      if (timer) { clearInterval(timer); timer = null; }
+      freed = null;
+      setState('idle');
+      statusEl.textContent = '';
+      fillEl.classList.remove('ok'); fillEl.style.width = '0';
+      cleanBtn.style.height = '0'; cleanBtn.style.padding = '0'; cleanBtn.style.border = '0'; cleanBtn.style.overflow = 'hidden';
+      cleanBtn.disabled = false;
+      scanBtn.disabled = false;
+      scanBtn.textContent = lang() === 'ru' ? 'Сканировать' : 'Scan';
+      againEl.style.display = 'none';
+    }
+    function refreshLang() {
+      var l = lang();
+      if (state === 'scanning') { scanBtn.textContent = l === 'ru' ? 'Сканируем…' : 'Scanning…'; scanBtn.disabled = true; }
+      else if (state === 'found') { scanBtn.textContent = l === 'ru' ? 'Проверено' : 'Scanned'; scanBtn.disabled = true; }
+      else { scanBtn.textContent = l === 'ru' ? 'Сканировать' : 'Scan'; scanBtn.disabled = false; }
+      cleanBtn.textContent = l === 'ru' ? 'Очистить в 1 клик' : 'Clean now';
+      if (state === 'scanning') setStatus('scanning');
+      else if (state === 'found') setStatus('found');
+      else if (state === 'cleaned') setStatus('freed');
+      else statusEl.textContent = '';
+      renderSizes();
+    }
+    scanBtn.addEventListener('click', startScan);
+    cleanBtn.addEventListener('click', doClean);
+    resetLink.addEventListener('click', resetDemo);
+    cats.forEach(function (c) {
+      c.querySelector('input').addEventListener('change', function () {
+        if (state === 'idle') { renderSizes(); }
+      });
+    });
+    window.demoReset = resetDemo;
+    window.demoRefreshLang = refreshLang;
   })();
 
   // Переключатель языка RU / EN
@@ -728,9 +993,12 @@
       if (t != null) titleEl.textContent = t;
     }
     document.documentElement.lang = lang;
+    // перерисовываем демо под локаль, сохраняя текущее состояние
+    window.demoRefreshLang && window.demoRefreshLang();
   }
   function toggleLang() { applyLang(currentLang === 'ru' ? 'en' : 'ru'); }
   applyLang(currentLang);
 </script>
+
 </body>
 </html>
